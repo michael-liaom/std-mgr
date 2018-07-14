@@ -1,5 +1,6 @@
 package com.weijie.studentworkmanagementsystem;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -7,7 +8,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
@@ -18,16 +21,36 @@ import java.util.Calendar;
  */
 public class DailyActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private DatePicker datepicker ;
-    private Dialog dialog;
+    private TextView beginTextView;
+
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily);
 
-
+        initControl();
     }
-    public void onClick(View v) {
 
+
+    private void initControl() {
+        beginTextView = (TextView) findViewById(R.id.begin_text_view);
+
+        beginTextView.setOnClickListener(this);
+    }
+
+    DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+            String string = Integer.toString(i) + Integer.toString(i1) + Integer.toString(i2);
+            beginTextView.setText(string);
+        }
+    };
+
+
+    @Override
+    public void onClick(View v) {
+        if (v.equals(beginTextView)){
+            new DatePickerDialog(this, onDateSetListener, 2018, 1, 1).show();
+        }
     }
 
    /* public void onYearMonthDayPicker(View view) {
