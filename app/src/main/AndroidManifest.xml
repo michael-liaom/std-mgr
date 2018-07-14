@@ -27,7 +27,7 @@
             android:label="宿舍信息">
 
         </activity>
-        <activity android:name=".DailyActivity"
+        <activity android:name=".AskForAbsenceActivity"
             android:label="日常信息">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
