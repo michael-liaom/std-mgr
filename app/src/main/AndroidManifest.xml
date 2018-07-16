@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.weijie.studentworkmanagementsystem">
 
+    <!-- 网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 往SDCard写入数据权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 从SDCard读取数据权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,7 +34,7 @@
             android:label="宿舍信息">
 
         </activity>
-        <activity android:name=".AskForAbsenceActivity"
+        <activity android:name=".AbsenceApplyActivity"
             android:label="日常信息">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
