@@ -16,10 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MenuActivity"
+        <activity android:name=".MainActivity"
             android:label="主菜单">
-
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".MenuTeacherActivity">
 
@@ -36,11 +38,6 @@
         </activity>
         <activity android:name=".AbsenceApplyActivity"
             android:label="日常信息">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".StudentrwActivity"
             android:label="学生奖惩信息">

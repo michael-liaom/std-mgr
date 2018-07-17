@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">学生工作管理系统</string>
+    <string name="absence_apply_is_not_fully_file">请假单填写不完整</string>
+    <string name="message_db_connect_failure">数据库连接失败！</string>
+    <string name="message_db_operation_failure">数据库操作失败！</string>
 </resources>

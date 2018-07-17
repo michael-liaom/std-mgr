@@ -2,6 +2,7 @@ package com.weijie.studentworkmanagementsystem;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,7 +28,7 @@ import java.util.Locale;
  * Created by weijie on 2018/7/8.
  */
 public class AbsenceApplyActivity extends AppCompatActivity implements View.OnClickListener {
-    final MyHandler myHandler = new MyHandler(this);
+    final DBHandler dbHandler = new DBHandler(this);
 
     private EditText applyToEditText,
             applyCcEditText;
@@ -38,6 +39,7 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
             hoursEditText,
             causeEditText;
     private Button commiteButton;
+    private Calendar calendar;
 
     private AbsenceApplyData absenceApplyData;
 
@@ -45,7 +47,7 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ask_for_absence);
+        setContentView(R.layout.activity_absence_apply);
 
         initData();
         initControl();
@@ -53,6 +55,8 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
 
     private void initData() {
         absenceApplyData = new AbsenceApplyData();
+        calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
     }
 
     private void initControl() {
@@ -92,12 +96,11 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
     DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd",
+                    Locale.getDefault());
             calendar.set(Calendar.YEAR, i);
             calendar.set(Calendar.MONTH, i1);
             calendar.set(Calendar.DATE, i2);
-            SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
-
             beginDateEditText.setText(format.format(calendar.getTime()));
         }
     };
@@ -105,11 +108,10 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
     TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker timePicker, int i, int i1) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR, i);
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm",
+                    Locale.getDefault());
+            calendar.set(Calendar.HOUR_OF_DAY, i);
             calendar.set(Calendar.MINUTE, i1);
-
-            SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
             beginTimeEditText.setText(format.format(calendar.getTime()));
         }
     };
@@ -119,36 +121,18 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         if (v.equals(beginDateEditText)) {
             setDatePickerDialog();
-
         }
         else if (v.equals(beginTimeEditText)) {
             setTimePickerDialog();
         }
         else if (v.equals(commiteButton)) {
             if (isInputDataVailable()) {
-                absenceApplyData.applyTo = applyToEditText.getText().toString();
-                absenceApplyData.applyCC = applyCcEditText.getText().toString();
-                absenceApplyData.type = applyTypeSpinner.getSelectedItem().toString();
-
-                StringBuffer stringBuffer = new StringBuffer();
-                stringBuffer.append(beginDateEditText.getText().toString());
-                stringBuffer.append(" ");
-                stringBuffer.append(beginTimeEditText.getText().toString());
-                absenceApplyData.begin = toDatetime(stringBuffer.toString());
-
-                float durationInHour = 0;
-                if (daysEditText.getText().length() > 0) {
-                    durationInHour += Integer.getInteger(daysEditText.getText().toString()) * 24;
-                }
-                if (hoursEditText.getText().length() > 0) {
-                    durationInHour += Float.parseFloat(hoursEditText.getText().toString());
-                }
-                absenceApplyData.ending = new Date(absenceApplyData.begin.getTime()
-                        + (long)(durationInHour * 3600 * 1000));
-                absenceApplyData.cause = causeEditText.getText().toString();
+                commiteData();
             }
             else {
-                Toast.makeText(this, "请假单填写不完整!", Toast.LENGTH_LONG)
+                String message = AbsenceApplyActivity.this.getResources()
+                        .getString(R.string.absence_apply_is_not_fully_file);
+                Toast.makeText(this, message, Toast.LENGTH_LONG)
                         .show();
             }
         }
@@ -166,6 +150,27 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
         else {
             return  false;
         }
+    }
+
+    private void commiteData() {
+        absenceApplyData.applyTo = applyToEditText.getText().toString();
+        absenceApplyData.applyCC = applyCcEditText.getText().toString();
+        absenceApplyData.type = applyTypeSpinner.getSelectedItem().toString();
+
+        String string = beginDateEditText.getText().toString()
+                + " " + beginTimeEditText.getText().toString();
+        absenceApplyData.begin = toDatetime(string);
+
+        float durationInHour = 0;
+        if (daysEditText.getText().length() > 0) {
+            durationInHour += Integer.getInteger(daysEditText.getText().toString()) * 24;
+        }
+        if (hoursEditText.getText().length() > 0) {
+            durationInHour += Float.parseFloat(hoursEditText.getText().toString());
+        }
+        absenceApplyData.ending = new Date(absenceApplyData.begin.getTime()
+                + (long)(durationInHour * 3600 * 1000));
+        absenceApplyData.cause = causeEditText.getText().toString();
     }
 
     class MyOnFocusChangeListener implements View.OnFocusChangeListener {
@@ -188,8 +193,6 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
 
     private void setDatePickerDialog() {
         Date now = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(now);
         DatePickerDialog dialog
                 = new DatePickerDialog(this,
                 onDateSetListener, calendar.get(Calendar.YEAR),
@@ -199,9 +202,6 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void setTimePickerDialog() {
-        Date now = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(now);
         new TimePickerDialog(AbsenceApplyActivity.this,
                 onTimeSetListener, calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE), true).show();
@@ -209,7 +209,7 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
 
     Date toDatetime(String date_str){
         SimpleDateFormat dbSdf
-                = new SimpleDateFormat("yyyy-MM-dd HH:mm",Locale.getDefault());
+                = new SimpleDateFormat("yyyy.MM.dd HH:mm",Locale.getDefault());
         Date date = new Date(0);
         try {
             date = dbSdf.parse(date_str);
@@ -221,10 +221,10 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
         return date;
     }
 
-    private static class MyHandler extends Handler {
+    private static class DBHandler extends Handler {
         private final WeakReference<AbsenceApplyActivity> mActivity;
 
-        MyHandler(AbsenceApplyActivity activity) {
+        DBHandler(AbsenceApplyActivity activity) {
             mActivity = new WeakReference<>(activity);
         }
 
@@ -235,7 +235,7 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
                 boolean is_sucess = false;
                 String message = null;
                 // ...
-                if (msg.what == DatabaseMgrUtils.DB_REQUEST_SUCCESS){
+                if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS){
 
                 }
                 else {//msg.what == DatabaseMgrUtils.DB_REQUEST_FAILURE

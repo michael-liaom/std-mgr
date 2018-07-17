@@ -58,7 +58,7 @@ public class MenuTeacherActivity extends AppCompatActivity implements View.OnCli
         });//监听右侧按钮
         builder.setNegativeButton("确认",new DialogInterface.OnClickListener(){
             public void onClick(DialogInterface dialog,int which){
-                intent.setClass(MenuTeacherActivity.this,MenuActivity.class);
+                intent.setClass(MenuTeacherActivity.this,MainActivity.class);
                 startActivity(intent);
             }
         });//监听左侧按钮
