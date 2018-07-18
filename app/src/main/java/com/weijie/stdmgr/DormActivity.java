@@ -1,4 +1,4 @@
-package com.weijie.studentworkmanagementsystem;
+package com.weijie.stdmgr;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

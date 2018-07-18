@@ -1,11 +1,10 @@
-package com.weijie.studentworkmanagementsystem;
+package com.weijie.stdmgr;
 
 
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
-import com.weijie.studentworkmanagementsystem.R;
 
 import java.util.ArrayList;
 

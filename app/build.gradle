@@ -3,9 +3,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion '26.0.3'
-
     defaultConfig {
-        applicationId "com.weijie.studentworkmanagementsystem"
+        applicationId 'com.weijie.stdmgr'
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
@@ -27,6 +26,8 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
+    }
+    productFlavors {
     }
 }
 

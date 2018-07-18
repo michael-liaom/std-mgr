@@ -1,4 +1,4 @@
-package com.weijie.studentworkmanagementsystem;
+package com.weijie.stdmgr;
 
 import android.os.Handler;
 import android.os.Message;
@@ -8,12 +8,13 @@ import android.util.Log;
 import java.lang.ref.WeakReference;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-class JdbcDataMgrUtils {
-    protected void processHandler(Handler handler, String tag, int what) {
+class DBHandlerService {
+    protected void processHandler(Handler handler, int what, String tag) {
         if (handler != null) {
             Message msg = Message.obtain();
             msg.what = what;
@@ -23,10 +24,11 @@ class JdbcDataMgrUtils {
     }
 }
 
-public class JdbcMgrUtils extends JdbcDataMgrUtils{
+public class JdbcMgrUtils extends DBHandlerService{
     final public static int DB_REQUEST_SUCCESS  = 1;
     final public static int DB_REQUEST_FAILURE  = 0;
-
+    final public static String COL_STATUS       = "status";
+    final public static String STATUS_VALID      = "1";
     final public static String TAG_DB_CONNECT   = "TAG_CONNECT_DB";
     static private WeakReference<JdbcMgrUtils> instance = null;
 
@@ -35,7 +37,7 @@ public class JdbcMgrUtils extends JdbcDataMgrUtils{
     private String password;
     private String dataBaseName;
     private Connection connection;
-    private Statement statement;
+    //private Statement statement;
     private boolean isTringConnection;
 
     private JdbcMgrUtils() {
@@ -92,16 +94,16 @@ public class JdbcMgrUtils extends JdbcDataMgrUtils{
                         try {
                             connection = DriverManager.getConnection(stringUrl, userName, password);
                             //connection = DriverManager.getConnection(stringUrl);
-                            statement = connection.createStatement();//创建Statement
+                            //statement = connection.createStatement();//创建Statement
                             Log.d(this.toString(), "connect successed!");
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
                         if (connection != null) {
-                            processHandler(handler, tag, DB_REQUEST_SUCCESS);
+                            processHandler(handler, DB_REQUEST_SUCCESS, tag);
                         }
                         else{
-                            processHandler(handler, tag, DB_REQUEST_FAILURE);
+                            processHandler(handler, DB_REQUEST_FAILURE, tag);
                         }
                         isTringConnection = false;
                     }
@@ -124,10 +126,35 @@ public class JdbcMgrUtils extends JdbcDataMgrUtils{
         }
     }
 
-    public Statement getStatement() {
-        return statement;
+    public Statement createStatement() {
+        if (connection != null) {
+            try {
+                return connection.createStatement();
+            }
+            catch (SQLException e) {
+                return null;
+            }
+        }
+        else{
+            return null;
+        }
     }
 
+    public PreparedStatement preparedStatement(String sql) {
+        if (connection != null) {
+            try {
+                return connection.prepareStatement(sql);
+            }
+            catch (SQLException e) {
+                return null;
+            }
+        }
+        else{
+            return null;
+        }
+    }
+
+    /*
     public ResultSet executeSQL(final String sql) {
         //String sql = "SELECT * FROM table_test";//查询表名为“table_test”的所有内容
 
@@ -145,4 +172,5 @@ public class JdbcMgrUtils extends JdbcDataMgrUtils{
             return null;
         }
     }
+    */
 }

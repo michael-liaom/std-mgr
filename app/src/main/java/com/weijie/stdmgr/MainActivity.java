@@ -1,4 +1,4 @@
-package com.weijie.studentworkmanagementsystem;
+package com.weijie.stdmgr;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,11 +16,16 @@ import java.lang.ref.WeakReference;
 /**
  * Created by weijie on 2018/7/7.
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    final static int REQUEST_FOR_LOGIN = 1;
     final DBHandler dbHandler = new DBHandler(this);
 
     private JdbcMgrUtils jdbcMgrUtils;
-    Button loginbutton;
+    private AuthUserMgrUtils authUserMgrUtils;
+    private AuthUserData authUser;
+
+    private Button logoutButton;
+
     //if
     /*
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,38 +33,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_studentmenu);
     }
     */
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initData();
-        loginbutton = (Button) findViewById(R.id. loginbutton);
-        loginbutton.setOnClickListener(this);
-        //在登陆按钮管理设置监听器
 
+        initControls();
     }
 
     private void initData() {
-       jdbcMgrUtils = JdbcMgrUtils.getInstance();
-       jdbcMgrUtils.connect(dbHandler, JdbcMgrUtils.TAG_DB_CONNECT);
+        jdbcMgrUtils        = JdbcMgrUtils.getInstance();
+        authUserMgrUtils    = AuthUserMgrUtils.getInstance();
+        authUser            = new AuthUserData(this);
+
+        jdbcMgrUtils.connect(dbHandler, JdbcMgrUtils.TAG_DB_CONNECT);
+    }
+
+    private void initControls() {
+        logoutButton = (Button) findViewById(R.id.logout_button);
+
+        logoutButton.setVisibility(View.INVISIBLE);
+
+        logoutButton.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_FOR_LOGIN) {
+            logoutButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()) {
-            case R.id.loginbutton://主菜单的登陆按钮
-            Intent intent = new Intent();
-            intent.setClass(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
+        switch (v.getId()) {
+            case R.id.logout_button://主菜单的登陆按钮
+                startLoginActivity();
+                break;
         }
     }
-    public boolean onKeyDown(int keyCode, KeyEvent event){
 
-        if(keyCode==KeyEvent.KEYCODE_BACK){
-            moveTaskToBack(false);
-            return true;
+    private void checkAuth () {
+        if (authUser.name.length() > 0 &&
+                authUser.password.length() > 0) {
+            authUserMgrUtils.requestLogin(authUser.name, authUser.password, dbHandler, AuthUserMgrUtils.TAG_LOGIN);
         }
-        return super.onKeyDown(keyCode,event);
+        else {
+            startLoginActivity();
+        }
+    }
+
+    private void startLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivityForResult(intent,REQUEST_FOR_LOGIN);
     }
 
     private static class DBHandler extends Handler {
@@ -79,11 +107,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                         switch (tag) {
                             case JdbcMgrUtils.TAG_DB_CONNECT:
-                                AuthUserMgrUtils.getInstance().
-                                        requestFetchStudendRegistration(1,
-                                                new StudentData(),
-                                                activity.dbHandler,
-                                                AuthUserMgrUtils.TBL_STUDENT_REGISTATION);
+                                activity.checkAuth();
+                                break;
+                            case AuthUserMgrUtils.TAG_LOGIN:
+                                activity.logoutButton.setVisibility(View.VISIBLE);
                                 break;
                             case AuthUserMgrUtils.TBL_STUDENT_REGISTATION:
                                 break;
@@ -98,6 +125,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         .show();
                                 break;
                             }
+                            case AuthUserMgrUtils.TAG_LOGIN:
+                                activity.startLoginActivity();
+                                break;
                             default: {
                                 String message = activity.getResources()
                                         .getString(R.string.message_db_operation_failure);

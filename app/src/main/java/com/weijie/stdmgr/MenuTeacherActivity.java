@@ -1,4 +1,4 @@
-package com.weijie.studentworkmanagementsystem;
+package com.weijie.stdmgr;
 
 import android.content.DialogInterface;
 import android.content.Intent;

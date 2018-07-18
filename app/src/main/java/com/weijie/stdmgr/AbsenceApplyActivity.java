@@ -1,4 +1,4 @@
-package com.weijie.studentworkmanagementsystem;
+package com.weijie.stdmgr;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
