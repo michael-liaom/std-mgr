@@ -8,17 +8,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+    final private static int REQUEST_FOR_REGISTRATION = 1;
     private AuthUserData authUser;
 
     private EditText nameEditText,
             passwdEditText;
     private Button loginButton;
     private Button registerButton;
+    private ProgressBar progressBar;
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_FOR_REGISTRATION) {
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +49,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initControls() {
-        nameEditText    = (EditText) findViewById(R.id.user_name_edit_text);
-        passwdEditText  = (EditText) findViewById(R.id.pass_word_edit_text);
-        loginButton     = (Button) findViewById(R.id.login_button);
-        registerButton  = (Button) findViewById(R.id.register_button);
+        nameEditText    = (EditText)    findViewById(R.id.user_name_edit_text);
+        passwdEditText  = (EditText)    findViewById(R.id.pass_word_edit_text);
+        loginButton     = (Button)      findViewById(R.id.login_button);
+        registerButton  = (Button)      findViewById(R.id.registration_button);
+        progressBar     = (ProgressBar) findViewById(R.id.progress_bar);
 
         nameEditText.setText(authUser.name);
 
@@ -53,10 +69,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         .requestLogin(nameEditText.getText().toString(),
                         passwdEditText.getText().toString(),
                         dbHandler, AuthUserMgrUtils.TAG_LOGIN);
+                showLoginProgress(true);
                 break;
-            case R.id.register_button:
+            case R.id.registration_button:
+                startActivityForResult(new Intent(this,
+                                RegistrationActivity.class), REQUEST_FOR_REGISTRATION);
                 break;
 
+        }
+    }
+
+    private void showLoginProgress(boolean isBussy) {
+        if (isBussy) {
+            progressBar.setVisibility(View.VISIBLE);
+            loginButton.setEnabled(false);
+            registerButton.setEnabled(false);
+        }
+        else {
+            progressBar.setVisibility(View.INVISIBLE);
+            loginButton.setEnabled(true);
+            registerButton.setEnabled(true);
         }
     }
 
@@ -75,19 +107,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 // ...
                 String tag = (String) msg.obj;
                 if (tag != null)
-                    if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                         switch (tag) {
                             case AuthUserMgrUtils.TAG_LOGIN:
-                                activity.finish();
+                                if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
+                                    activity.finish();
+                                }
+                                else {
+                                    Toast.makeText(activity, R.string.message_db_login_failure,
+                                            Toast.LENGTH_LONG).show();
+                                }
+                                activity.showLoginProgress(false);
                                 break;
                         }
-                    }
-                    else {
-                        String message = activity.getResources()
-                                .getString(R.string.message_db_login_failure);
-                        Toast.makeText(activity, message, Toast.LENGTH_LONG)
-                                .show();
-                    }
             }
             super.handleMessage(msg);
         }

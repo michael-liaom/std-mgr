@@ -8,6 +8,8 @@ import java.lang.ref.WeakReference;
 import static android.content.Context.MODE_PRIVATE;
 
 public class AuthUserData {
+    final static int MIN_NAME_LEN       = 6;
+    final static int MIN_PASSWORD_LEN   = 6;
     final static String COL_ID          = "id";
     final static String COL_NAME        = "name";
     final static String COL_PASSWORD    = "password";

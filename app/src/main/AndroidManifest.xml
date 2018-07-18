@@ -10,44 +10,48 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.weijie.stdmgr.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".MainActivity"
-            android:label="主菜单">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".MenuTeacherActivity">
-
-        </activity>
-    <activity android:name=".LoginActivity">
-
-    </activity>
-        <activity android:name=".StuInfoActivity"
-                          android:label="学籍信息">
-        </activity>
-        <activity android:name=".DormActivity"
-            android:label="宿舍信息">
-
-        </activity>
-        <activity android:name=".AbsenceApplyActivity"
-            android:label="日常信息">
-        </activity>
-        <activity android:name=".StudentrwActivity"
-            android:label="学生奖惩信息">
-        </activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <activity
+            android:name=".MainActivity"
+            android:label="主菜单">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MenuTeacherActivity"></activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="用户登录" />
+        <activity
+            android:name=".StuInfoActivity"
+            android:label="学籍信息"></activity>
+        <activity
+            android:name=".DormActivity"
+            android:label="宿舍信息"></activity>
+        <activity
+            android:name=".AbsenceApplyActivity"
+            android:label="日常信息"></activity>
+        <activity
+            android:name=".StudentrwActivity"
+            android:label="学生奖惩信息"></activity>
+        <activity
+            android:name=".RegistrationActivity"
+            android:label="用户注册"/>
     </application>
 
 </manifest>

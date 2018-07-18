@@ -3,5 +3,13 @@
     <string name="absence_apply_is_not_fully_file">请假单填写不完整</string>
     <string name="message_db_connect_failure">数据库连接失败！</string>
     <string name="message_db_operation_failure">数据库操作失败！</string>
+    <string name="message_db_registration_failure">注册失败!</string>
     <string name="message_db_login_failure">登录失败!</string>
+    <string name="message_db_name_invalid">用户名不可用!</string>
+    <string name="message_db_invation_invalid">邀请码无效!</string>
+    <string name="message_input_name_invalid">用户名无效!</string>
+    <string name="message_input_password_invalid">密码无效!</string>
+    <string name="message_input_password_mismatch">确认密码不匹配!</string>
+    <string name="message_input_invation_invalid">邀请码无效!</string>
+    <string name="message_registartion_half_baked">注册信息输入不完整</string>
 </resources>

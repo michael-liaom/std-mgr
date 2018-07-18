@@ -49,20 +49,28 @@
             android:inputType="textPassword" />
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:visibility="invisible" />
+
     <Button
         android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:text="登录"
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/register_button"
+        android:id="@+id/registration_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="注册" />
+        android:text="注册"
+        android:textSize="18sp" />
 
 
 </LinearLayout>

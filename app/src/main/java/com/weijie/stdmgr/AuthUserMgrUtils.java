@@ -13,6 +13,9 @@ public class AuthUserMgrUtils extends DBHandlerService{
     final public static String TBL_USER_LOGIN           = "user_login";
     final public static String TAG_LOGIN                = "TAG_LOGIN";
     final public static String TAG_FETCH_STUDENT_REG    = "TAG_FETCH_STUDENT_REG";
+    final public static String TAG_REGISTRATION         = "TAG_REGISTRATION";
+    final public static String TAG_CHECK_NAME_VALID     = "TAG_CHECK_NAME_VALID";
+    final public static String TAG_CHECK_INVATION_VALID = "TAG_CHECK_INVATION_VALID";
 
     private static WeakReference<AuthUserMgrUtils> instance = null;
 
@@ -31,17 +34,59 @@ public class AuthUserMgrUtils extends DBHandlerService{
         return instance.get();
     }
 
-    public void requestJoin(final String regCode, final String genre,
-                            final Handler handler, final String tag) {
+    public void requestCheckUserNameValid(final String name, final Handler handler, final String tag) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 String sql;
-                boolean isOk = false;
+                boolean isOk = true;
 
                 try {
+                        sql = "SELECT * FROM " + TBL_USER_LOGIN
+                                + " WHERE '"
+                                + AuthUserData.COL_NAME  + "'='" + name
+                                + "';";
+                        Statement statement = jdbcMgrUtils.createStatement();
+                        ResultSet resultSet = statement.executeQuery(sql);
+                        if (resultSet != null) {
+                            if (resultSet.next()) {
+                                isOk = false;
+                            }
+                        }
+                        else {
+                            isOk = false;
+                        }
+
+
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    isOk = false;
+                }
+
+                if (isOk) {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
+                }
+                else {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_FAILURE, tag);
+                }
+            }
+        }).start();
+    }
+
+    public void requestCheckInviationValid(final String regCode, final String genre,
+                                           final Handler handler, final String tag) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String sql;
+                boolean isOk = true;
+
+                try {
+                    int studend_id = -1;
+                    int teacher_id = -1;
                     if (genre.equals(AuthUserData.GENRE_STUDENT)) {
-                        sql = "SELECT * " + TBL_STUDENT_REGISTATION
+                        sql = "SELECT * FROM " + TBL_STUDENT_REGISTATION
                                 + " WHERE '"
                                 + StudentData.COL_REG_CODE  + "'='" + regCode
                                 + "' AND '"
@@ -49,13 +94,17 @@ public class AuthUserMgrUtils extends DBHandlerService{
                                 + "';";
                         Statement statement = jdbcMgrUtils.createStatement();
                         ResultSet resultSet = statement.executeQuery(sql);
-                        if (resultSet != null && resultSet.next()) {
-                            authUser.studentData.extractFromResultSet(resultSet);
-                            isOk =true;
+                        if (resultSet == null) {
+                            if(!resultSet.next()) {
+                                isOk = false;
+                            }
+                        }
+                        else {
+                            isOk = false;
                         }
                     }
                     else {
-                        sql = "SELECT * " + TBL_TEACHER_REGISTATION
+                        sql = "SELECT * FROM " + TBL_TEACHER_REGISTATION
                                 + " WHERE '"
                                 + TeacherData.COL_REG_CODE  + "'='" + regCode
                                 + "' AND '"
@@ -63,40 +112,134 @@ public class AuthUserMgrUtils extends DBHandlerService{
                                 + "';";
                         Statement statement = jdbcMgrUtils.createStatement();
                         ResultSet resultSet = statement.executeQuery(sql);
-                        if (resultSet != null && resultSet.next()) {
-                            authUser.teacherData.extractFromResultSet(resultSet);
-                            isOk =true;
+                        if (resultSet != null) {
+                            if (!resultSet.next()) {
+                                isOk = false;
+                            }
+                        }
+                        else {
+                            isOk = false;
+                        }
+
+                    }
+
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    isOk = false;
+                }
+
+                if (isOk) {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
+                }
+                else {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_FAILURE, tag);
+                }
+            }
+        }).start();
+    }
+
+    public void requestRegistration(final String regCode, final String genre,
+                            final String name, final String password,
+                            final Handler handler, final String tag) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String sql;
+                boolean isOk = true;
+
+                try {
+                    int studend_id = -1;
+                    int teacher_id = -1;
+
+                    sql = "START TRANSACTION;";
+                    Statement statement = jdbcMgrUtils.createStatement();
+                    ResultSet resultSet = statement.executeQuery(sql);
+                    if (resultSet == null) {
+                        isOk = false;
+                    }
+
+                    if (isOk) {
+                        if (genre.equals(AuthUserData.GENRE_STUDENT)) {
+                            sql = "SELECT * FROM " + TBL_STUDENT_REGISTATION
+                                    + " WHERE '"
+                                    + StudentData.COL_REG_CODE + "'='" + regCode
+                                    + "' AND '"
+                                    + JdbcMgrUtils.COL_STATUS + "'='" + JdbcMgrUtils.STATUS_VALID
+                                    + "';";
+                            statement = jdbcMgrUtils.createStatement();
+                            resultSet = statement.executeQuery(sql);
+                            if (resultSet != null && resultSet.next()) {
+                                StudentData studentData = new StudentData();
+                                studentData.extractFromResultSet(resultSet);
+                                authUser.studentData = studentData;
+                                studend_id = studentData.id;
+                            } else {
+                                isOk = false;
+                            }
+                        } else {
+                            sql = "SELECT * " + TBL_TEACHER_REGISTATION
+                                    + " WHERE '"
+                                    + TeacherData.COL_REG_CODE + "'='" + regCode
+                                    + "' AND '"
+                                    + JdbcMgrUtils.COL_STATUS + "'='" + JdbcMgrUtils.STATUS_VALID
+                                    + "';";
+                            statement = jdbcMgrUtils.createStatement();
+                            resultSet = statement.executeQuery(sql);
+                            if (resultSet != null && resultSet.next()) {
+                                TeacherData teacherData = new TeacherData();
+                                teacherData.extractFromResultSet(resultSet);
+                                authUser.teacherData = teacherData;
+                                teacher_id = teacherData.id;
+                            } else {
+                                isOk = false;
+                            }
                         }
                     }
 
                     if (isOk) {
                         sql = "INSERT " + TBL_USER_LOGIN
-                                + "SET '"
-                                + AuthUserData.COL_NAME     + "'='" + authUser.name
+                                + " SET '"
+                                + AuthUserData.COL_NAME     + "'='" + name
                                 + "','"
-                                + AuthUserData.COL_PASSWORD + "'='" + authUser.password
+                                + AuthUserData.COL_PASSWORD + "'='" + password
                                 + "','"
-                                + AuthUserData.COL_GENRE    + "'='" + authUser.genre
+                                + AuthUserData.COL_GENRE    + "'='" + genre
                                 + "','"
-                                + AuthUserData.COL_STUDENT_ID + "'='" + authUser.studend_id
+                                + AuthUserData.COL_STUDENT_ID + "'='" + studend_id
                                 + "','"
-                                + AuthUserData.COL_TEACHER_ID + "'='" + authUser.teacher_id
+                                + AuthUserData.COL_TEACHER_ID + "'='" + teacher_id
                                 + "','"
                                 + JdbcMgrUtils.COL_STATUS + "'='" + JdbcMgrUtils.STATUS_VALID
                                 + "';";
 
-                        Statement statement = jdbcMgrUtils.createStatement();
-                        ResultSet resultSet = statement.executeQuery(sql);
+                        statement = jdbcMgrUtils.createStatement();
+                        resultSet = statement.executeQuery(sql);
                         if (resultSet != null) {
-                            processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
-                        } else {
-                            processHandler(handler, JdbcMgrUtils.DB_REQUEST_FAILURE, tag);
+                            authUser.name       = name;
+                            authUser.password   = password;
+                            authUser.genre      = genre;
+                            authUser.studend_id = studend_id;
+                            authUser.teacher_id = teacher_id;
+                        }
+                        else {
+                            isOk = false;
                         }
                         statement.close();
                     }
+
+                    if (isOk) {
+                        sql = "COMMIT;";
+                    }
+                    else {
+                        sql = "ROLLBACK;";
+                    }
+                    statement = jdbcMgrUtils.createStatement();
+                    statement.executeQuery(sql);
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
+                    isOk = false;
                 }
 
                 if (isOk) {
@@ -123,7 +266,7 @@ public class AuthUserMgrUtils extends DBHandlerService{
                         + JdbcMgrUtils.COL_STATUS + "'='" + JdbcMgrUtils.STATUS_VALID
                         + "';";
 
-                boolean isOk = false;
+                boolean isOk = true;
                 try {
                     Statement statement = jdbcMgrUtils.createStatement();
                     ResultSet resultSet = statement.executeQuery(sql);
@@ -133,7 +276,9 @@ public class AuthUserMgrUtils extends DBHandlerService{
                             authUser.genre = resultSet.getString(AuthUserData.COL_GENRE);
                             authUser.studend_id = resultSet.getInt(AuthUserData.COL_STUDENT_ID);
                             authUser.teacher_id = resultSet.getInt(AuthUserData.COL_TEACHER_ID);
-                            isOk = true;
+                    }
+                    else {
+                        isOk = false;
                     }
                     statement.close();
 
@@ -170,6 +315,7 @@ public class AuthUserMgrUtils extends DBHandlerService{
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
+                    isOk = false;
                 }
 
                 if (isOk) {
@@ -193,19 +339,22 @@ public class AuthUserMgrUtils extends DBHandlerService{
                         + "' AND '"
                         + JdbcMgrUtils.COL_STATUS + "'='" + JdbcMgrUtils.STATUS_VALID
                         + "';";
-                boolean isOk = false;
+                boolean isOk = true;
 
                 try {
                     Statement statement = jdbcMgrUtils.createStatement();
                     ResultSet resultSet = statement.executeQuery(sql);
                     if (resultSet != null && resultSet.next()) {
                         studentData.extractFromResultSet(resultSet);
-                        isOk = true;
+                    }
+                    else {
+                        isOk = false;
                     }
                     statement.close();
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
+                    isOk = false;
                 }
 
                 if (isOk) {
@@ -224,7 +373,7 @@ public class AuthUserMgrUtils extends DBHandlerService{
             @Override
             public void run() {
                 final String sql="UPDATE " + TBL_STUDENT_REGISTATION
-                        + "SET '"
+                        + " SET '"
                         + StudentData.COL_NAME      + "'='" + studentData.name
                         + "',"
                         + StudentData.COL_CLASS_ID  + "'='" + Integer.toString(studentData.class_id)
@@ -233,18 +382,19 @@ public class AuthUserMgrUtils extends DBHandlerService{
                         + "' WHERE '"
                         + StudentData.COL_ID        + "'='" + Integer.toString(studentData.id)
                         + "';";
-                boolean isOk = false;
+                boolean isOk = true;
 
                 try {
                     Statement statement = jdbcMgrUtils.createStatement();
                     ResultSet resultSet = statement.executeQuery(sql);
-                    if (resultSet != null) {
-                        isOk = true;
+                    if (resultSet == null) {
+                        isOk = false;
                     }
                     statement.close();
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
+                    isOk = false;
                 }
 
                 if (isOk) {
@@ -263,25 +413,26 @@ public class AuthUserMgrUtils extends DBHandlerService{
             @Override
             public void run() {
                 final String sql="INSERT " + TBL_STUDENT_REGISTATION
-                        + "SET '"
+                        + " SET '"
                         + StudentData.COL_NAME      + "'='" + studentData.name
                         + "','"
                         + StudentData.COL_CLASS_ID  + "'='" + Integer.toString(studentData.class_id)
                         + "','"
                         + StudentData.COL_CODE      + "'='" + Integer.toString(studentData.code)
                         + "';";
-                boolean isOk = false;
+                boolean isOk = true;
 
                 try {
                     Statement statement = jdbcMgrUtils.createStatement();
                     ResultSet resultSet = statement.executeQuery(sql);
-                    if (resultSet != null) {
-                        isOk = true;
+                    if (resultSet == null) {
+                        isOk = false;
                     }
                     statement.close();
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
+                    isOk = false;
                 }
 
                 if (isOk) {
