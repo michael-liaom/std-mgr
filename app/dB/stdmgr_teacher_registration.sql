@@ -28,6 +28,9 @@ CREATE TABLE `teacher_registration` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `code` int(11) DEFAULT NULL,
+  `mobile` varchar(20) DEFAULT NULL,
+  `reg_code` varchar(6) DEFAULT NULL,
+  `status` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='老师信息';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -38,7 +41,7 @@ CREATE TABLE `teacher_registration` (
 
 LOCK TABLES `teacher_registration` WRITE;
 /*!40000 ALTER TABLE `teacher_registration` DISABLE KEYS */;
-INSERT INTO `teacher_registration` VALUES (1,'张杰',NULL);
+INSERT INTO `teacher_registration` VALUES (1,'张杰',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `teacher_registration` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-17 20:33:52
+-- Dump completed on 2018-07-18 20:22:59

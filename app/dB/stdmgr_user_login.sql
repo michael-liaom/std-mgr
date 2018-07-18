@@ -27,6 +27,7 @@ DROP TABLE IF EXISTS `user_login`;
 CREATE TABLE `user_login` (
   `id` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
+  `password` varchar(45) NOT NULL,
   `genre` varchar(10) NOT NULL,
   `student_id` int(11) NOT NULL,
   `teacher_id` int(11) NOT NULL,
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-17 20:33:50
+-- Dump completed on 2018-07-18 20:22:56
