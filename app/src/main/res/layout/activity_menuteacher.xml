@@ -10,7 +10,7 @@
         android:text="功能列表"
         android:id="@+id/textView7"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/studentImformationbutton"
+        android:layout_alignStart="@+id/registration_button"
         android:layout_marginLeft="120dp"
         android:layout_marginTop="40dp" />
 
@@ -18,7 +18,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="学生学籍管理"
-        android:id="@+id/studentImformationbutton"
+        android:id="@+id/registration_button"
         android:layout_marginTop="130dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -29,8 +29,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="宿  舍  信  息"
-        android:id="@+id/dormimformationbutton"
-        android:layout_below="@+id/studentImformationbutton"
+        android:id="@+id/room_button"
+        android:layout_below="@+id/registration_button"
         android:layout_marginTop="0dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp" />
@@ -39,8 +39,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="学生日常信息"
-        android:id="@+id/studentdailybutton"
-        android:layout_below="@+id/dormimformationbutton"
+        android:id="@+id/absence_button"
+        android:layout_below="@+id/room_button"
         android:layout_marginTop="0dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp" />
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:text="学生奖惩管理"
         android:id="@+id/studentrwdpnybutton"
-        android:layout_below="@+id/studentdailybutton"
+        android:layout_below="@+id/absence_button"
         android:layout_marginRight="25dp"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="0dp" />

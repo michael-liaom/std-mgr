@@ -16,27 +16,27 @@
         android:textSize="24sp" />
 
     <Button
-        android:id="@+id/studentImformationbutton"
+        android:id="@+id/registration_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="学生学籍管理"
+        android:text="学生学籍"
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/dormimformationbutton"
+        android:id="@+id/room_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="宿  舍  信  息"
+        android:text="宿舍信息"
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/studentdailybutton"
+        android:id="@+id/absence_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="学生日常信息"
+        android:text="学生日常"
         android:textSize="18sp" />
 
     <Button
@@ -44,14 +44,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="学生奖惩管理"
+        android:text="学生奖惩"
         android:textSize="18sp" />
 
     <Button
         android:id="@+id/logout_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:text="退出登录"
         android:textSize="18sp" />
 

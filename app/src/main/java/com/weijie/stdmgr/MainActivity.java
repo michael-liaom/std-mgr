@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -21,18 +20,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final DBHandler dbHandler = new DBHandler(this);
 
     private JdbcMgrUtils jdbcMgrUtils;
-    private AuthUserMgrUtils authUserMgrUtils;
+    private AuthUserUtils authUserUtils;
     private AuthUserData authUser;
 
     private Button logoutButton;
 
-    //if
-    /*
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_studentmenu);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_FOR_LOGIN) {
+            if (resultCode == LoginActivity.RESULT_CODE_LOGIN_SUCCESS) {
+                logoutButton.setVisibility(View.VISIBLE);
+            }
+        }
     }
-    */
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -44,32 +47,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initData() {
         jdbcMgrUtils        = JdbcMgrUtils.getInstance();
-        authUserMgrUtils    = AuthUserMgrUtils.getInstance();
-        authUser            = new AuthUserData(this);
+        authUserUtils = AuthUserUtils.getInstance();
+        authUser            = MyApplication.getInstance().authUser;
 
         jdbcMgrUtils.connect(dbHandler, JdbcMgrUtils.TAG_DB_CONNECT);
     }
 
     private void initControls() {
+        Button absenceButton = (Button) findViewById(R.id.absence_button);
         logoutButton = (Button) findViewById(R.id.logout_button);
 
+        absenceButton.setOnClickListener(this);
         logoutButton.setVisibility(View.INVISIBLE);
-
         logoutButton.setOnClickListener(this);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_FOR_LOGIN) {
-            logoutButton.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.absence_button:
+                startActivity(new Intent(this, AbsenceMainActivity.class));
+                break;
             case R.id.logout_button://主菜单的登陆按钮
+                authUser.reset();
                 startLoginActivity();
                 break;
         }
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkAuth () {
         if (authUser.name.length() > 0 &&
                 authUser.password.length() > 0) {
-            authUserMgrUtils.requestLogin(authUser.name, authUser.password, dbHandler, AuthUserMgrUtils.TAG_LOGIN);
+            authUserUtils.requestLogin(authUser.name, authUser.password, dbHandler, AuthUserUtils.TAG_LOGIN);
         }
         else {
             startLoginActivity();
@@ -109,10 +109,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             case JdbcMgrUtils.TAG_DB_CONNECT:
                                 activity.checkAuth();
                                 break;
-                            case AuthUserMgrUtils.TAG_LOGIN:
+                            case AuthUserUtils.TAG_LOGIN:
                                 activity.logoutButton.setVisibility(View.VISIBLE);
                                 break;
-                            case AuthUserMgrUtils.TBL_STUDENT_REGISTATION:
+                            case AuthUserUtils.TBL_STUDENT_REGISTATION:
                                 break;
                         }
                     }
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         .show();
                                 break;
                             }
-                            case AuthUserMgrUtils.TAG_LOGIN:
+                            case AuthUserUtils.TAG_LOGIN:
                                 activity.startLoginActivity();
                                 break;
                             default: {

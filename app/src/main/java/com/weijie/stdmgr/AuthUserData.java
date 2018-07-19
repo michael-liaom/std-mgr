@@ -18,6 +18,7 @@ public class AuthUserData {
     final static String COL_TEACHER_ID  = "teacher_id";
     final public static String GENRE_STUDENT    = "student";
     final public static String GENRE_TEACHER    = "teacher";
+    final public static String REG_CODE_INVALID = "-1";
 
     int id;
     String name;
@@ -32,6 +33,12 @@ public class AuthUserData {
     AuthUserData(Context context) {
         this.context = context;
         restoreFromLocal();
+    }
+
+    public void reset() {
+        name        = "";
+        password    = "";
+        backupToLocal();
     }
 
     public void backupToLocal(){

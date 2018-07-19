@@ -1,9 +1,11 @@
 package com.weijie.stdmgr;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +16,11 @@ import android.widget.Toast;
 import java.lang.ref.WeakReference;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+    final static int RESULT_CODE_LOGIN_SUCCESS  = 1;
+    final static int RESULT_CODE_LOGIN_NONE     = 0;
+
     final private static int REQUEST_FOR_REGISTRATION = 1;
+
     private AuthUserData authUser;
 
     private EditText nameEditText,
@@ -32,6 +38,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_FOR_REGISTRATION) {
+            if (resultCode == RegistrationActivity.RESULT_CODE_REGISTRATION_SUCCESS) {
+                finish();
+            }
         }
     }
 
@@ -65,10 +74,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v){
         switch(v.getId()){
             case R.id.login_button:
-                AuthUserMgrUtils.getInstance()
+                AuthUserUtils.getInstance()
                         .requestLogin(nameEditText.getText().toString(),
                         passwdEditText.getText().toString(),
-                        dbHandler, AuthUserMgrUtils.TAG_LOGIN);
+                        dbHandler, AuthUserUtils.TAG_LOGIN);
                 showLoginProgress(true);
                 break;
             case R.id.registration_button:
@@ -108,9 +117,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String tag = (String) msg.obj;
                 if (tag != null)
                         switch (tag) {
-                            case AuthUserMgrUtils.TAG_LOGIN:
+                            case AuthUserUtils.TAG_LOGIN:
                                 if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
-                                    activity.finish();
+                                    activity.authUser.name = activity.nameEditText.getText()
+                                            .toString();
+                                    activity.authUser.password = activity.passwdEditText.getText()
+                                            .toString();
+                                    activity.authUser.backupToLocal();
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+                                            .setMessage(R.string.message_db_login_success)
+                                            .setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener()
+                                            {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which)
+                                                {
+                                                    Intent intent = new Intent();
+                                                    activity.setResult(RESULT_CODE_LOGIN_SUCCESS, intent);
+                                                    activity.finish();
+                                                }
+                                            });
+                                    builder.show();
                                 }
                                 else {
                                     Toast.makeText(activity, R.string.message_db_login_failure,

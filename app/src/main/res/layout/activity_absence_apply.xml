@@ -28,6 +28,7 @@
         android:layout_marginTop="20dp">
 
         <LinearLayout
+            android:id="@+id/input_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -45,21 +46,20 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:text="班主任/辅导员:"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/apply_to_edit_text"
+                <Spinner
+                    android:id="@+id/apply_to_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:contentDescription="NONE"
-                    android:inputType="textPersonName"
-                    android:textSize="14sp" />
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp">
@@ -71,12 +71,13 @@
                     android:text="任科老师:"
                     android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/apply_cc_edit_text"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/apply_cc_text_view"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:inputType="textPersonName" />
+                    android:layout_weight="1" />
+
             </LinearLayout>
 
             <View
@@ -97,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:text="请假类型:"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textSize="18sp" />
 
                 <Spinner
                     android:id="@+id/apply_type_spinner"
@@ -127,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:text="请假日期:"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/begin_date_edit_text"
@@ -144,11 +145,11 @@
                     android:layout_marginLeft="10dp"
                     android:gravity="right"
                     android:text="时间:"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/begin_time_edit_text"
-                    android:layout_width="match_parent"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
@@ -170,7 +171,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:text="请假时长:"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/days_edit_text"
@@ -187,7 +188,7 @@
                     android:layout_marginLeft="10dp"
                     android:gravity="right"
                     android:text="天"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/hours_edit_text"
@@ -224,7 +225,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="请假原因:"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -244,6 +245,13 @@
                     android:lines="2" />
 
             </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/commit_button"

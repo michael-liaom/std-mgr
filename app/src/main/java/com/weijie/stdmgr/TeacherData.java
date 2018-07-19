@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class TeacherData {
+    final static String TBL_NAME        = "teacher_registration";
     final static String COL_ID          = "id";
     final static String COL_NAME        = "name";
     final static String COL_CODE        = "code";

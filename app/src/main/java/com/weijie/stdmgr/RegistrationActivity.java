@@ -1,9 +1,10 @@
 package com.weijie.stdmgr;
 
-import android.app.Application;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,17 +13,17 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
     final static int MIN_INVATION_LEN   = 6;
-    final private static int RETURN_CODE_REGISTRATION_NONE  = 0;
-    final private static int RETURN_CODE_REGISTRATION_VALID = 1;
+    final static int RESULT_CODE_REGISTRATION_CANCEL  = 0;
+    final static int RESULT_CODE_REGISTRATION_SUCCESS = 1;
+
     private AuthUserData authUser;
-    private AuthUserMgrUtils authUserMgrUtils;
+    private AuthUserUtils authUserUtils;
 
     private LinearLayout mainView;
     private EditText nameEditText,
@@ -37,7 +38,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     public void onBackPressed() {
         if (progressBar.getVisibility() != View.VISIBLE) {
             Intent intent = new Intent();
-            setResult(RETURN_CODE_REGISTRATION_NONE, intent);
+            setResult(RESULT_CODE_REGISTRATION_CANCEL, intent);
             super.onBackPressed();
         }
     }
@@ -53,7 +54,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     private void initData() {
         authUser = MyApplication.getInstance().authUser;
-        authUserMgrUtils = AuthUserMgrUtils.getInstance();
+        authUserUtils = AuthUserUtils.getInstance();
     }
 
     private void initControls() {
@@ -135,8 +136,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         switch(v.getId()){
             case R.id.registration_button:
                 if (isInputValid()) {
-                    authUserMgrUtils.requestCheckUserNameValid(nameEditText.getText().toString(),
-                            dbHandler, AuthUserMgrUtils.TAG_CHECK_NAME_VALID);
+                    authUserUtils.requestCheckUserNameValid(nameEditText.getText().toString(),
+                            dbHandler, AuthUserUtils.TAG_CHECK_NAME_VALID);
                     showRegistrationProgress(true);
                 }
                 else {
@@ -169,8 +170,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         else {
             genre = AuthUserData.GENRE_TEACHER;
         }
-        authUserMgrUtils.requestCheckInviationValid(inviteEditText.getText().toString(), genre,
-                dbHandler, AuthUserMgrUtils.TAG_CHECK_INVATION_VALID);
+        authUserUtils.requestCheckInviationValid(inviteEditText.getText().toString(), genre,
+                dbHandler, AuthUserUtils.TAG_CHECK_INVATION_VALID);
     }
 
     private void resistraton() {
@@ -182,10 +183,10 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         else {
             genre = AuthUserData.GENRE_TEACHER;
         }
-        authUserMgrUtils.requestRegistration(inviteEditText.getText().toString(),
+        authUserUtils.requestRegistration(inviteEditText.getText().toString(),
                 genre, nameEditText.getText().toString(),
                 passwdEditText.getText().toString(), dbHandler,
-                AuthUserMgrUtils.TAG_REGISTRATION);
+                AuthUserUtils.TAG_REGISTRATION);
     }
 
     private void showRegistrationProgress(boolean isBussy) {
@@ -219,7 +220,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 String tag = (String) msg.obj;
                 if (tag != null)
                     switch (tag) {
-                        case AuthUserMgrUtils.TAG_CHECK_NAME_VALID:
+                        case AuthUserUtils.TAG_CHECK_NAME_VALID:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.progressBar.setProgress(30);
                                 activity.checkInvation();
@@ -230,7 +231,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                 activity.showRegistrationProgress(false);
                             }
                             break;
-                        case AuthUserMgrUtils.TAG_CHECK_INVATION_VALID:
+                        case AuthUserUtils.TAG_CHECK_INVATION_VALID:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.progressBar.setProgress(60);
                                 activity.resistraton();
@@ -241,18 +242,26 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                 activity.showRegistrationProgress(false);
                             }
                             break;
-                        case AuthUserMgrUtils.TAG_REGISTRATION:
+                        case AuthUserUtils.TAG_REGISTRATION:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.progressBar.setProgress(99);
-                                Intent intent = new Intent();
-                                activity.setResult(RETURN_CODE_REGISTRATION_VALID, intent);
-                                activity.finish();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+                                        .setMessage(R.string.message_db_registration_success)
+                                        .setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which)
+                                    {
+                                        Intent intent = new Intent();
+                                        activity.setResult(RESULT_CODE_REGISTRATION_SUCCESS, intent);
+                                        activity.finish();
+                                    }
+                                });
+                                builder.show();
                             }
                             else {
-                                String message = activity.getResources()
-                                        .getString(R.string.message_db_registration_failure);
-                                Toast.makeText(activity, message, Toast.LENGTH_LONG)
-                                        .show();
+                                Toast.makeText(activity, R.string.message_db_registration_failure,
+                                        Toast.LENGTH_LONG).show();
                             }
                             activity.showRegistrationProgress(false);
                             break;
