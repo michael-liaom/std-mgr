@@ -10,6 +10,7 @@ public class ClassData {
     final static String COL_CODE    = "code";
     final static String COL_MASTER_ID   = "master_teacher_id";
     final static String COL_ASSITANT_ID = "assitant_teacher_id";
+
     int id;
     String name;
     int code;

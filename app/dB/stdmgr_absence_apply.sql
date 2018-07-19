@@ -33,7 +33,7 @@ CREATE TABLE `absence_apply` (
   `begin` datetime NOT NULL,
   `end` datetime NOT NULL,
   `cause` varchar(100) DEFAULT NULL,
-  `approved` int(1) DEFAULT NULL,
+  `approval` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='请假单';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-19 11:13:25
+-- Dump completed on 2018-07-19 20:04:29

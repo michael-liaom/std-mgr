@@ -118,6 +118,9 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initApplyToSpinner() {
+        toTeacherList.add(classData.masterTeacher);
+        toTeacherList.add(classData.assistantTeacher);
+
         ArrayList<String> arrayListTo = new ArrayList<>();
         for (TeacherData teacherData : toTeacherList) {
             arrayListTo.add(teacherData.name);
@@ -349,13 +352,21 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
                 boolean is_sucess = false;
                 String message = null;
                 // ...
-                if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS){
-
+                String tag = (String) msg.obj;
+                if (tag != null) {
+                    switch (tag) {
+                        case ClassDataUtils.TAG_FETCH_CLASS_DATA:
+                            if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
+                                activity.initApplyToSpinner();
+                            }
+                            else {
+                                activity.showBusyProgress(false);
+                                Toast.makeText(activity, R.string.message_db_operation_failure,
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            break;
+                    }
                 }
-                else {//msg.what == DatabaseMgrUtils.DB_REQUEST_FAILURE
-
-                }
-
                 super.handleMessage(msg);
             }
         }

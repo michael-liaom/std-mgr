@@ -8,22 +8,22 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class AbsenceApplyUtils extends DBHandlerService{
+public class AbsenceApplyDataUtils extends DBHandlerService{
     final public static String TAG_FETCH_ALLMY_APPLY    = "TAG_FETCH_STUDENT_REG";
 
-    private static WeakReference<AbsenceApplyUtils> instance = null;
+    private static WeakReference<AbsenceApplyDataUtils> instance = null;
 
     private JdbcMgrUtils jdbcMgrUtils;
     private AuthUserData authUser;
 
-    private AbsenceApplyUtils() {
+    private AbsenceApplyDataUtils() {
         jdbcMgrUtils = JdbcMgrUtils.getInstance();
         authUser = MyApplication.getInstance().authUser;
     }
 
-    public synchronized static AbsenceApplyUtils getInstance(){
+    public synchronized static AbsenceApplyDataUtils getInstance(){
         if (instance == null){
-            instance = new WeakReference<>(new AbsenceApplyUtils());
+            instance = new WeakReference<>(new AbsenceApplyDataUtils());
         }
         return instance.get();
     }

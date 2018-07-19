@@ -115,36 +115,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             if (activity != null) {
                 // ...
                 String tag = (String) msg.obj;
-                if (tag != null)
-                        switch (tag) {
-                            case AuthUserUtils.TAG_LOGIN:
-                                if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
-                                    activity.authUser.name = activity.nameEditText.getText()
-                                            .toString();
-                                    activity.authUser.password = activity.passwdEditText.getText()
-                                            .toString();
-                                    activity.authUser.backupToLocal();
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(activity)
-                                            .setMessage(R.string.message_db_login_success)
-                                            .setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener()
-                                            {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which)
-                                                {
-                                                    Intent intent = new Intent();
-                                                    activity.setResult(RESULT_CODE_LOGIN_SUCCESS, intent);
-                                                    activity.finish();
-                                                }
-                                            });
-                                    builder.show();
-                                }
-                                else {
-                                    Toast.makeText(activity, R.string.message_db_login_failure,
-                                            Toast.LENGTH_LONG).show();
-                                }
-                                activity.showLoginProgress(false);
-                                break;
-                        }
+                if (tag != null) {
+                    switch (tag) {
+                        case AuthUserUtils.TAG_LOGIN:
+                            if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
+                                activity.authUser.name = activity.nameEditText.getText()
+                                        .toString();
+                                activity.authUser.password = activity.passwdEditText.getText()
+                                        .toString();
+                                activity.authUser.backupToLocal();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+                                        .setMessage(R.string.message_db_login_success)
+                                        .setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent intent = new Intent();
+                                                activity.setResult(RESULT_CODE_LOGIN_SUCCESS, intent);
+                                                activity.finish();
+                                            }
+                                        });
+                                builder.show();
+                            } else {
+                                Toast.makeText(activity, R.string.message_db_login_failure,
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            activity.showLoginProgress(false);
+                            break;
+                    }
+                }
             }
             super.handleMessage(msg);
         }

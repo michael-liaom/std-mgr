@@ -7,34 +7,34 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ClassDataUtils extends DBHandlerService {
+public class CourseDataUtils extends DBHandlerService {
     final public static String TAG_FETCH_CLASS_DATA = "TAG_FETCH_CLASS_DATA";
 
-    private static WeakReference<ClassDataUtils> instance = null;
+    private static WeakReference<CourseDataUtils> instance = null;
 
     private JdbcMgrUtils jdbcMgrUtils;
     private AuthUserData authUser;
 
-    private ClassDataUtils() {
+    private CourseDataUtils() {
         jdbcMgrUtils = JdbcMgrUtils.getInstance();
         authUser = MyApplication.getInstance().authUser;
     }
 
-    public synchronized static ClassDataUtils getInstance(){
+    public synchronized static CourseDataUtils getInstance(){
         if (instance == null){
-            instance = new WeakReference<>(new ClassDataUtils());
+            instance = new WeakReference<>(new CourseDataUtils());
         }
         return instance.get();
     }
 
-    public void requestFetchClassData(final int classId, final ClassData classData,
-                                                final Handler handler, final String tag) {
+    public void requestFetchCourseData(final int courseId, final CourseData courseData,
+                                      final Handler handler, final String tag) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 String sql = "SELECT * FROM " + ClassData.TBL_NAME
                         + " WHERE "
-                        + ClassData.COL_ID + "='" + Integer.toString(classId)
+                        + CourseData.COL_ID + "='" + Integer.toString(courseId)
                         + "' AND "
                         + JdbcMgrUtils.COL_STATUS + "='" + JdbcMgrUtils.STATUS_VALID
                         + "';";
@@ -44,7 +44,7 @@ public class ClassDataUtils extends DBHandlerService {
                     Statement statement = jdbcMgrUtils.createStatement();
                     ResultSet resultSet = statement.executeQuery(sql);
                     if (resultSet != null && resultSet.next()) {
-                        classData.extractFromResultSet(resultSet);
+                        courseData.extractFromResultSet(resultSet);
                     }
                     else {
                         isOk = false;
@@ -58,17 +58,9 @@ public class ClassDataUtils extends DBHandlerService {
 
                 if (isOk) {
                     TeacherData teacherData = new TeacherData();
-                    isOk = TeacherDataUtils.getInstance().fetchTeachData(classData.masterTeacherId, teacherData);
+                    isOk = TeacherDataUtils.getInstance().fetchTeachData(courseData.teacherId, teacherData);
                     if (isOk) {
-                        classData.masterTeacher = teacherData;
-                    }
-                }
-
-                if (isOk) {
-                    TeacherData teacherData = new TeacherData();
-                    isOk = TeacherDataUtils.getInstance().fetchTeachData(classData.assistantTeacherId, teacherData);
-                    if (isOk) {
-                        classData.assistantTeacher = teacherData;
+                        courseData.teacherData = teacherData;
                     }
                 }
 
