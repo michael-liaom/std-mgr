@@ -25,13 +25,21 @@ public class TeacherDataUtils extends DBHandlerService {
         return instance.get();
     }
 
+    private String toValue(String value) {
+        return "'" + value + "'";
+    }
+
+    private String toValue(int value) {
+        return toValue(Integer.toString(value));
+    }
+
     public boolean fetchTeachData(int teacherId, TeacherData teacherData) {
         String sql = "SELECT * FROM " + TeacherData.TBL_NAME
                 + " WHERE "
-                + TeacherData.COL_ID + "='" + Integer.toString(teacherId)
-                + "' AND "
-                + JdbcMgrUtils.COL_STATUS + "='" + JdbcMgrUtils.STATUS_VALID
-                + "';";
+                + TeacherData.COL_ID + "=" + toValue(teacherId)
+                + " AND "
+                + COL_STATUS + "=" + STATUS_VALID
+                + ";";
         boolean isOk = true;
 
         try {

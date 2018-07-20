@@ -23,7 +23,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     final static int RESULT_CODE_REGISTRATION_SUCCESS = 1;
 
     private AuthUserData authUser;
-    private AuthUserUtils authUserUtils;
+    private AuthUserDataUtils authUserDataUtils;
 
     private LinearLayout mainView;
     private EditText nameEditText,
@@ -54,7 +54,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     private void initData() {
         authUser = MyApplication.getInstance().authUser;
-        authUserUtils = AuthUserUtils.getInstance();
+        authUserDataUtils = AuthUserDataUtils.getInstance();
     }
 
     private void initControls() {
@@ -136,8 +136,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         switch(v.getId()){
             case R.id.registration_button:
                 if (isInputValid()) {
-                    authUserUtils.requestCheckUserNameValid(nameEditText.getText().toString(),
-                            dbHandler, AuthUserUtils.TAG_CHECK_NAME_VALID);
+                    authUserDataUtils.requestCheckUserNameValid(nameEditText.getText().toString(),
+                            dbHandler, AuthUserDataUtils.TAG_CHECK_NAME_VALID);
                     showRegistrationProgress(true);
                 }
                 else {
@@ -170,8 +170,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         else {
             genre = AuthUserData.GENRE_TEACHER;
         }
-        authUserUtils.requestCheckInviationValid(inviteEditText.getText().toString(), genre,
-                dbHandler, AuthUserUtils.TAG_CHECK_INVATION_VALID);
+        authUserDataUtils.requestCheckInviationValid(inviteEditText.getText().toString(), genre,
+                dbHandler, AuthUserDataUtils.TAG_CHECK_INVATION_VALID);
     }
 
     private void resistraton() {
@@ -183,10 +183,10 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         else {
             genre = AuthUserData.GENRE_TEACHER;
         }
-        authUserUtils.requestRegistration(inviteEditText.getText().toString(),
+        authUserDataUtils.requestRegistration(inviteEditText.getText().toString(),
                 genre, nameEditText.getText().toString(),
                 passwdEditText.getText().toString(), dbHandler,
-                AuthUserUtils.TAG_REGISTRATION);
+                AuthUserDataUtils.TAG_REGISTRATION);
     }
 
     private void showRegistrationProgress(boolean isBussy) {
@@ -220,7 +220,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 String tag = (String) msg.obj;
                 if (tag != null)
                     switch (tag) {
-                        case AuthUserUtils.TAG_CHECK_NAME_VALID:
+                        case AuthUserDataUtils.TAG_CHECK_NAME_VALID:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.progressBar.setProgress(30);
                                 activity.checkInvation();
@@ -231,7 +231,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                 activity.showRegistrationProgress(false);
                             }
                             break;
-                        case AuthUserUtils.TAG_CHECK_INVATION_VALID:
+                        case AuthUserDataUtils.TAG_CHECK_INVATION_VALID:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.progressBar.setProgress(60);
                                 activity.resistraton();
@@ -242,7 +242,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                 activity.showRegistrationProgress(false);
                             }
                             break;
-                        case AuthUserUtils.TAG_REGISTRATION:
+                        case AuthUserDataUtils.TAG_REGISTRATION:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.progressBar.setProgress(99);
                                 AlertDialog.Builder builder = new AlertDialog.Builder(activity)

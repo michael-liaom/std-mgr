@@ -10,8 +10,6 @@ public class CourseData {
     final static String COL_CODE    = "code";
     final static String COL_TEACHER_ID  = "teacher_id";
 
-    final static String COL_AS_TEACHER_NAME = "teacher_name";
-
     int id;
     String name;
     int code;
@@ -21,6 +19,18 @@ public class CourseData {
     //Seperated
     TeacherData teacherData;
 
+    static String toDomain(String col) {
+        return TBL_NAME + "." + col;
+    }
+
+    static String toDomainAs(String col) {
+        return TBL_NAME + "." + col + " AS " + TBL_NAME + "_" + col;
+    }
+
+    static String getAsCol(String col) {
+        return TBL_NAME + "_" + col;
+    }
+
     public void extractFromResultSet(ResultSet resultSet) throws SQLException {
         id          = resultSet.getInt(COL_ID);
         name        = resultSet.getString(COL_NAME);
@@ -29,7 +39,7 @@ public class CourseData {
     }
 
     public void extractAsFromResultSet(ResultSet resultSet) throws SQLException {
-        teacherName = resultSet.getString(COL_AS_TEACHER_NAME);
+        teacherName = resultSet.getString(TeacherData.getAsCol(TeacherData.COL_NAME));
     }
 
 }

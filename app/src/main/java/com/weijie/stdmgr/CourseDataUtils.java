@@ -6,9 +6,10 @@ import java.lang.ref.WeakReference;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class CourseDataUtils extends DBHandlerService {
-    final public static String TAG_FETCH_CLASS_DATA = "TAG_FETCH_CLASS_DATA";
+    final static String TAG_FETCH_COURSE_DATA    = "TAG_FETCH_COURSE_DATA";
 
     private static WeakReference<CourseDataUtils> instance = null;
 
@@ -27,17 +28,25 @@ public class CourseDataUtils extends DBHandlerService {
         return instance.get();
     }
 
+    private String toValue(String value) {
+        return "'" + value + "'";
+    }
+
+    private String toValue(int value) {
+        return toValue(Integer.toString(value));
+    }
+
     public void requestFetchCourseData(final int courseId, final CourseData courseData,
                                       final Handler handler, final String tag) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String sql = "SELECT * FROM " + ClassData.TBL_NAME
+                String sql = "SELECT * FROM " + CourseData.TBL_NAME
                         + " WHERE "
-                        + CourseData.COL_ID + "='" + Integer.toString(courseId)
-                        + "' AND "
-                        + JdbcMgrUtils.COL_STATUS + "='" + JdbcMgrUtils.STATUS_VALID
-                        + "';";
+                        + CourseData.COL_ID + "=" + toValue(courseId)
+                        + " AND "
+                        + COL_STATUS + "=" + STATUS_VALID
+                        + ";";
                 boolean isOk = true;
 
                 try {

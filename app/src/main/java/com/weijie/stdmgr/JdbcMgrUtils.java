@@ -14,6 +14,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 class DBHandlerService {
+    final public static String COL_STATUS       = "status";
+    final public static String STATUS_VALID      = "'1'";
+
     protected void processHandler(Handler handler, int what, String tag) {
         if (handler != null) {
             Message msg = Message.obtain();
@@ -27,8 +30,6 @@ class DBHandlerService {
 public class JdbcMgrUtils extends DBHandlerService{
     final public static int DB_REQUEST_SUCCESS  = 1;
     final public static int DB_REQUEST_FAILURE  = 0;
-    final public static String COL_STATUS       = "status";
-    final public static String STATUS_VALID      = "1";
     final public static String TAG_DB_CONNECT   = "TAG_CONNECT_DB";
     static private WeakReference<JdbcMgrUtils> instance = null;
 

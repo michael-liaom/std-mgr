@@ -32,10 +32,14 @@ public class AbsenceApplyData {
     String  studentName;
     String  toTeacherName;
     //Sperated
-    ArrayList <TeacherData> ccList;
+    ArrayList <CourseData> ccList;
 
     AbsenceApplyData() {
         ccList = new ArrayList<>();
+    }
+
+    static String toDomain(String col) {
+        return TBL_NAME + "." + col;
     }
 
     public void extractFromResultSet(ResultSet resultSet) throws SQLException {
@@ -49,8 +53,8 @@ public class AbsenceApplyData {
     }
 
     public void extractAsFromResultSet(ResultSet resultSet) throws SQLException {
-        studentCode = resultSet.getInt(COL_AS_CODE);
-        studentName = resultSet.getString(COL_AS_NAME);
-        toTeacherName = resultSet.getString(COL_AS_TEACHER);
+        studentCode = resultSet.getInt(StudentData.getAsCol(StudentData.COL_CODE));
+        studentName = resultSet.getString(StudentData.getAsCol(StudentData.COL_NAME));
+        toTeacherName = resultSet.getString(TeacherData.getAsCol(TeacherData.COL_NAME));
     }
 }

@@ -1,6 +1,8 @@
 package com.weijie.stdmgr;
 
-public class SimplePickItemData {
+import java.io.Serializable;
+
+public class SimplePickItemData implements Serializable {
     String  name;
     Integer id;
     boolean isPicked;

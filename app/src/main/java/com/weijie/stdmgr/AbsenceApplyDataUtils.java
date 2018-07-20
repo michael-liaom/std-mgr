@@ -28,6 +28,14 @@ public class AbsenceApplyDataUtils extends DBHandlerService{
         return instance.get();
     }
 
+    private String toValue(String value) {
+        return "'" + value + "'";
+    }
+
+    private String toValue(int value) {
+        return toValue(Integer.toString(value));
+    }
+
     public void requestFetchAllMyApply(final ArrayList<AbsenceApplyData> arrayList,
                                        final Handler handler, final String tag) {
         new Thread(new Runnable() {
@@ -38,32 +46,32 @@ public class AbsenceApplyDataUtils extends DBHandlerService{
 
                 try {
                     sql = "SELECT "
-                            + AbsenceApplyData.TBL_NAME + "." + AbsenceApplyData.COL_ID
+                            + AbsenceApplyData.toDomain(AbsenceApplyData.COL_ID)
                             + ","
-                            + AbsenceApplyData.TBL_NAME + "." + AbsenceApplyData.COL_BEGIN
+                            + AbsenceApplyData.toDomain(AbsenceApplyData.COL_BEGIN)
                             + ","
-                            + AbsenceApplyData.TBL_NAME + "." + AbsenceApplyData.COL_END
+                            + AbsenceApplyData.toDomain(AbsenceApplyData.COL_END)
                             + ","
-                            + AbsenceApplyData.TBL_NAME + "." + AbsenceApplyData.COL_TYPE
+                            + AbsenceApplyData.toDomain(AbsenceApplyData.COL_TYPE)
                             + ","
-                            + AbsenceApplyData.TBL_NAME + "." + AbsenceApplyData.COL_CAUSE
+                            + AbsenceApplyData.toDomain(AbsenceApplyData.COL_CAUSE)
                             + ","
-                            + AbsenceApplyData.TBL_NAME + "." + AbsenceApplyData.COL_APPROVAL
+                            + AbsenceApplyData.toDomain(AbsenceApplyData.COL_APPROVAL)
                             + ","
-                            + StudentData.TBL_NAME + "." + StudentData.COL_CODE
-                            + " AS " + AbsenceApplyData.COL_AS_CODE
+                            + StudentData.toDomainAs(StudentData.COL_CODE)
                             + ","
-                            + StudentData.TBL_NAME + "." + StudentData.COL_NAME
-                            + " AS " + AbsenceApplyData.COL_AS_NAME
+                            + StudentData.toDomainAs(StudentData.COL_NAME)
                             + ","
-                            + TeacherData.TBL_NAME + "." + TeacherData.COL_NAME
-                            + " AS " + AbsenceApplyData.COL_AS_TEACHER
-                            + " FROM " + AbsenceApplyData.TBL_NAME + "," + StudentData.TBL_NAME
+                            + TeacherData.toDomainAs(TeacherData.COL_NAME)
+                            + " FROM "
+                            + AbsenceApplyData.TBL_NAME + ","
+                            + StudentData.TBL_NAME + ","
+                            + TeacherData.TBL_NAME
                             + " WHERE "
-                            + AbsenceApplyData.TBL_NAME + "." + AbsenceApplyData.COL_STUDENT_ID  + "='" + authUser.studend_id
-                            + "' AND"
-                            + StudentData.TBL_NAME + "." + StudentData.COL_ID  + "='" + authUser.studend_id
-                            + "' ORDER BY "
+                            + AbsenceApplyData.toDomain(AbsenceApplyData.COL_STUDENT_ID)  + "=" + toValue(authUser.studend_id)
+                            + " AND "
+                            + StudentData.toDomain(StudentData.COL_ID)  + "=" + toValue(authUser.studend_id)
+                            + " ORDER BY "
                             + AbsenceApplyData.COL_ID
                             + " DESC "
                             + ";";

@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class AuthUserUtils extends DBHandlerService{
+public class AuthUserDataUtils extends DBHandlerService{
     final public static String TBL_STUDENT_REGISTATION = "student_registration";
     final public static String TBL_TEACHER_REGISTATION = "teacher_registration";
     final public static String TBL_USER_LOGIN           = "user_login";
@@ -17,21 +17,29 @@ public class AuthUserUtils extends DBHandlerService{
     final public static String TAG_CHECK_NAME_VALID     = "TAG_CHECK_NAME_VALID";
     final public static String TAG_CHECK_INVATION_VALID = "TAG_CHECK_INVATION_VALID";
 
-    private static WeakReference<AuthUserUtils> instance = null;
+    private static WeakReference<AuthUserDataUtils> instance = null;
 
     private JdbcMgrUtils jdbcMgrUtils;
     private AuthUserData authUser;
 
-    private AuthUserUtils() {
+    private AuthUserDataUtils() {
         jdbcMgrUtils = JdbcMgrUtils.getInstance();
         authUser = MyApplication.getInstance().authUser;
     }
 
-    public synchronized static AuthUserUtils getInstance(){
+    public synchronized static AuthUserDataUtils getInstance(){
         if (instance == null){
-            instance = new WeakReference<>(new AuthUserUtils());
+            instance = new WeakReference<>(new AuthUserDataUtils());
         }
         return instance.get();
+    }
+
+    private String toValue(String value) {
+        return "'" + value + "'";
+    }
+
+    private String toValue(int value) {
+        return toValue(Integer.toString(value));
     }
 
     public void requestCheckUserNameValid(final String name, final Handler handler, final String tag) {
@@ -44,8 +52,8 @@ public class AuthUserUtils extends DBHandlerService{
                 try {
                     sql = "SELECT * FROM " + TBL_USER_LOGIN
                             + " WHERE "
-                            + AuthUserData.COL_NAME  + "='" + name
-                            + "';";
+                            + AuthUserData.COL_NAME  + "=" + toValue(name)
+                            + ";";
                     Statement statement = jdbcMgrUtils.createStatement();
                     ResultSet resultSet = statement.executeQuery(sql);
                     if (resultSet != null) {
@@ -89,10 +97,10 @@ public class AuthUserUtils extends DBHandlerService{
                     if (genre.equals(AuthUserData.GENRE_STUDENT)) {
                         sql = "SELECT * FROM " + TBL_STUDENT_REGISTATION
                                 + " WHERE "
-                                + StudentData.COL_REG_CODE  + "='" + regCode
-                                + "' AND "
-                                + JdbcMgrUtils.COL_STATUS + "='" + JdbcMgrUtils.STATUS_VALID
-                                + "';";
+                                + StudentData.COL_REG_CODE  + "=" + toValue(regCode)
+                                + " AND "
+                                + COL_STATUS + "=" + STATUS_VALID
+                                + ";";
                         ResultSet resultSet = statement.executeQuery(sql);
                         if (resultSet != null) {
                             if(!resultSet.next()) {
@@ -107,10 +115,10 @@ public class AuthUserUtils extends DBHandlerService{
                     else {
                         sql = "SELECT * FROM " + TBL_TEACHER_REGISTATION
                                 + " WHERE "
-                                + TeacherData.COL_REG_CODE  + "='" + regCode
-                                + "' AND "
-                                + JdbcMgrUtils.COL_STATUS + "='" + JdbcMgrUtils.STATUS_VALID
-                                + "';";
+                                + TeacherData.COL_REG_CODE  + "=" + toValue(regCode)
+                                + " AND "
+                                + COL_STATUS + "=" + STATUS_VALID
+                                + ";";
                         ResultSet resultSet = statement.executeQuery(sql);
                         if (resultSet != null) {
                             if (!resultSet.next()) {
@@ -165,10 +173,10 @@ public class AuthUserUtils extends DBHandlerService{
                         if (genre.equals(AuthUserData.GENRE_STUDENT)) {
                             sql = "SELECT * FROM " + TBL_STUDENT_REGISTATION
                                     + " WHERE "
-                                    + StudentData.COL_REG_CODE + "='" + regCode
-                                    + "' AND "
-                                    + JdbcMgrUtils.COL_STATUS + "='" + JdbcMgrUtils.STATUS_VALID
-                                    + "';";
+                                    + StudentData.COL_REG_CODE + "=" + toValue(regCode)
+                                    + " AND "
+                                    + COL_STATUS + "=" + STATUS_VALID
+                                    + ";";
                             resultSet = statement.executeQuery(sql);
                             if (resultSet != null && resultSet.next()) {
                                 StudentData studentData = new StudentData();
@@ -181,10 +189,10 @@ public class AuthUserUtils extends DBHandlerService{
                         } else {
                             sql = "SELECT * " + TBL_TEACHER_REGISTATION
                                     + " WHERE "
-                                    + TeacherData.COL_REG_CODE + "='" + regCode
-                                    + "' AND "
-                                    + JdbcMgrUtils.COL_STATUS + "='" + JdbcMgrUtils.STATUS_VALID
-                                    + "';";
+                                    + TeacherData.COL_REG_CODE + "=" + toValue(regCode)
+                                    + " AND "
+                                    + COL_STATUS + "=" + STATUS_VALID
+                                    + ";";
                             resultSet = statement.executeQuery(sql);
                             if (resultSet != null && resultSet.next()) {
                                 TeacherData teacherData = new TeacherData();
@@ -200,18 +208,18 @@ public class AuthUserUtils extends DBHandlerService{
                     if (isOk) {
                         sql = "INSERT " + TBL_USER_LOGIN
                                 + " SET "
-                                + AuthUserData.COL_NAME     + "='" + name
-                                + "',"
-                                + AuthUserData.COL_PASSWORD + "='" + password
-                                + "',"
-                                + AuthUserData.COL_GENRE    + "='" + genre
-                                + "',"
-                                + AuthUserData.COL_STUDENT_ID + "='" + studend_id
-                                + "',"
-                                + AuthUserData.COL_TEACHER_ID + "='" + teacher_id
-                                + "',"
-                                + JdbcMgrUtils.COL_STATUS + "='" + JdbcMgrUtils.STATUS_VALID
-                                + "';";
+                                + AuthUserData.COL_NAME     + "=" + toValue(name)
+                                + ","
+                                + AuthUserData.COL_PASSWORD + "=" + toValue(password)
+                                + ","
+                                + AuthUserData.COL_GENRE    + "=" + toValue(genre)
+                                + ","
+                                + AuthUserData.COL_STUDENT_ID + "=" + toValue(studend_id)
+                                + ","
+                                + AuthUserData.COL_TEACHER_ID + "=" + toValue(teacher_id)
+                                + ","
+                                + COL_STATUS + "=" + STATUS_VALID
+                                + ";";
 
                         int affect =statement.executeUpdate(sql);
                         if (affect == 1) {
@@ -230,22 +238,22 @@ public class AuthUserUtils extends DBHandlerService{
                         if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
                             sql = "UPDATE " + TBL_STUDENT_REGISTATION
                                     + " SET "
-                                    + StudentData.COL_REG_CODE + "='" + AuthUserData.REG_CODE_INVALID
-                                    + "' WHERE "
-                                    + StudentData.COL_REG_CODE + "='" + regCode
-                                    + "' AND "
-                                    + JdbcMgrUtils.COL_STATUS + "='" + JdbcMgrUtils.STATUS_VALID
-                                    + "';";
+                                    + StudentData.COL_REG_CODE + "=" + AuthUserData.REG_CODE_INVALID
+                                    + " WHERE "
+                                    + StudentData.COL_REG_CODE + "=" + toValue(regCode)
+                                    + " AND "
+                                    + COL_STATUS + "=" + STATUS_VALID
+                                    + ";";
                         }
                         else {
                             sql = "UPDATE " + TBL_TEACHER_REGISTATION
                                     + " SET "
-                                    + TeacherData.COL_REG_CODE + "='" + AuthUserData.REG_CODE_INVALID
-                                    + "' WHERE "
-                                    + TeacherData.COL_REG_CODE + "='" + regCode
-                                    + "' AND "
-                                    + JdbcMgrUtils.COL_STATUS + "='" + JdbcMgrUtils.STATUS_VALID
-                                    + "';";
+                                    + TeacherData.COL_REG_CODE + "=" + AuthUserData.REG_CODE_INVALID
+                                    + " WHERE "
+                                    + TeacherData.COL_REG_CODE + "=" + toValue(regCode)
+                                    + " AND "
+                                    + COL_STATUS + "=" + STATUS_VALID
+                                    + ";";
                         }
                         int affect =statement.executeUpdate(sql);
                         if (affect != 1) {
@@ -284,12 +292,12 @@ public class AuthUserUtils extends DBHandlerService{
             public void run() {
                 String sql = "SELECT * FROM " + TBL_USER_LOGIN
                         + " WHERE "
-                        + AuthUserData.COL_NAME     + "='" + userName
-                        + "' AND "
-                        + AuthUserData.COL_PASSWORD + "='" + password
-                        + "' AND "
-                        + JdbcMgrUtils.COL_STATUS + "='" + JdbcMgrUtils.STATUS_VALID
-                        + "';";
+                        + AuthUserData.COL_NAME     + "=" + toValue(userName)
+                        + " AND "
+                        + AuthUserData.COL_PASSWORD + "=" + toValue(password)
+                        + " AND "
+                        + COL_STATUS + "=" + STATUS_VALID
+                        + ";";
 
                 boolean isOk = true;
                 try {
@@ -310,8 +318,8 @@ public class AuthUserUtils extends DBHandlerService{
                         if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
                             sql = "SELECT * FROM " + TBL_STUDENT_REGISTATION
                                     + " WHERE "
-                                    + StudentData.COL_ID     + "='" + authUser.studend_id
-                                    + "';";
+                                    + StudentData.COL_ID     + "=" + toValue(authUser.studend_id)
+                                    + ";";
                             resultSet = statement.executeQuery(sql);
                             if (resultSet != null && resultSet.next()) {
                                 StudentData studentData = new StudentData();
@@ -325,8 +333,8 @@ public class AuthUserUtils extends DBHandlerService{
                         else {
                             sql = "SELECT * FROM " + TBL_TEACHER_REGISTATION
                                     + " WHERE "
-                                    + TeacherData.COL_ID     + "='" + authUser.teacher_id
-                                    + "';";
+                                    + TeacherData.COL_ID     + "=" + toValue(authUser.teacher_id)
+                                    + ";";
                             resultSet = statement.executeQuery(sql);
                             if (resultSet != null && resultSet.next()) {
                                 TeacherData teacherData = new TeacherData();
@@ -362,10 +370,10 @@ public class AuthUserUtils extends DBHandlerService{
             public void run() {
                 String sql = "SELECT * FROM " + TBL_STUDENT_REGISTATION
                         + " WHERE "
-                        + StudentData.COL_ID + "='" + Integer.toString(studentId)
-                        + "' AND "
-                        + JdbcMgrUtils.COL_STATUS + "='" + JdbcMgrUtils.STATUS_VALID
-                        + "';";
+                        + StudentData.COL_ID + "=" + toValue(studentId)
+                        + " AND "
+                        + COL_STATUS + "=" + STATUS_VALID
+                        + ";";
                 boolean isOk = true;
 
                 try {
@@ -401,14 +409,14 @@ public class AuthUserUtils extends DBHandlerService{
             public void run() {
                 final String sql="UPDATE " + TBL_STUDENT_REGISTATION
                         + " SET "
-                        + StudentData.COL_NAME      + "='" + studentData.name
-                        + "',"
-                        + StudentData.COL_CLASS_ID  + "='" + Integer.toString(studentData.class_id)
-                        + "',"
-                        + StudentData.COL_CODE      + "='" + Integer.toString(studentData.code)
-                        + "' WHERE "
-                        + StudentData.COL_ID        + "='" + Integer.toString(studentData.id)
-                        + "';";
+                        + StudentData.COL_NAME      + "=" + toValue(studentData.name)
+                        + ","
+                        + StudentData.COL_CLASS_ID  + "=" + toValue(studentData.class_id)
+                        + ","
+                        + StudentData.COL_CODE      + "=" + toValue(studentData.code)
+                        + " WHERE "
+                        + StudentData.COL_ID        + "=" + toValue(studentData.id)
+                        + ";";
                 boolean isOk = true;
 
                 try {
@@ -441,12 +449,12 @@ public class AuthUserUtils extends DBHandlerService{
             public void run() {
                 final String sql="INSERT " + TBL_STUDENT_REGISTATION
                         + " SET "
-                        + StudentData.COL_NAME      + "='" + studentData.name
-                        + "',"
-                        + StudentData.COL_CLASS_ID  + "='" + Integer.toString(studentData.class_id)
-                        + "',"
-                        + StudentData.COL_CODE      + "='" + Integer.toString(studentData.code)
-                        + "';";
+                        + StudentData.COL_NAME      + "=" + toValue(studentData.name)
+                        + ","
+                        + StudentData.COL_CLASS_ID  + "=" + toValue(studentData.class_id)
+                        + ","
+                        + StudentData.COL_CODE      + "=" + toValue(studentData.code)
+                        + ";";
                 boolean isOk = true;
 
                 try {

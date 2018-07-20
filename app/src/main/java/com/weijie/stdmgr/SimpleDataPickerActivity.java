@@ -28,16 +28,20 @@ public class SimpleDataPickerActivity extends AppCompatActivity {
 
     String activityTitle, itemTitle;
     ListView listView;
+    boolean isMultiplePick;
 
     public static class Builder implements Serializable {
         String activityTitle, itemTitle;
         ArrayList<SimplePickItemData> itemList;
+        boolean isMultiplePick;
 
         public Builder (String activityTitle, String itemTitle,
-                        ArrayList<SimplePickItemData> itemList) {
+                        ArrayList<SimplePickItemData> itemList,
+                        boolean isMultiplePick) {
             this.activityTitle  = activityTitle;
             this.itemTitle      = itemTitle;
             this.itemList       = itemList;
+            this.isMultiplePick = isMultiplePick;
         }
     }
 
@@ -78,6 +82,7 @@ public class SimpleDataPickerActivity extends AppCompatActivity {
         activityTitle   = builder.activityTitle;
         itemTitle       = builder.itemTitle;
         itemList        = builder.itemList;
+        isMultiplePick  = builder.isMultiplePick;
     }
 
     private void initControl() {
@@ -111,11 +116,16 @@ public class SimpleDataPickerActivity extends AppCompatActivity {
         }
 
         void pickItem(int position) {
-            for (SimplePickItemData itemData : dataList) {
-                itemData.isPicked = false;
+            if (isMultiplePick) {
+                dataList.get(position).isPicked = !dataList.get(position).isPicked;
             }
+            else {
+                for (SimplePickItemData itemData : dataList) {
+                    itemData.isPicked = false;
+                }
 
-            dataList.get(position).isPicked = true;
+                dataList.get(position).isPicked = true;
+            }
         }
 
         @Override

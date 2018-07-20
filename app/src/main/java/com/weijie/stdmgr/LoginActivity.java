@@ -74,10 +74,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v){
         switch(v.getId()){
             case R.id.login_button:
-                AuthUserUtils.getInstance()
+                AuthUserDataUtils.getInstance()
                         .requestLogin(nameEditText.getText().toString(),
                         passwdEditText.getText().toString(),
-                        dbHandler, AuthUserUtils.TAG_LOGIN);
+                        dbHandler, AuthUserDataUtils.TAG_LOGIN);
                 showLoginProgress(true);
                 break;
             case R.id.registration_button:
@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String tag = (String) msg.obj;
                 if (tag != null) {
                     switch (tag) {
-                        case AuthUserUtils.TAG_LOGIN:
+                        case AuthUserDataUtils.TAG_LOGIN:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.authUser.name = activity.nameEditText.getText()
                                         .toString();

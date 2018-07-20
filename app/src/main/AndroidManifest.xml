@@ -57,9 +57,7 @@
             android:name=".AbsenceMainActivity"
             android:label="我的请假单" />
         <activity
-            android:name=".SimpleDataPickerActivity"
-            android:label="@string/title_activity_simple_pick_data"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".SimpleDataPickerActivity" ></activity>
     </application>
 
 </manifest>

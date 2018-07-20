@@ -27,6 +27,14 @@ public class ClassDataUtils extends DBHandlerService {
         return instance.get();
     }
 
+    private String toValue(String value) {
+        return "'" + value + "'";
+    }
+
+    private String toValue(int value) {
+        return toValue(Integer.toString(value));
+    }
+
     public void requestFetchClassData(final int classId, final ClassData classData,
                                                 final Handler handler, final String tag) {
         new Thread(new Runnable() {
@@ -34,10 +42,10 @@ public class ClassDataUtils extends DBHandlerService {
             public void run() {
                 String sql = "SELECT * FROM " + ClassData.TBL_NAME
                         + " WHERE "
-                        + ClassData.COL_ID + "='" + Integer.toString(classId)
-                        + "' AND "
-                        + JdbcMgrUtils.COL_STATUS + "='" + JdbcMgrUtils.STATUS_VALID
-                        + "';";
+                        + ClassData.COL_ID + "=" + toValue(classId)
+                        + " AND "
+                        + COL_STATUS + "=" + STATUS_VALID
+                        + ";";
                 boolean isOk = true;
 
                 try {

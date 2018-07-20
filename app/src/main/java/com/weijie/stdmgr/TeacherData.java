@@ -12,6 +12,19 @@ public class TeacherData {
     int id;
     String name;
     int code;
+
+    static String toDomain(String col) {
+        return TBL_NAME + "." + col;
+    }
+
+    static String toDomainAs(String col) {
+        return TBL_NAME + "." + col + " AS " + TBL_NAME + "_" + col;
+    }
+
+    static String getAsCol(String col) {
+        return TBL_NAME + "_" + col;
+    }
+
     public void extractFromResultSet(ResultSet resultSet) throws SQLException {
         id = resultSet.getInt(COL_ID);
         name = resultSet.getString(COL_NAME);
