@@ -12,10 +12,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 class DBHandlerService {
     final public static String COL_STATUS       = "status";
-    final public static String STATUS_VALID      = "'1'";
+    final public static String STATUS_VALID     = "'1'";
+    final public static String COL_ID           = "id";
 
     protected void processHandler(Handler handler, int what, String tag) {
         if (handler != null) {
@@ -25,6 +27,20 @@ class DBHandlerService {
             handler.sendMessage(msg);
         }
     }
+
+
+    protected String toValue(String value) {
+        return "'" + value + "'";
+    }
+
+    protected String toValue(int value) {
+        return toValue(Integer.toString(value));
+    }
+
+    protected String toValue(Date date) {
+        return toValue(CommUtils.toLocalDatetimeString(date));
+    }
+
 }
 
 public class JdbcMgrUtils extends DBHandlerService{
@@ -130,7 +146,10 @@ public class JdbcMgrUtils extends DBHandlerService{
     public Statement createStatement() {
         if (connection != null) {
             try {
-                return connection.createStatement();
+                Statement statement = connection.createStatement();
+                statement.setEscapeProcessing(true);
+
+                return statement;
             }
             catch (SQLException e) {
                 return null;

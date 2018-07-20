@@ -187,7 +187,7 @@ public class AuthUserDataUtils extends DBHandlerService{
                                 isOk = false;
                             }
                         } else {
-                            sql = "SELECT * " + TBL_TEACHER_REGISTATION
+                            sql = "SELECT * FROM " + TBL_TEACHER_REGISTATION
                                     + " WHERE "
                                     + TeacherData.COL_REG_CODE + "=" + toValue(regCode)
                                     + " AND "

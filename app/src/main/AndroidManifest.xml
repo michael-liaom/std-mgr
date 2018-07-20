@@ -54,10 +54,12 @@
             android:name=".RegistrationActivity"
             android:label="用户注册" />
         <activity
-            android:name=".AbsenceMainActivity"
+            android:name=".MyAbsenceActivity"
             android:label="我的请假单" />
         <activity android:name=".SimpleDataPickerActivity" />
-        <activity android:name=".DailyMainActivity" />
+        <activity
+            android:name=".DailyMainActivity"
+            android:label="我的日常" />
         <activity android:name=".StudentCourseActivity"></activity>
     </application>
 

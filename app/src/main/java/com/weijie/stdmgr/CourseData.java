@@ -9,11 +9,13 @@ public class CourseData {
     final static String COL_NAME    = "name";
     final static String COL_CODE    = "code";
     final static String COL_TEACHER_ID  = "teacher_id";
+    final static String COL_TERM    = "term";
 
     int id;
     String name;
     int code;
     int teacherId;
+    int term;
     //joined data
     String teacherName;
     //Seperated
@@ -36,6 +38,7 @@ public class CourseData {
         name        = resultSet.getString(COL_NAME);
         code        = resultSet.getInt(COL_CODE);
         teacherId   = resultSet.getInt(COL_TEACHER_ID);
+        term        = resultSet.getInt(COL_TERM);
     }
 
     public void extractAsFromResultSet(ResultSet resultSet) throws SQLException {

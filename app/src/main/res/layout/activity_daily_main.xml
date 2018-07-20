@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
     tools:context=".DailyMainActivity">
 
     <LinearLayout
@@ -38,18 +38,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_weight="0"
-            android:text="我的假单"
+            android:text="我的请假单"
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/history_for_student_button"
+            android:id="@+id/apply_student_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_weight="0"
-            android:text="Button"
+            android:text="我要请假"
             android:textSize="18sp"
-            tools:text="历史假单" />
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
@@ -81,18 +81,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_weight="0"
-            android:text="我的假单"
+            android:text="学生请假单"
             android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/history_for_teacher_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_weight="0"
-            android:text="Button"
-            android:textSize="18sp"
-            tools:text="历史假单" />
     </LinearLayout>
 
 </LinearLayout>

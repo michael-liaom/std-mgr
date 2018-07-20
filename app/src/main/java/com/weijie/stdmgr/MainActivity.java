@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_FOR_LOGIN) {
             if (resultCode == LoginActivity.RESULT_CODE_LOGIN_SUCCESS) {
-                logoutButton.setVisibility(View.VISIBLE);
+                responseLoginSuccess();
             }
         }
     }
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.daily_for_student_button:
-                startActivity(new Intent(this, AbsenceMainActivity.class));
+                startActivity(new Intent(this, DailyMainActivity.class));
                 break;
             case R.id.logout_button://主菜单的登陆按钮
                 responseLogout();

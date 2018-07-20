@@ -10,9 +10,10 @@ import java.util.ArrayList;
 
 public class StudentDataUtils extends DBHandlerService {
     final static String TBL_STUDENT_COURSE = "student_course";
-    final static String COL_ID  = "id";
+    final static String COL_ID          = "id";
     final static String COL_STUDENT_ID  = "student_id";
     final static String COL_COURSE_ID   = "course_id";
+    final static String COL_APPROVAL    = "approval";
     final static String TAG_FETCH_STUDENT_REGISTRATION  = "TAG_FETCH_STUDENT_REGISTRATION";
     final static String TAG_FETCH_STUDENT_COURSE        = "TAG_FETCH_STUDENT_COURSE";
 
@@ -84,7 +85,8 @@ public class StudentDataUtils extends DBHandlerService {
         }).start();
     }
 
-    public void requestFetchStudentCourseData(final int studentId, final ArrayList<CourseData> arrayList,
+    public void requestFetchStudentCourseData(final int studentId, final boolean isStrictApproval,
+                                              final ArrayList<CourseData> arrayList,
                                               final Handler handler, final String tag) {
         new Thread(new Runnable() {
             @Override
@@ -94,6 +96,7 @@ public class StudentDataUtils extends DBHandlerService {
                         + CourseData.toDomain(CourseData.COL_NAME) + ","
                         + CourseData.toDomain(CourseData.COL_CODE) + ","
                         + CourseData.toDomain(CourseData.COL_TEACHER_ID) + ","
+                        + CourseData.toDomain(CourseData.COL_TERM) + ","
                         + TeacherData.toDomainAs(TeacherData.COL_NAME)
                         + " FROM "
                         + TBL_STUDENT_COURSE
@@ -106,8 +109,13 @@ public class StudentDataUtils extends DBHandlerService {
                         + " AND "
                         + COL_COURSE_ID + "=" + CourseData.toDomain(CourseData.COL_ID)
                         + " AND "
-                        + CourseData.COL_TEACHER_ID + "=" + TeacherData.toDomain(TeacherData.COL_ID)
-                        + ";";
+                        + CourseData.COL_TEACHER_ID + "=" + TeacherData.toDomain(TeacherData.COL_ID);
+                if (isStrictApproval) {
+                    sql +=  " AND ";
+                    sql += toDomain(COL_APPROVAL) + "=" + STATUS_VALID;
+                }
+                sql += ";";
+
                 boolean isOk = true;
 
                 try {

@@ -1,6 +1,7 @@
 package com.weijie.stdmgr;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,11 @@ public class DailyMainActivity extends AppCompatActivity  implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_main);
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         authUser = MyApplication.getInstance().authUser;
         initControls();
     }
@@ -25,22 +31,20 @@ public class DailyMainActivity extends AppCompatActivity  implements View.OnClic
         if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
             teacherLayout.setVisibility(View.GONE);
             Button myCourseButton   = (Button) findViewById(R.id.course_for_student_button);
-            Button myAbsence        = (Button) findViewById(R.id.absence_for_student_button);
-            Button myHistoryButton  = (Button) findViewById(R.id.history_for_student_button);
+            Button myAbsenceButton  = (Button) findViewById(R.id.absence_for_student_button);
+            Button applyButton      = (Button) findViewById(R.id.apply_student_button);
 
             myCourseButton.setOnClickListener(this);
-            myAbsence.setOnClickListener(this);
-            myHistoryButton.setOnClickListener(this);
+            myAbsenceButton.setOnClickListener(this);
+            applyButton.setOnClickListener(this);
         }
         else {
             studentLayout.setVisibility(View.GONE);
             Button myCourseButton   = (Button) findViewById(R.id.course_for_teacher_button);
             Button myAbsence        = (Button) findViewById(R.id.absence_for_teacher_button);
-            Button myHistoryButton  = (Button) findViewById(R.id.history_for_teacher_button);
 
             myCourseButton.setOnClickListener(this);
             myAbsence.setOnClickListener(this);
-            myHistoryButton.setOnClickListener(this);
         }
     }
 
@@ -50,14 +54,14 @@ public class DailyMainActivity extends AppCompatActivity  implements View.OnClic
             case R.id.course_for_student_button:
                 break;
             case R.id.absence_for_student_button:
+                startActivity(new Intent(this, MyAbsenceActivity.class));
                 break;
-            case R.id.history_for_student_button:
+            case R.id.apply_student_button:
+                startActivity(new Intent(this, AbsenceApplyActivity.class));
                 break;
             case R.id.course_for_teacher_button:
                 break;
             case R.id.absence_for_teacher_button:
-                break;
-            case R.id.history_for_teacher_button:
                 break;
         }
     }

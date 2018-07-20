@@ -3,6 +3,7 @@ package com.weijie.stdmgr;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AbsenceMainActivity extends AppCompatActivity {
+public class MyAbsenceActivity extends AppCompatActivity {
     final private static int REQUEST_FOR_ABSENCE_APPLY = 1;
 
     private ListView listView;
@@ -59,7 +60,12 @@ public class AbsenceMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_absence_main);
+        setContentView(R.layout.activity_my_absence);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         initData();
         initControls();
@@ -78,13 +84,13 @@ public class AbsenceMainActivity extends AppCompatActivity {
         applyBotton = (Button) findViewById(R.id.apply_button);
 
         simpleAdapter = new SimpleAdapter(this, listMap,
-                R.layout.activity_absence_main_list_item, mapKey, mapResurceId);
+                R.layout.activity_my_absence_list_item, mapKey, mapResurceId);
         listView.setAdapter(simpleAdapter);
 
         applyBotton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(AbsenceMainActivity.this,
+                startActivityForResult(new Intent(MyAbsenceActivity.this,
                         AbsenceApplyActivity.class), REQUEST_FOR_ABSENCE_APPLY);
             }
         });
@@ -101,11 +107,11 @@ public class AbsenceMainActivity extends AppCompatActivity {
     private void showLoginProgress(boolean isBussy) {
         if (isBussy) {
             progressBar.setVisibility(View.VISIBLE);
-            applyBotton.setEnabled(false);
+            //applyBotton.setEnabled(false);
         }
         else {
             progressBar.setVisibility(View.GONE);
-            applyBotton.setEnabled(true);
+            //applyBotton.setEnabled(true);
         }
     }
 
@@ -138,15 +144,15 @@ public class AbsenceMainActivity extends AppCompatActivity {
 
     final DBHandler dbHandler = new DBHandler(this);
     private static class DBHandler extends Handler {
-        private final WeakReference<AbsenceMainActivity> mActivity;
+        private final WeakReference<MyAbsenceActivity> mActivity;
 
-        DBHandler(AbsenceMainActivity activity) {
+        DBHandler(MyAbsenceActivity activity) {
             mActivity = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(final Message msg) {
-            final AbsenceMainActivity activity = mActivity.get();
+            final MyAbsenceActivity activity = mActivity.get();
             if (activity != null) {
                 boolean is_sucess = false;
                 String message = null;
