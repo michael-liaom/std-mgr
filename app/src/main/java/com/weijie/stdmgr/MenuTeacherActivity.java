@@ -27,14 +27,14 @@ public class MenuTeacherActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuteacher);
-        studentImformationbutton = (Button) findViewById(R.id.registration_button);
+        studentImformationbutton = (Button) findViewById(R.id.registration_student_button);
         studentImformationbutton.setOnClickListener(this);
         //在学生信息管理按钮设置监听器
 
-        dormimformationbutton = (Button) findViewById(R.id.room_button);
+        dormimformationbutton = (Button) findViewById(R.id.room_for_student_button);
         dormimformationbutton.setOnClickListener(this);
         //在宿舍信息按钮设置监听器
-        studentdailybutton = (Button) findViewById(R.id.absence_button);
+        studentdailybutton = (Button) findViewById(R.id.daily_for_student_button);
         studentdailybutton.setOnClickListener(this);
         //在学生日常按钮设置监听器
         studentrwdpnybutton = (Button) findViewById(R.id.studentrwdpnybutton);
@@ -70,18 +70,18 @@ public class MenuTeacherActivity extends AppCompatActivity implements View.OnCli
 
 
         switch (v.getId()) {
-            case R.id.registration_button:
+            case R.id.registration_student_button:
 
                 intent.setClass(MenuTeacherActivity.this, StuInfoActivity.class);
                 startActivity(intent);
                 break;
             //进入学籍查询页面
-            case R.id.room_button:
+            case R.id.room_for_student_button:
                 intent.setClass(MenuTeacherActivity.this, DormActivity.class);
                 startActivity(intent);
                 break;
 
-            case R.id.absence_button:
+            case R.id.daily_for_student_button:
                 intent.setClass(MenuTeacherActivity.this, AbsenceApplyActivity.class);
                 startActivity(intent);
                 break;

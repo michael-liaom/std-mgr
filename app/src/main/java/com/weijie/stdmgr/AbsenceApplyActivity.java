@@ -2,10 +2,12 @@ package com.weijie.stdmgr;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.View;
@@ -345,6 +347,9 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
                 + (long)(durationInHour * 3600 * 1000));
         absenceApplyData.cause = causeEditText.getText().toString();
 
+        AbsenceApplyDataUtils.getInstance().requestCommitApply(absenceApplyData,
+                dbHandler, AbsenceApplyDataUtils.TAG_COMMIT_APPLY);
+        showBusyProgress(true);
     }
 
     class MyOnFocusChangeListener implements View.OnFocusChangeListener {
@@ -427,6 +432,26 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
                         case StudentDataUtils.TAG_FETCH_STUDENT_COURSE:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.initApplyCcDataPicker();
+                            }
+                            else {
+                                Toast.makeText(activity, R.string.message_db_operation_failure,
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            activity.showBusyProgress(false);
+                            break;
+                        case AbsenceApplyDataUtils.TAG_COMMIT_APPLY:
+                            if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+                                        .setMessage(R.string.message_db_commit_success)
+                                        .setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent intent = new Intent();
+                                                activity.setResult(RESULT_CODE_APPLY_SUCCESS, intent);
+                                                activity.finish();
+                                            }
+                                        });
+                                builder.show();
                             }
                             else {
                                 Toast.makeText(activity, R.string.message_db_operation_failure,

@@ -7,45 +7,130 @@
     android:paddingLeft="20dp"
     android:paddingRight="20dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/initial_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textSize="30sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/teacher_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="功能列表"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="24sp" />
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/registration_button"
-        android:layout_width="fill_parent"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:text="功能列表"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="我是老师" />
+
+        <Button
+            android:id="@+id/daily_for_teacher_button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="学生日常"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/room_for_teacher_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="宿舍信息"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/studentrwdpnybutton2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="学生奖惩"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/registration_teacher_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="我的资料"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/student_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="学生学籍"
-        android:textSize="18sp" />
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/room_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="宿舍信息"
-        android:textSize="18sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:text="功能列表"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="24sp" />
 
-    <Button
-        android:id="@+id/absence_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="学生日常"
-        android:textSize="18sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="我是学生" />
 
-    <Button
-        android:id="@+id/studentrwdpnybutton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="学生奖惩"
-        android:textSize="18sp" />
+        <Button
+            android:id="@+id/daily_for_student_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="学生日常"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/room_for_student_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="宿舍信息"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/studentrwdpnybutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="学生奖惩"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/registration_student_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="我的学籍"
+            android:textSize="18sp" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/logout_button"

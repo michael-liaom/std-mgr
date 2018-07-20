@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         nameEditText    = (EditText)    findViewById(R.id.user_name_edit_text);
         passwdEditText  = (EditText)    findViewById(R.id.pass_word_edit_text);
         loginButton     = (Button)      findViewById(R.id.login_button);
-        registerButton  = (Button)      findViewById(R.id.registration_button);
+        registerButton  = (Button)      findViewById(R.id.registration_student_button);
         progressBar     = (ProgressBar) findViewById(R.id.progress_bar);
 
         nameEditText.setText(authUser.name);
@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         dbHandler, AuthUserDataUtils.TAG_LOGIN);
                 showLoginProgress(true);
                 break;
-            case R.id.registration_button:
+            case R.id.registration_student_button:
                 startActivityForResult(new Intent(this,
                                 RegistrationActivity.class), REQUEST_FOR_REGISTRATION);
                 break;

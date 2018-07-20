@@ -27,13 +27,13 @@ DROP TABLE IF EXISTS `absence_apply`;
 CREATE TABLE `absence_apply` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `student_id` varchar(10) NOT NULL,
-  `to_teacher_id` varchar(10) NOT NULL,
-  `cc_teacher_id` varchar(10) DEFAULT NULL,
+  `apply_to_id` varchar(10) NOT NULL,
+  `apply_cc_id` varchar(10) DEFAULT NULL,
   `type` varchar(10) NOT NULL,
   `begin` datetime NOT NULL,
   `end` datetime NOT NULL,
   `cause` varchar(100) DEFAULT NULL,
-  `approval` int(1) DEFAULT NULL,
+  `approved` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='请假单';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-19 20:04:29
+-- Dump completed on 2018-07-18 14:33:31

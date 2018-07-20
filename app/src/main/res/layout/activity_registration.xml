@@ -138,7 +138,7 @@
         android:layout_marginTop="40dp" />
 
     <Button
-        android:id="@+id/registration_button"
+        android:id="@+id/registration_student_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="注册"

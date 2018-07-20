@@ -3,6 +3,7 @@
     <string name="absence_apply_is_not_fully_file">请假单填写不完整</string>
     <string name="message_db_connect_failure">数据库连接失败！</string>
     <string name="message_db_operation_failure">数据库操作失败！</string>
+    <string name="message_db_commit_success">数据提交成功！</string>
     <string name="message_db_registration_failure">注册失败!</string>
     <string name="message_db_registration_success">注册成功!</string>
     <string name="message_db_login_success">登录成功!</string>

@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AuthUserDataUtils authUserDataUtils;
     private AuthUserData authUser;
 
+    private LinearLayout initialLayout, teacherLayout, studentLayout;
     private Button logoutButton;
 
     @Override
@@ -54,23 +56,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initControls() {
-        Button absenceButton = (Button) findViewById(R.id.absence_button);
+        initialLayout = (LinearLayout) findViewById(R.id.initial_layout);
+        teacherLayout = (LinearLayout) findViewById(R.id.teacher_layout);
+        studentLayout = (LinearLayout) findViewById(R.id.student_layout);
+
+        Button absenceButton = (Button) findViewById(R.id.daily_for_student_button);
         logoutButton = (Button) findViewById(R.id.logout_button);
 
+        teacherLayout.setVisibility(View.GONE);
+        studentLayout.setVisibility(View.GONE);
+        logoutButton.setVisibility(View.GONE);
+
         absenceButton.setOnClickListener(this);
-        logoutButton.setVisibility(View.INVISIBLE);
         logoutButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.absence_button:
+            case R.id.daily_for_student_button:
                 startActivity(new Intent(this, AbsenceMainActivity.class));
                 break;
             case R.id.logout_button://主菜单的登陆按钮
-                authUser.reset();
-                startLoginActivity();
+                responseLogout();
                 break;
         }
     }
@@ -88,6 +96,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void startLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent,REQUEST_FOR_LOGIN);
+    }
+
+    private void responseLogout() {
+        authUser.reset();
+        startLoginActivity();
+    }
+
+    private void responseLoginSuccess() {
+        initialLayout.setVisibility(View.GONE);
+        if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
+            studentLayout.setVisibility(View.VISIBLE);
+        }
+        else {
+            teacherLayout.setVisibility(View.VISIBLE);
+        }
+        logoutButton.setVisibility(View.VISIBLE);
     }
 
     private static class DBHandler extends Handler {
@@ -110,9 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 activity.checkAuth();
                                 break;
                             case AuthUserDataUtils.TAG_LOGIN:
-                                activity.logoutButton.setVisibility(View.VISIBLE);
-                                break;
-                            case AuthUserDataUtils.TBL_STUDENT_REGISTATION:
+                                activity.responseLoginSuccess();
                                 break;
                         }
                     }

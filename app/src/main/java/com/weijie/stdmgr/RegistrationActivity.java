@@ -63,7 +63,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         passwdEditText  = (EditText)    findViewById(R.id.password_edit_text);
         repeatEditText  = (EditText)    findViewById(R.id.repeat_edit_text);
         inviteEditText  = (EditText)    findViewById(R.id.invite_edit_ext);
-        registerButton  = (Button)      findViewById(R.id.registration_button);
+        registerButton  = (Button)      findViewById(R.id.registration_student_button);
         studentRadioButton
                 = (RadioButton) findViewById(R.id.student_radio_utton);
         progressBar     = (ProgressBar) findViewById(R.id.progress_bar);
@@ -134,7 +134,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v){
         switch(v.getId()){
-            case R.id.registration_button:
+            case R.id.registration_student_button:
                 if (isInputValid()) {
                     authUserDataUtils.requestCheckUserNameValid(nameEditText.getText().toString(),
                             dbHandler, AuthUserDataUtils.TAG_CHECK_NAME_VALID);

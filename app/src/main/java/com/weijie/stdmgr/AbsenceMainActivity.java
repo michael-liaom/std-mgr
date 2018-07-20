@@ -51,7 +51,7 @@ public class AbsenceMainActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_FOR_ABSENCE_APPLY) {
             if (requestCode == AbsenceApplyActivity.RESULT_CODE_APPLY_SUCCESS) {
-                refreshData();
+                requestData();
             }
         }
     }
@@ -91,6 +91,7 @@ public class AbsenceMainActivity extends AppCompatActivity {
     }
 
     private void requestData() {
+        arrayListAbsenceData.clear();
         AbsenceApplyDataUtils.getInstance().requestFetchAllMyApply(arrayListAbsenceData,
                 dbHandler, AbsenceApplyDataUtils.TAG_FETCH_ALLMY_APPLY);
 

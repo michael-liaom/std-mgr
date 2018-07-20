@@ -7,9 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AbsenceApplyDataUtils extends DBHandlerService{
     final public static String TAG_FETCH_ALLMY_APPLY    = "TAG_FETCH_STUDENT_REG";
+    final public static String TAG_COMMIT_APPLY         = "TAG_COMMIT_APPLY";
 
     private static WeakReference<AbsenceApplyDataUtils> instance = null;
 
@@ -34,6 +36,10 @@ public class AbsenceApplyDataUtils extends DBHandlerService{
 
     private String toValue(int value) {
         return toValue(Integer.toString(value));
+    }
+
+    private String toValue(Date date) {
+        return toValue(CommUtils.toLocalDateString(date));
     }
 
     public void requestFetchAllMyApply(final ArrayList<AbsenceApplyData> arrayList,
@@ -105,5 +111,47 @@ public class AbsenceApplyDataUtils extends DBHandlerService{
         }).start();
     }
 
+    public void requestCommitApply(final AbsenceApplyData absenceApplyData,
+                                   final Handler handler, final String tag) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final String sql="INSERT " + AbsenceApplyData.TBL_NAME
+                        + " SET "
+                        + AbsenceApplyData.COL_STUDENT_ID + "=" + toValue(absenceApplyData.studentId)
+                        + ","
+                        + AbsenceApplyData.COL_TO_TEACHER_ID  + "=" + toValue(absenceApplyData.toTeacherId)
+                        + ","
+                        + AbsenceApplyData.COL_TYPE + "=" + toValue(absenceApplyData.type)
+                        + ","
+                        + AbsenceApplyData.COL_BEGIN + "=" + toValue(absenceApplyData.begin)
+                        + ","
+                        + AbsenceApplyData.COL_END + "=" + toValue(absenceApplyData.ending)
+                        + ","
+                        + AbsenceApplyData.COL_CAUSE + "=" + toValue(absenceApplyData.cause)
+                        + ";";
+                boolean isOk = true;
 
+                try {
+                    Statement statement = jdbcMgrUtils.createStatement();
+                    int affect =statement.executeUpdate(sql);
+                    if (affect != 1) {
+                        isOk = false;
+                    }
+                    statement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    isOk = false;
+                }
+
+                if (isOk) {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
+                }
+                else {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_FAILURE, tag);
+                }
+            }
+        }).start();
+    }
 }
