@@ -42,7 +42,7 @@ CREATE TABLE `student_registration` (
 
 LOCK TABLES `student_registration` WRITE;
 /*!40000 ALTER TABLE `student_registration` DISABLE KEYS */;
-INSERT INTO `student_registration` VALUES (1,'廖炜杰',1,1440706172,NULL,NULL,1);
+INSERT INTO `student_registration` VALUES (1,'廖炜杰',1,1440706172,NULL,'-1',1);
 /*!40000 ALTER TABLE `student_registration` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-18 14:33:29
+-- Dump completed on 2018-07-20 17:11:03

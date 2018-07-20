@@ -29,10 +29,9 @@ CREATE TABLE `course` (
   `name` varchar(45) NOT NULL,
   `code` int(11) DEFAULT NULL,
   `teacher_id` int(11) NOT NULL,
-  `student_id` int(11) NOT NULL,
   `status` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='课程';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='课程';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +40,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES (1,'计算机原理',NULL,1,1,1);
+INSERT INTO `course` VALUES (1,'计算机原理',NULL,1,1),(2,'操作系统',NULL,2,1),(3,'高等数学',NULL,3,1),(4,'线性代数',NULL,4,1),(5,'算法与设计',NULL,2,1);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-18 14:33:36
+-- Dump completed on 2018-07-20 17:11:10
