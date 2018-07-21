@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -18,8 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MyAbsenceActivity extends AppCompatActivity {
-    final private static int REQUEST_FOR_ABSENCE_APPLY = 1;
+public class AbsenceFormListActivity extends AppCompatActivity {
+    final private static int REQUEST_FOR_ABSENCE_APPLY      = 1;
+    final private static int REQUEST_FOR_ABSENCE_APROVAL    = 2;
 
     private ListView listView;
     private ProgressBar progressBar;
@@ -44,23 +46,27 @@ public class MyAbsenceActivity extends AppCompatActivity {
             R.id.item_approval_text_view
     };
 
-    private ArrayList <AbsenceApplyData> arrayListAbsenceData;
+    private ArrayList <AbsenceFormData> arrayListAbsenceData;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_FOR_ABSENCE_APPLY) {
-            if (requestCode == AbsenceApplyActivity.RESULT_CODE_APPLY_SUCCESS) {
-                requestData();
-            }
+        switch (requestCode) {
+            case REQUEST_FOR_ABSENCE_APPLY:
+                if (resultCode == AbsenceFormApplyActivity.RESULT_CODE_APPLY_SUCCESS) {
+                    requestData();
+                }
+                break;
+            case REQUEST_FOR_ABSENCE_APROVAL:
+                break;
         }
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_absence);
+        setContentView(R.layout.activity_absence_form_list);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -84,22 +90,32 @@ public class MyAbsenceActivity extends AppCompatActivity {
         applyBotton = (Button) findViewById(R.id.apply_button);
 
         simpleAdapter = new SimpleAdapter(this, listMap,
-                R.layout.activity_my_absence_list_item, mapKey, mapResurceId);
+                R.layout.activity_absence_form_list_item, mapKey, mapResurceId);
         listView.setAdapter(simpleAdapter);
+        listView.setOnItemClickListener(new  AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AbsenceFormData absenceFormData = arrayListAbsenceData.get(position);
+                Intent intent = new Intent(AbsenceFormListActivity.this,
+                        AbsenceFormCheckActivity.class);
+                intent.putExtra(AbsenceFormData.COL_ID, absenceFormData.id);
+                AbsenceFormListActivity.this.startActivity(intent);
+            }
+        });
 
         applyBotton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(MyAbsenceActivity.this,
-                        AbsenceApplyActivity.class), REQUEST_FOR_ABSENCE_APPLY);
+                startActivityForResult(new Intent(AbsenceFormListActivity.this,
+                        AbsenceFormApplyActivity.class), REQUEST_FOR_ABSENCE_APPLY);
             }
         });
     }
 
     private void requestData() {
         arrayListAbsenceData.clear();
-        AbsenceApplyDataUtils.getInstance().requestFetchAllMyApply(arrayListAbsenceData,
-                dbHandler, AbsenceApplyDataUtils.TAG_FETCH_ALLMY_APPLY);
+        AbsenceFormDataUtils.getInstance().requestFetchAllMyApply(arrayListAbsenceData,
+                dbHandler, AbsenceFormDataUtils.TAG_FETCH_ALLMY_APPLY);
 
         showLoginProgress(true);
     }
@@ -116,16 +132,17 @@ public class MyAbsenceActivity extends AppCompatActivity {
     }
 
     private void refreshData() {
+        listMap.clear();
         if (arrayListAbsenceData.size() > 0) {
             for (int idx = 0; idx < arrayListAbsenceData.size(); idx++) {
-                AbsenceApplyData absenceApplyData = arrayListAbsenceData.get(idx);
+                AbsenceFormData absenceFormData = arrayListAbsenceData.get(idx);
                 Map<String, Object> items = new HashMap<String, Object>();
                 items.put(mapKey[0], Integer.toString(idx + 1));
-                items.put(mapKey[1], absenceApplyData.studentCode);
-                items.put(mapKey[2], absenceApplyData.studentName);
-                items.put(mapKey[3], absenceApplyData.type);
-                items.put(mapKey[4], CommUtils.toLocalDateString(absenceApplyData.begin));
-                items.put(mapKey[5], absenceApplyData.approval);
+                items.put(mapKey[1], absenceFormData.studentCode);
+                items.put(mapKey[2], absenceFormData.studentName);
+                items.put(mapKey[3], absenceFormData.type);
+                items.put(mapKey[4], CommUtils.toLocalDateString(absenceFormData.begin));
+                items.put(mapKey[5], absenceFormData.approval);
                 listMap.add(items);
             }
         }
@@ -144,15 +161,15 @@ public class MyAbsenceActivity extends AppCompatActivity {
 
     final DBHandler dbHandler = new DBHandler(this);
     private static class DBHandler extends Handler {
-        private final WeakReference<MyAbsenceActivity> mActivity;
+        private final WeakReference<AbsenceFormListActivity> mActivity;
 
-        DBHandler(MyAbsenceActivity activity) {
+        DBHandler(AbsenceFormListActivity activity) {
             mActivity = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(final Message msg) {
-            final MyAbsenceActivity activity = mActivity.get();
+            final AbsenceFormListActivity activity = mActivity.get();
             if (activity != null) {
                 boolean is_sucess = false;
                 String message = null;
@@ -160,7 +177,7 @@ public class MyAbsenceActivity extends AppCompatActivity {
                 String tag = (String) msg.obj;
                 if (tag != null) {
                     switch (tag) {
-                        case AbsenceApplyDataUtils.TAG_FETCH_ALLMY_APPLY:
+                        case AbsenceFormDataUtils.TAG_FETCH_ALLMY_APPLY:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.refreshData();
                             }

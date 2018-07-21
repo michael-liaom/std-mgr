@@ -28,22 +28,15 @@ public class StudentDataUtils extends DBHandlerService {
     }
 
     public synchronized static StudentDataUtils getInstance(){
-        if (instance == null){
+        if (instance == null || instance.get() == null){
             instance = new WeakReference<>(new StudentDataUtils());
         }
+
         return instance.get();
     }
 
     private String toDomain(String col) {
         return TBL_STUDENT_COURSE + "." + col;
-    }
-
-    private String toValue(String value) {
-        return "'" + value + "'";
-    }
-
-    private String toValue(int value) {
-        return toValue(Integer.toString(value));
     }
 
     public void requestFetchStudentRegistration(final int studentId, final StudentData studentData,
@@ -91,41 +84,39 @@ public class StudentDataUtils extends DBHandlerService {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String sql = "SELECT "
-                        + CourseData.toDomain(CourseData.COL_ID) + ","
-                        + CourseData.toDomain(CourseData.COL_NAME) + ","
-                        + CourseData.toDomain(CourseData.COL_CODE) + ","
-                        + CourseData.toDomain(CourseData.COL_TEACHER_ID) + ","
-                        + CourseData.toDomain(CourseData.COL_TERM) + ","
-                        + TeacherData.toDomainAs(TeacherData.COL_NAME)
-                        + " FROM "
-                        + TBL_STUDENT_COURSE
-                        + " , "
-                        + CourseData.TBL_NAME
-                        + " , "
-                        + TeacherData.TBL_NAME
-                        + " WHERE "
-                        + COL_STUDENT_ID + "=" + toValue(studentId)
-                        + " AND "
-                        + COL_COURSE_ID + "=" + CourseData.toDomain(CourseData.COL_ID)
-                        + " AND "
-                        + CourseData.COL_TEACHER_ID + "=" + TeacherData.toDomain(TeacherData.COL_ID);
-                if (isStrictApproval) {
-                    sql +=  " AND ";
-                    sql += toDomain(COL_APPROVAL) + "=" + STATUS_VALID;
-                }
-                sql += ";";
-
+                String sql;
                 boolean isOk = true;
 
                 try {
                     Statement statement = jdbcMgrUtils.createStatement();
+                    sql = "SELECT "
+                            + CourseData.getDomainColums()
+                            + ","
+                            + CourseData.getJointDomainColums()
+                            + " FROM "
+                            + TBL_STUDENT_COURSE
+                            + " , "
+                            + CourseData.TBL_NAME
+                            + " , "
+                            + CourseData.getJointTables()
+                            + " WHERE "
+                            + COL_STUDENT_ID + "=" + toValue(studentId)
+                            + " AND "
+                            + COL_COURSE_ID + "=" + CourseData.toDomain(CourseData.COL_ID)
+                            + " AND "
+                            + CourseData.getJointCondition();
+                    if (isStrictApproval) {
+                        sql +=  " AND ";
+                        sql += toDomain(COL_APPROVAL) + "=" + STATUS_VALID;
+                    }
+                    sql += ";";
+
                     ResultSet resultSet = statement.executeQuery(sql);
                     if (resultSet != null) {
                         while (resultSet.next()) {
                             CourseData courseData = new CourseData();
                             courseData.extractFromResultSet(resultSet);
-                            courseData.extractAsFromResultSet(resultSet);
+                            courseData.extractJointFromResultSet(resultSet);
                             arrayList.add(courseData);
                         }
                     }

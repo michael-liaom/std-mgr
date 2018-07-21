@@ -1,13 +1,16 @@
 package com.weijie.stdmgr;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -17,7 +20,8 @@ import java.lang.ref.WeakReference;
  * Created by weijie on 2018/7/7.
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    final static int REQUEST_FOR_LOGIN = 1;
+    final static int REQUEST_FOR_LOGIN      = 1;
+    final static int REQUEST_FOR_HOSTARESS  = 2;
     final DBHandler dbHandler = new DBHandler(this);
 
     private JdbcMgrUtils jdbcMgrUtils;
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private LinearLayout initialLayout, teacherLayout, studentLayout;
     private Button logoutButton;
+    private ProgressBar progressBar;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -35,15 +40,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 responseLoginSuccess();
             }
         }
+        else if (requestCode == REQUEST_FOR_HOSTARESS) {
+            if (resultCode == HostSettingActivity.RETURN_CODE_OK) {
+                jdbcMgrUtils.connect(authUser.hostName, dbHandler, JdbcMgrUtils.TAG_DB_CONNECT);
+                showLoginProgress(true);
+            }
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar   = (ProgressBar) findViewById(R.id.progress_bar);
 
         initData();
-
         initControls();
     }
 
@@ -52,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         authUserDataUtils = AuthUserDataUtils.getInstance();
         authUser            = MyApplication.getInstance().authUser;
 
-        jdbcMgrUtils.connect(dbHandler, JdbcMgrUtils.TAG_DB_CONNECT);
+        jdbcMgrUtils.connect(authUser.hostName, dbHandler, JdbcMgrUtils.TAG_DB_CONNECT);
+        showLoginProgress(true);
     }
 
     private void initControls() {
@@ -60,14 +72,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         teacherLayout = (LinearLayout) findViewById(R.id.teacher_layout);
         studentLayout = (LinearLayout) findViewById(R.id.student_layout);
 
-        Button absenceButton = (Button) findViewById(R.id.daily_for_student_button);
+        Button darily = (Button) findViewById(R.id.daily_for_student_button);
         logoutButton = (Button) findViewById(R.id.logout_button);
 
         teacherLayout.setVisibility(View.GONE);
         studentLayout.setVisibility(View.GONE);
         logoutButton.setVisibility(View.GONE);
 
-        absenceButton.setOnClickListener(this);
+        darily.setOnClickListener(this);
         logoutButton.setOnClickListener(this);
     }
 
@@ -87,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (authUser.name.length() > 0 &&
                 authUser.password.length() > 0) {
             authUserDataUtils.requestLogin(authUser.name, authUser.password, dbHandler, AuthUserDataUtils.TAG_LOGIN);
+            showLoginProgress(true);
         }
         else {
             startLoginActivity();
@@ -114,6 +127,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         logoutButton.setVisibility(View.VISIBLE);
     }
 
+    private void showLoginProgress(boolean isBussy) {
+        if (isBussy) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+        else {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+
+
     private static class DBHandler extends Handler {
         private final WeakReference<MainActivity> mActivity;
 
@@ -137,14 +161,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 activity.responseLoginSuccess();
                                 break;
                         }
+                        activity.showLoginProgress(false);
                     }
                     else {//msg.what == DatabaseMgrUtils.DB_REQUEST_FAILURE
                         switch (tag) {
                             case JdbcMgrUtils.TAG_DB_CONNECT: {
-                                String message = activity.getResources()
-                                        .getString(R.string.message_db_connect_failure);
-                                Toast.makeText(activity, message, Toast.LENGTH_LONG)
-                                        .show();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+                                        .setMessage(R.string.message_db_connect_failure)
+                                        .setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent intent = new Intent(activity, HostSettingActivity.class);
+                                                activity.startActivityForResult(intent, REQUEST_FOR_HOSTARESS);
+                                            }
+                                        });
+                                builder.show();
                                 break;
                             }
                             case AuthUserDataUtils.TAG_LOGIN:
@@ -157,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         .show();
                             }
                         }
+                        activity.showLoginProgress(false);
                     }
             }
             super.handleMessage(msg);

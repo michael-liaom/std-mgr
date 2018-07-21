@@ -33,6 +33,42 @@ public class CourseData {
         return TBL_NAME + "_" + col;
     }
 
+    static String getDomainColums() {
+        return toDomain(COL_ID)
+                + ","
+                + toDomain(COL_NAME)
+                + ","
+                + toDomain(COL_CODE)
+                + ","
+                + toDomain(COL_TEACHER_ID)
+                + ","
+                + toDomain(COL_TERM);
+    }
+
+    static String getJointDomainColums() {
+        return TeacherData.toDomainAs(TeacherData.COL_NAME);
+    }
+
+    static String getJointTables() {
+        return TeacherData.TBL_NAME;
+    }
+
+    static String getJointCondition() {
+        return toDomain(COL_TEACHER_ID) + "=" + TeacherData.toDomain(COL_ID);
+    }
+
+    static String getColums() {
+        return COL_ID
+                + ","
+                + COL_NAME
+                + ","
+                + COL_CODE
+                + ","
+                + COL_TEACHER_ID
+                + ","
+                + COL_TERM;
+    }
+
     public void extractFromResultSet(ResultSet resultSet) throws SQLException {
         id          = resultSet.getInt(COL_ID);
         name        = resultSet.getString(COL_NAME);
@@ -41,8 +77,9 @@ public class CourseData {
         term        = resultSet.getInt(COL_TERM);
     }
 
-    public void extractAsFromResultSet(ResultSet resultSet) throws SQLException {
+    public void extractJointFromResultSet(ResultSet resultSet) throws SQLException {
         teacherName = resultSet.getString(TeacherData.getAsCol(TeacherData.COL_NAME));
     }
+
 
 }

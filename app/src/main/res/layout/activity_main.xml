@@ -38,6 +38,14 @@
             android:gravity="center"
             android:text="广州大学华软软件学院"
             android:textSize="24sp" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout

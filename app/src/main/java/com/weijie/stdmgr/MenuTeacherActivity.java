@@ -82,7 +82,7 @@ public class MenuTeacherActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.daily_for_student_button:
-                intent.setClass(MenuTeacherActivity.this, AbsenceApplyActivity.class);
+                intent.setClass(MenuTeacherActivity.this, AbsenceFormApplyActivity.class);
                 startActivity(intent);
                 break;
 

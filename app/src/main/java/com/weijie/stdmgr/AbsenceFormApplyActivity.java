@@ -35,13 +35,14 @@ import java.util.Locale;
 /**
  * Created by weijie on 2018/7/8.
  */
-public class AbsenceApplyActivity extends AppCompatActivity implements View.OnClickListener {
+public class AbsenceFormApplyActivity extends AppCompatActivity implements View.OnClickListener {
     final static int REQUEST_CODE_GETTING_CC    = 0;
     final static int RESULT_CODE_APPLY_CANCEL   = 0;
     final static int RESULT_CODE_APPLY_SUCCESS  = 1;
     final static String DATA_PICKER_NOSETTING   = "未设置";
 
     private View inputForm;
+    private TextView applyFrom;
     private Spinner applyToSpinner;
     private TextView applyCcTextView;
     private Spinner applyTypeSpinner;
@@ -57,12 +58,12 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
     private AuthUserData authUser;
     private ClassData classData;
 
-    private ArrayList<TeacherData> toTeacherList;
+    //private ArrayList<TeacherData> toTeacherList;
     private ArrayList<CourseData> ccCourseList;
     private ArrayList<SimplePickItemData> ccPickItems;
 
     private ArrayAdapter<String> adapterTo, adapterCc;
-    private AbsenceApplyData absenceApplyData;
+    private AbsenceFormData absenceFormData;
 
     private MyOnFocusChangeListener myOnFocusChangeListener = new MyOnFocusChangeListener();
 
@@ -92,7 +93,7 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
                         }
                     }
                 }
-                refreshCcDisp();
+                refreshDisp();
                 break;
             }
         }
@@ -101,7 +102,7 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_absence_apply);
+        setContentView(R.layout.activity_absence_form_apply);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -116,11 +117,11 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
 
     private void initData() {
         authUser = MyApplication.getInstance().authUser;
-        absenceApplyData = new AbsenceApplyData();
+        absenceFormData = new AbsenceFormData();
         calendar = Calendar.getInstance();
         calendar.setTime(new Date());
 
-        toTeacherList  = new ArrayList();
+        //toTeacherList  = new ArrayList();
         ccCourseList   = new ArrayList();
         ccPickItems = new ArrayList<>();
 
@@ -142,11 +143,11 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initApplyToSpinner() {
-        toTeacherList.add(classData.masterTeacher);
-        toTeacherList.add(classData.assistantTeacher);
+        //toTeacherList.add(classData.masterTeacher);
+        //toTeacherList.add(classData.assistantTeacher);
 
         ArrayList<String> arrayListTo = new ArrayList<>();
-        for (TeacherData teacherData : toTeacherList) {
+        for (TeacherData teacherData : classData.materList) {
             arrayListTo.add(teacherData.name);
         }
         adapterTo = new ArrayAdapter<String>(this,
@@ -166,10 +167,10 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-        if (absenceApplyData.toTeacherId > 0) {
-            for (int idx = 0; idx < toTeacherList.size(); idx++) {
-                TeacherData teacherData = toTeacherList.get(idx);
-                if (teacherData.id == absenceApplyData.id) {
+        if (absenceFormData.toTeacherId > 0) {
+            for (int idx = 0; idx < classData.materList.size(); idx++) {
+                TeacherData teacherData = classData.materList.get(idx);
+                if (teacherData.id == absenceFormData.id) {
                     applyToSpinner.setSelection(idx);
                 }
             }
@@ -180,21 +181,23 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
         ccPickItems.clear();
         for (CourseData courseData : ccCourseList) {
             boolean isPicked = false;
-            for (CourseData courseDataApp : absenceApplyData.ccList) {
+            for (CourseData courseDataApp : absenceFormData.ccList) {
                 if (courseDataApp.id == courseData.id) {
                     isPicked = true;
                 }
             }
             SimplePickItemData pickItemData
                     = new SimplePickItemData(courseData.name + " / " + courseData.teacherName,
-                    courseData.teacherId, isPicked);
+                    courseData.id, isPicked);
             ccPickItems.add(pickItemData);
         }
 
-        refreshCcDisp();
+        refreshDisp();
     }
 
     private void initControls() {
+        TextView menuTextView = (TextView) findViewById(R.id.menu_text_view);
+        applyFrom           = (TextView) findViewById(R.id.apply_from_text_view);
         inputForm           = findViewById(R.id.input_form);
         applyToSpinner      = (Spinner) findViewById(R.id.apply_to_spinner);
         applyCcTextView      = (TextView) findViewById(R.id.apply_cc_text_view);
@@ -213,8 +216,8 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
         beginDateEditText.setOnClickListener(this);
         beginTimeEditText.setOnClickListener(this);
         commiteButton.setOnClickListener(this);
-        //beginDateEditText.setOnFocusChangeListener(myOnFocusChangeListener);
-        //beginTimeEditText.setOnFocusChangeListener(myOnFocusChangeListener);
+        beginDateEditText.setOnFocusChangeListener(myOnFocusChangeListener);
+        beginTimeEditText.setOnFocusChangeListener(myOnFocusChangeListener);
         beginDateEditText.setInputType(InputType.TYPE_NULL);
         beginTimeEditText.setInputType(InputType.TYPE_NULL);
 
@@ -231,10 +234,21 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-        refreshCcDisp();
+        refreshDisp();
+
+        menuTextView.setFocusable(true);
+        menuTextView.setFocusableInTouchMode(true);
+        menuTextView.requestFocus();
     }
 
-    private void refreshCcDisp() {
+    private void refreshDisp() {
+        if (absenceFormData.studentId > 0) {
+            applyFrom.setText(absenceFormData.studentName);
+        }
+        else {
+            applyFrom.setText(authUser.studentData.name);
+        }
+
         StringBuilder stringCC = new StringBuilder(DATA_PICKER_NOSETTING);
         int selected = 0;
 
@@ -242,10 +256,10 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
             SimplePickItemData itemData = ccPickItems.get(idx);
             if (itemData.isPicked) {
                 if (selected == 0) {
-                    stringCC = new StringBuilder(toTeacherList.get(idx).name);
+                    stringCC = new StringBuilder(ccCourseList.get(idx).teacherName);
                 } else if (selected == 1) {
-                    stringCC.append(",");
-                    stringCC.append(toTeacherList.get(idx).name);
+                    stringCC.append(", ");
+                    stringCC.append(ccCourseList.get(idx).teacherName);
                 }
                 selected++;
             }
@@ -264,7 +278,7 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
 
         }
         else {
-            progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -316,7 +330,7 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
                     commiteData();
                 }
                 else {
-                    String message = AbsenceApplyActivity.this.getResources()
+                    String message = AbsenceFormApplyActivity.this.getResources()
                             .getString(R.string.absence_apply_is_not_fully_file);
                     Toast.makeText(this, message, Toast.LENGTH_LONG)
                             .show();
@@ -341,16 +355,16 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
     private void commiteData() {
         int posi;
 
-        absenceApplyData.studentId = authUser.id;
+        absenceFormData.studentId = authUser.studend_id;
 
         posi = applyToSpinner.getSelectedItemPosition();
-        absenceApplyData.toTeacherId = toTeacherList.get(posi).id;
+        absenceFormData.toTeacherId = classData.materList.get(posi).id;
 
-        absenceApplyData.type = applyTypeSpinner.getSelectedItem().toString();
+        absenceFormData.type = applyTypeSpinner.getSelectedItem().toString();
 
         String string = beginDateEditText.getText().toString()
                 + " " + beginTimeEditText.getText().toString();
-        absenceApplyData.begin = toDatetime(string);
+        absenceFormData.begin = toDatetime(string);
 
         float durationInHour = 0;
         if (daysEditText.getText().length() > 0) {
@@ -359,24 +373,25 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
         if (hoursEditText.getText().length() > 0) {
             durationInHour += Float.parseFloat(hoursEditText.getText().toString());
         }
-        absenceApplyData.ending = new Date(absenceApplyData.begin.getTime()
+        absenceFormData.ending = new Date(absenceFormData.begin.getTime()
                 + (long)(durationInHour * 3600 * 1000));
-        absenceApplyData.cause = causeEditText.getText().toString();
+        absenceFormData.cause = causeEditText.getText().toString();
 
-        absenceApplyData.ccList.clear();
+        absenceFormData.ccList.clear();
         for (SimplePickItemData itemData : ccPickItems) {
             for (CourseData courseData : ccCourseList) {
-                if (courseData.id == itemData.id) {
-                    absenceApplyData.ccList.add(courseData);
+                if (courseData.id == itemData.id &&
+                        itemData.isPicked) {
+                    absenceFormData.ccList.add(courseData);
                     break;
                 }
             }
         }
 
-        AbsenceApplyDataUtils applyDataUtils = AbsenceApplyDataUtils.getInstance();
+        AbsenceFormDataUtils applyDataUtils = AbsenceFormDataUtils.getInstance();
 
-        applyDataUtils.requestCommitApply(absenceApplyData,
-                dbHandler, AbsenceApplyDataUtils.TAG_COMMIT_APPLY);
+        applyDataUtils.requestCommitApply(absenceFormData,
+                dbHandler, AbsenceFormDataUtils.TAG_COMMIT_APPLY);
         showBusyProgress(true);
     }
 
@@ -385,12 +400,12 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             // TODO Auto-generated method stub
-            if (v.equals(beginDateEditText)) {
+            if (v.getId() == R.id.begin_date_edit_text) {
                 if (hasFocus) {
                     setDatePickerDialog();
                 }
             }
-            else if (v.equals(beginTimeEditText)) {
+            else if (v.getId() == R.id.begin_time_edit_text) {
                 if (hasFocus) {
                     setTimePickerDialog();
                 }
@@ -409,7 +424,7 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void setTimePickerDialog() {
-        new TimePickerDialog(AbsenceApplyActivity.this,
+        new TimePickerDialog(AbsenceFormApplyActivity.this,
                 onTimeSetListener, calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE), true).show();
     }
@@ -430,15 +445,15 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
 
     final DBHandler dbHandler = new DBHandler(this);
     private static class DBHandler extends Handler {
-        private final WeakReference<AbsenceApplyActivity> mActivity;
+        private final WeakReference<AbsenceFormApplyActivity> mActivity;
 
-        DBHandler(AbsenceApplyActivity activity) {
+        DBHandler(AbsenceFormApplyActivity activity) {
             mActivity = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(final Message msg) {
-            final AbsenceApplyActivity activity = mActivity.get();
+            final AbsenceFormApplyActivity activity = mActivity.get();
             if (activity != null) {
                 boolean is_sucess = false;
                 String message = null;
@@ -467,7 +482,7 @@ public class AbsenceApplyActivity extends AppCompatActivity implements View.OnCl
                             }
                             activity.showBusyProgress(false);
                             break;
-                        case AbsenceApplyDataUtils.TAG_COMMIT_APPLY:
+                        case AbsenceFormDataUtils.TAG_COMMIT_APPLY:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                                         .setMessage(R.string.message_db_commit_success)

@@ -45,7 +45,7 @@
             android:name=".DormActivity"
             android:label="宿舍信息" />
         <activity
-            android:name=".AbsenceApplyActivity"
+            android:name=".AbsenceFormApplyActivity"
             android:label="日常信息" />
         <activity
             android:name=".StudentrwActivity"
@@ -54,13 +54,15 @@
             android:name=".RegistrationActivity"
             android:label="用户注册" />
         <activity
-            android:name=".MyAbsenceActivity"
+            android:name=".AbsenceFormListActivity"
             android:label="我的请假单" />
         <activity android:name=".SimpleDataPickerActivity" />
         <activity
             android:name=".DailyMainActivity"
             android:label="我的日常" />
-        <activity android:name=".StudentCourseActivity"></activity>
+        <activity android:name=".StudentCourseActivity" />
+        <activity android:name=".AbsenceFormCheckActivity" />
+        <activity android:name=".HostSettingActivity"></activity>
     </application>
 
 </manifest>

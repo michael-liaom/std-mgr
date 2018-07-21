@@ -19,18 +19,10 @@ public class TeacherDataUtils extends DBHandlerService {
     }
 
     public synchronized static TeacherDataUtils getInstance(){
-        if (instance == null){
+        if (instance == null || instance.get() == null){
             instance = new WeakReference<>(new TeacherDataUtils());
         }
         return instance.get();
-    }
-
-    private String toValue(String value) {
-        return "'" + value + "'";
-    }
-
-    private String toValue(int value) {
-        return toValue(Integer.toString(value));
     }
 
     public boolean fetchTeachData(int teacherId, TeacherData teacherData) {

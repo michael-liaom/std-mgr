@@ -30,6 +30,7 @@ class DBHandlerService {
 
 
     protected String toValue(String value) {
+        value = value.replace("'", "\\'");
         return "'" + value + "'";
     }
 
@@ -49,7 +50,7 @@ public class JdbcMgrUtils extends DBHandlerService{
     final public static String TAG_DB_CONNECT   = "TAG_CONNECT_DB";
     static private WeakReference<JdbcMgrUtils> instance = null;
 
-    private String hostAddress;
+    String hostAddress;
     private String userName;
     private String password;
     private String dataBaseName;
@@ -83,21 +84,18 @@ public class JdbcMgrUtils extends DBHandlerService{
     }
 
     public synchronized static JdbcMgrUtils getInstance(){
-        if (instance == null){
+        if (instance == null || instance.get() == null){
             instance = new WeakReference<>(new JdbcMgrUtils());
         }
+
         return instance.get();
     }
 
 
-    public boolean connect(final Handler handler, final String tag) {
+    public boolean connect(final String hostAddress, final Handler handler, final String tag) {
         if (!isTringConnection) {
             isTringConnection = true;
             if (connection == null) {
-                //String stringUrl = "jdbc:mysql://" + hostAddress + ":3306/" + dataBaseName
-                //        + "/?autoReconnect=true&failOverReadOnly=false&useSSL=false";
-                final String stringUrl = "jdbc:mysql://" + hostAddress + ":3306/" + dataBaseName;
-//                    + "?autoReconnect=true&useSSL=false";
 
                 new Thread(new Runnable() {
                     @Override
@@ -108,10 +106,15 @@ public class JdbcMgrUtils extends DBHandlerService{
                             e.printStackTrace();
                         }
 
+                        String stringUrl;
+                        if(hostAddress == null || hostAddress.length() == 0) {
+                            stringUrl = "jdbc:mysql://" + JdbcMgrUtils.this.hostAddress + ":3306/" + dataBaseName;
+                        }
+                        else {
+                            stringUrl = "jdbc:mysql://" + hostAddress + ":3306/" + dataBaseName;
+                        }
                         try {
                             connection = DriverManager.getConnection(stringUrl, userName, password);
-                            //connection = DriverManager.getConnection(stringUrl);
-                            //statement = connection.createStatement();//创建Statement
                             Log.d(this.toString(), "connect successed!");
                         } catch (SQLException e) {
                             e.printStackTrace();

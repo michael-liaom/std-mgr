@@ -22,18 +22,11 @@ public class CourseDataUtils extends DBHandlerService {
     }
 
     public synchronized static CourseDataUtils getInstance(){
-        if (instance == null){
+        if (instance == null || instance.get() == null){
             instance = new WeakReference<>(new CourseDataUtils());
         }
+
         return instance.get();
-    }
-
-    private String toValue(String value) {
-        return "'" + value + "'";
-    }
-
-    private String toValue(int value) {
-        return toValue(Integer.toString(value));
     }
 
     public void requestFetchCourseData(final int courseId, final CourseData courseData,
@@ -41,19 +34,30 @@ public class CourseDataUtils extends DBHandlerService {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String sql = "SELECT * FROM " + CourseData.TBL_NAME
-                        + " WHERE "
-                        + CourseData.COL_ID + "=" + toValue(courseId)
-                        + " AND "
-                        + COL_STATUS + "=" + STATUS_VALID
-                        + ";";
+                String sql;
                 boolean isOk = true;
 
                 try {
                     Statement statement = jdbcMgrUtils.createStatement();
+                    sql = "SELECT "
+                            + CourseData.getDomainColums()
+                            + ","
+                            + CourseData.getJointDomainColums()
+                            + " FROM "
+                            + CourseData.TBL_NAME
+                            + ","
+                            + CourseData.getJointTables()
+                            + " WHERE "
+                            + CourseData.toDomain(COL_ID) + "=" + toValue(courseId)
+                            + " AND "
+                            + CourseData.toDomain(COL_STATUS) + "=" + STATUS_VALID
+                            + " AND "
+                            + CourseData.getJointCondition()
+                            + ";";
                     ResultSet resultSet = statement.executeQuery(sql);
                     if (resultSet != null && resultSet.next()) {
                         courseData.extractFromResultSet(resultSet);
+                        courseData.extractJointFromResultSet(resultSet);
                     }
                     else {
                         isOk = false;

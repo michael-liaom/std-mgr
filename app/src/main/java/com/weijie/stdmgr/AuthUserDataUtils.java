@@ -28,18 +28,11 @@ public class AuthUserDataUtils extends DBHandlerService{
     }
 
     public synchronized static AuthUserDataUtils getInstance(){
-        if (instance == null){
+        if (instance == null || instance.get() == null){
             instance = new WeakReference<>(new AuthUserDataUtils());
         }
+
         return instance.get();
-    }
-
-    private String toValue(String value) {
-        return "'" + value + "'";
-    }
-
-    private String toValue(int value) {
-        return toValue(Integer.toString(value));
     }
 
     public void requestCheckUserNameValid(final String name, final Handler handler, final String tag) {
@@ -304,11 +297,7 @@ public class AuthUserDataUtils extends DBHandlerService{
                     Statement statement = jdbcMgrUtils.createStatement();
                     ResultSet resultSet = statement.executeQuery(sql);
                     if (resultSet != null && resultSet.next()) {
-                            authUser.id = resultSet.getInt(AuthUserData.COL_ID);
-                            authUser.name = resultSet.getString(AuthUserData.COL_NAME);
-                            authUser.genre = resultSet.getString(AuthUserData.COL_GENRE);
-                            authUser.studend_id = resultSet.getInt(AuthUserData.COL_STUDENT_ID);
-                            authUser.teacher_id = resultSet.getInt(AuthUserData.COL_TEACHER_ID);
+                        authUser.extractFromResultSet(resultSet);
                     }
                     else {
                         isOk = false;

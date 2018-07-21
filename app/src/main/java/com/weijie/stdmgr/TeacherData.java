@@ -25,6 +25,14 @@ public class TeacherData {
         return TBL_NAME + "_" + col;
     }
 
+    static String getDomainColums() {
+        return toDomain(COL_ID)
+                + ","
+                + toDomain(COL_NAME)
+                + ","
+                + toDomain(COL_CODE);
+    }
+
     public void extractFromResultSet(ResultSet resultSet) throws SQLException {
         id = resultSet.getInt(COL_ID);
         name = resultSet.getString(COL_NAME);

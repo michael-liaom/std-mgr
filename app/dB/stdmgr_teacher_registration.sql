@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `stdmgr` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `stdmgr`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: LocalHost    Database: stdmgr
+-- Host: localhost    Database: stdmgr
 -- ------------------------------------------------------
 -- Server version	5.5.60
 
@@ -41,7 +41,7 @@ CREATE TABLE `teacher_registration` (
 
 LOCK TABLES `teacher_registration` WRITE;
 /*!40000 ALTER TABLE `teacher_registration` DISABLE KEYS */;
-INSERT INTO `teacher_registration` VALUES (1,'张杰',NULL,NULL,NULL,1),(2,'刘民',NULL,NULL,NULL,1),(3,'何伟民',NULL,NULL,NULL,1),(4,'赵一文',NULL,NULL,NULL,1);
+INSERT INTO `teacher_registration` VALUES (1,'张杰',NULL,NULL,'-1',1),(2,'刘民',NULL,NULL,NULL,1),(3,'何伟民',NULL,NULL,NULL,1),(4,'赵一文',NULL,NULL,NULL,1);
 /*!40000 ALTER TABLE `teacher_registration` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-20 17:11:08
+-- Dump completed on 2018-07-21 22:25:25

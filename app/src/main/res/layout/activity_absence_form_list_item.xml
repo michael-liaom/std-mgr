@@ -10,7 +10,8 @@
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="编号" />
+        android:text="编号"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/item_code_text_view"
@@ -18,15 +19,17 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
-        android:text="学号" />
+        android:text="学号"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/item_name_text_view"
-        android:layout_width="80dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
-        android:text="姓名" />
+        android:text="姓名"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/item_type_text_tiew"
@@ -34,15 +37,17 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
-        android:text="类别" />
+        android:text="类别"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/item_begin_text_view"
-        android:layout_width="60dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
-        android:text="日期" />
+        android:text="日期"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/item_approval_text_view"
@@ -50,5 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
-        android:text="批准" />
+        android:gravity="center_horizontal"
+        android:text="批准"
+        android:textSize="12sp" />
 </LinearLayout>

@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             registerButton.setEnabled(false);
         }
         else {
-            progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.GONE);
             loginButton.setEnabled(true);
             registerButton.setEnabled(true);
         }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.lang.ref.WeakReference;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -20,6 +22,8 @@ public class AuthUserData {
     final public static String GENRE_TEACHER    = "teacher";
     final public static String REG_CODE_INVALID = "'-1'";
 
+    final static String HOST_SERVER     = "HOST_SERVER";
+
     int id;
     String name;
     String password;
@@ -30,7 +34,11 @@ public class AuthUserData {
     TeacherData teacherData;
     Context context;
 
+    String hostName;
+    String defaultHost;
+
     AuthUserData(Context context) {
+        defaultHost = JdbcMgrUtils.getInstance().hostAddress;
         this.context = context;
         restoreFromLocal();
     }
@@ -48,6 +56,7 @@ public class AuthUserData {
 
             editor.putString(COL_NAME, name);
             editor.putString(COL_PASSWORD, password);
+            editor.putString(HOST_SERVER, hostName);
             editor.commit();
         }
 
@@ -58,6 +67,15 @@ public class AuthUserData {
         if (preferences != null) {
             name        = preferences.getString(COL_NAME, "");
             password    = preferences.getString(COL_PASSWORD, "");
+            hostName    = preferences.getString(HOST_SERVER, defaultHost);
         }
+    }
+
+    public void extractFromResultSet(ResultSet resultSet) throws SQLException {
+        id = resultSet.getInt(AuthUserData.COL_ID);
+        name = resultSet.getString(AuthUserData.COL_NAME);
+        genre = resultSet.getString(AuthUserData.COL_GENRE);
+        studend_id = resultSet.getInt(AuthUserData.COL_STUDENT_ID);
+        teacher_id = resultSet.getInt(AuthUserData.COL_TEACHER_ID);
     }
 }
