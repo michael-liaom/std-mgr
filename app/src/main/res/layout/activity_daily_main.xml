@@ -21,7 +21,8 @@
             android:layout_height="80dp"
             android:layout_weight="0"
             android:gravity="bottom|end"
-            android:text="我是学生" />
+            android:text="我是学生"
+            android:textColor="@android:color/darker_gray" />
 
         <Button
             android:id="@+id/course_for_student_button"
@@ -64,7 +65,8 @@
             android:layout_height="80dp"
             android:layout_weight="0"
             android:gravity="bottom|end"
-            android:text="我是老师" />
+            android:text="我是老师"
+            android:textColor="@android:color/darker_gray" />
 
         <Button
             android:id="@+id/course_for_teacher_button"
@@ -81,7 +83,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_weight="0"
-            android:text="学生请假单"
+            android:text="已签批学生请假单"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/absence_for_teacher_button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_weight="0"
+            android:text="等待我签批的请假单"
             android:textSize="18sp" />
 
     </LinearLayout>

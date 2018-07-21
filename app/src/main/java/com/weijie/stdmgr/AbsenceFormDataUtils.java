@@ -106,6 +106,62 @@ public class AbsenceFormDataUtils extends DBHandlerService{
         }).start();
     }
 
+    public void requestFetchCCMeApply(final ArrayList<AbsenceFormData> arrayList,
+                                       final Handler handler, final String tag) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String sql;
+                boolean isOk = true;
+
+                try {
+                    sql = "SELECT "
+                            + AbsenceFormData.getDomainColums()
+                            + ","
+                            + AbsenceFormData.getJointDomainColums()
+                            + " FROM "
+                            + AbsenceFormData.TBL_NAME
+                            + ","
+                            + AbsenceFormData.getJointTables()
+                            + " WHERE "
+                            + AbsenceFormData.toDomain(AbsenceFormData.COL_STUDENT_ID)
+                            + "=" + toValue(authUser.studend_id)
+                            + " AND "
+                            + AbsenceFormData.getJointCondition()
+                            + " ORDER BY "
+                            + AbsenceFormData.COL_ID
+                            + " DESC "
+                            + ";";
+                    Statement statement = jdbcMgrUtils.createStatement();
+                    ResultSet resultSet = statement.executeQuery(sql);
+                    if (resultSet != null) {
+                        while (resultSet.next()) {
+                            AbsenceFormData absenceFormData = new AbsenceFormData();
+                            absenceFormData.extractFromResultSet(resultSet);
+                            absenceFormData.extractJointFromResultSet(resultSet);
+                            arrayList.add(absenceFormData);
+                        }
+                    }
+                    else {
+                        isOk = false;
+                    }
+                    statement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    isOk = false;
+                }
+
+                if (isOk) {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
+                }
+                else {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_FAILURE, tag);
+                }
+            }
+        }).start();
+    }
+
     public void requestFetchApply(final int applyId, final AbsenceFormData absenceFormData,
                                   final Handler handler, final String tag) {
         new Thread(new Runnable() {

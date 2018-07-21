@@ -25,7 +25,6 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
@@ -53,16 +52,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="我是老师" />
+            android:text="我是老师"
+            android:textColor="@android:color/darker_gray" />
 
         <Button
-            android:id="@+id/daily_for_teacher_button2"
+            android:id="@+id/daily_for_teacher_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -100,13 +101,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="我是学生" />
+            android:text="我是学生"
+            android:textColor="@android:color/darker_gray" />
 
         <Button
             android:id="@+id/daily_for_student_button"
@@ -148,7 +151,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="退出登录"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:visibility="gone" />
 
 
 </LinearLayout>

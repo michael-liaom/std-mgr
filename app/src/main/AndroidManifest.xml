@@ -28,6 +28,7 @@
         <activity
             android:name=".MainActivity"
             android:label="主菜单">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

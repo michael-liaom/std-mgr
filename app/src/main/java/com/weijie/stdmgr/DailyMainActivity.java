@@ -56,12 +56,10 @@ public class DailyMainActivity extends AppCompatActivity  implements View.OnClic
             case R.id.absence_for_student_button:
                 startActivity(new Intent(this, AbsenceFormListActivity.class));
                 break;
-            case R.id.apply_student_button:
-                startActivity(new Intent(this, AbsenceFormApplyActivity.class));
-                break;
             case R.id.course_for_teacher_button:
                 break;
             case R.id.absence_for_teacher_button:
+                startActivity(new Intent(this, AbsenceFormListActivity.class));
                 break;
         }
     }

@@ -1,5 +1,6 @@
 package com.weijie.stdmgr;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +20,7 @@ import java.lang.ref.WeakReference;
 /**
  * Created by weijie on 2018/7/7.
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener {
     final static int REQUEST_FOR_LOGIN      = 1;
     final static int REQUEST_FOR_HOSTARESS  = 2;
     final DBHandler dbHandler = new DBHandler(this);
@@ -89,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.daily_for_student_button:
                 startActivity(new Intent(this, DailyMainActivity.class));
                 break;
+            case R.id.daily_for_teacher_button:
+                startActivity(new Intent(this, DailyMainActivity.class));
+                break;
             case R.id.logout_button://主菜单的登陆按钮
                 responseLogout();
                 break;
@@ -120,8 +124,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initialLayout.setVisibility(View.GONE);
         if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
             studentLayout.setVisibility(View.VISIBLE);
+            teacherLayout.setVisibility(View.GONE);
         }
         else {
+            studentLayout.setVisibility(View.GONE);
             teacherLayout.setVisibility(View.VISIBLE);
         }
         logoutButton.setVisibility(View.VISIBLE);

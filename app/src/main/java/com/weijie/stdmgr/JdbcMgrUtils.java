@@ -95,8 +95,11 @@ public class JdbcMgrUtils extends DBHandlerService{
     public boolean connect(final String hostAddress, final Handler handler, final String tag) {
         if (!isTringConnection) {
             isTringConnection = true;
-            if (connection == null) {
-
+            if (connection != null) {
+                processHandler(handler, DB_REQUEST_SUCCESS, tag);
+            }
+            else
+            {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -108,10 +111,16 @@ public class JdbcMgrUtils extends DBHandlerService{
 
                         String stringUrl;
                         if(hostAddress == null || hostAddress.length() == 0) {
-                            stringUrl = "jdbc:mysql://" + JdbcMgrUtils.this.hostAddress + ":3306/" + dataBaseName;
+                            stringUrl = "jdbc:mysql://"
+                                    + JdbcMgrUtils.this.hostAddress
+                                    + ":3306/"
+                                    + dataBaseName;
                         }
                         else {
-                            stringUrl = "jdbc:mysql://" + hostAddress + ":3306/" + dataBaseName;
+                            stringUrl = "jdbc:mysql://"
+                                    + hostAddress
+                                    + ":3306/"
+                                    + dataBaseName;
                         }
                         try {
                             connection = DriverManager.getConnection(stringUrl, userName, password);
