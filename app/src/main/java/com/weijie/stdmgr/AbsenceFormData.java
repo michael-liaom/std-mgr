@@ -5,6 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 public class AbsenceFormData {
+    final public static int PENDING     = 0;
+    final public static int APPROVAL    = 1;
+    final public static int REJECT      = 2;
     final public static String TBL_NAME     = "absence_apply";
     final static String COL_ID              = "id";
     final static String COL_STUDENT_ID      = "student_id";
@@ -15,9 +18,6 @@ public class AbsenceFormData {
     final static String COL_CAUSE           = "cause";
     final static String COL_APPROVAL        = "approval";
 
-    final static String COL_AS_CODE         = "code";
-    final static String COL_AS_NAME         = "name";
-    final static String COL_AS_TEACHER      = "teacher";
 
     int     id;
     int     studentId;
@@ -41,6 +41,25 @@ public class AbsenceFormData {
     static String toDomain(String col) {
         return TBL_NAME + "." + col;
     }
+
+    static String getColums() {
+        return COL_ID
+                + ","
+                + COL_STUDENT_ID
+                + ","
+                + COL_TO_TEACHER_ID
+                + ","
+                + COL_BEGIN
+                + ","
+                + COL_END
+                + ","
+                + COL_TYPE
+                + ","
+                + COL_CAUSE
+                + ","
+                + COL_APPROVAL;
+    }
+
 
     static String getDomainColums() {
         return toDomain(COL_ID)
@@ -79,6 +98,18 @@ public class AbsenceFormData {
                 + toDomain(COL_TO_TEACHER_ID) + "=" + TeacherData.toDomain(TeacherData.COL_ID);
     }
 
+    String getApprovalStatus() {
+        if (approval == AbsenceFormData.APPROVAL) {
+            return "批准";
+        }
+        else if (approval == AbsenceFormData.REJECT) {
+            return "拒绝";
+        }
+        else {
+            return "待批";
+        }
+    }
+
     public void extractFromResultSet(ResultSet resultSet) throws SQLException {
         id          = resultSet.getInt(COL_ID);
         studentId   = resultSet.getInt(COL_STUDENT_ID);
@@ -87,6 +118,7 @@ public class AbsenceFormData {
         cause       = resultSet.getString(COL_CAUSE);
         begin       = CommUtils.toTimestamp(resultSet.getString(COL_BEGIN));
         ending      = CommUtils.toTimestamp(resultSet.getString(COL_END));
+        approval    = resultSet.getInt(COL_APPROVAL);
     }
 
     public void extractJointFromResultSet(ResultSet resultSet) throws SQLException {

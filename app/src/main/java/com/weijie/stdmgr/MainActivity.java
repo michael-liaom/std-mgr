@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         else if (requestCode == REQUEST_FOR_HOSTARESS) {
             if (resultCode == HostSettingActivity.RETURN_CODE_OK) {
                 jdbcMgrUtils.connect(authUser.hostName, dbHandler, JdbcMgrUtils.TAG_DB_CONNECT);
-                showLoginProgress(true);
+                showBusyProgress(true);
             }
         }
     }
@@ -65,33 +65,44 @@ public class MainActivity extends Activity implements View.OnClickListener {
         authUser            = MyApplication.getInstance().authUser;
 
         jdbcMgrUtils.connect(authUser.hostName, dbHandler, JdbcMgrUtils.TAG_DB_CONNECT);
-        showLoginProgress(true);
+        showBusyProgress(true);
     }
 
     private void initControls() {
         initialLayout = (LinearLayout) findViewById(R.id.initial_layout);
-        teacherLayout = (LinearLayout) findViewById(R.id.teacher_layout);
-        studentLayout = (LinearLayout) findViewById(R.id.student_layout);
 
-        Button darily = (Button) findViewById(R.id.daily_for_student_button);
+        teacherLayout = (LinearLayout) findViewById(R.id.teacher_layout);
+        Button teacherCourseButton   = (Button) findViewById(R.id.course_for_teacher_button);
+        Button teacherAbsenceButton        = (Button) findViewById(R.id.absence_for_teacher_button);
+        teacherCourseButton.setOnClickListener(this);
+        teacherAbsenceButton.setOnClickListener(this);
+
+        studentLayout = (LinearLayout) findViewById(R.id.student_layout);
+        Button studentCourseButton   = (Button) findViewById(R.id.course_for_student_button);
+        Button studentAbsenceButton  = (Button) findViewById(R.id.absence_for_student_button);
+        studentCourseButton.setOnClickListener(this);
+        studentAbsenceButton.setOnClickListener(this);
+
+
         logoutButton = (Button) findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(this);
 
         teacherLayout.setVisibility(View.GONE);
         studentLayout.setVisibility(View.GONE);
         logoutButton.setVisibility(View.GONE);
 
-        darily.setOnClickListener(this);
-        logoutButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.daily_for_student_button:
-                startActivity(new Intent(this, DailyMainActivity.class));
+            case R.id.course_for_student_button:
+            case R.id.course_for_teacher_button:
+                startActivity(new Intent(this, CourseListActivity.class));
                 break;
-            case R.id.daily_for_teacher_button:
-                startActivity(new Intent(this, DailyMainActivity.class));
+            case R.id.absence_for_student_button:
+            case R.id.absence_for_teacher_button:
+                startActivity(new Intent(this, AbsenceFormListActivity.class));
                 break;
             case R.id.logout_button://主菜单的登陆按钮
                 responseLogout();
@@ -103,7 +114,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (authUser.name.length() > 0 &&
                 authUser.password.length() > 0) {
             authUserDataUtils.requestLogin(authUser.name, authUser.password, dbHandler, AuthUserDataUtils.TAG_LOGIN);
-            showLoginProgress(true);
+            showBusyProgress(true);
         }
         else {
             startLoginActivity();
@@ -133,7 +144,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         logoutButton.setVisibility(View.VISIBLE);
     }
 
-    private void showLoginProgress(boolean isBussy) {
+    private void showBusyProgress(boolean isBussy) {
         if (isBussy) {
             progressBar.setVisibility(View.VISIBLE);
         }
@@ -167,7 +178,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                 activity.responseLoginSuccess();
                                 break;
                         }
-                        activity.showLoginProgress(false);
+                        activity.showBusyProgress(false);
                     }
                     else {//msg.what == DatabaseMgrUtils.DB_REQUEST_FAILURE
                         switch (tag) {
@@ -194,7 +205,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                         .show();
                             }
                         }
-                        activity.showLoginProgress(false);
+                        activity.showBusyProgress(false);
                     }
             }
             super.handleMessage(msg);

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class StudentDataUtils extends DBHandlerService {
     final static String TBL_STUDENT_COURSE = "student_course";
-    final static String COL_ID          = "id";
     final static String COL_STUDENT_ID  = "student_id";
     final static String COL_COURSE_ID   = "course_id";
     final static String COL_APPROVAL    = "approval";
@@ -35,7 +34,7 @@ public class StudentDataUtils extends DBHandlerService {
         return instance.get();
     }
 
-    private String toDomain(String col) {
+    static String toDomain(String col) {
         return TBL_STUDENT_COURSE + "." + col;
     }
 

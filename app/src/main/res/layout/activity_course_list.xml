@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    tools:context=".AbsenceFormListActivity">
+    tools:context=".CourseListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         android:orientation="horizontal">
 
         <include
-            layout="@layout/activity_absence_form_list_item"
+            layout="@layout/activity_course_list_item"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_weight="1"></include>
@@ -45,21 +45,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="10dp"
-        android:layout_weight="1" />
+        android:layout_weight="0" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_weight="0"
         android:background="@android:color/darker_gray" />
-
-    <Button
-        android:id="@+id/apply_button"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="0"
-        android:text="我要请假"
-        android:visibility="gone" />
-
 </LinearLayout>

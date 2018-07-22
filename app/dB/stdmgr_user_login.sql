@@ -42,7 +42,7 @@ CREATE TABLE `user_login` (
 
 LOCK TABLES `user_login` WRITE;
 /*!40000 ALTER TABLE `user_login` DISABLE KEYS */;
-INSERT INTO `user_login` VALUES (4,'student','123456','student',1,-1,1),(5,'teacher','123456','teacher',-1,1,1);
+INSERT INTO `user_login` VALUES (4,'student','123456','student',1,-1,1),(5,'teacher','123456','teacher',-1,2,1);
 /*!40000 ALTER TABLE `user_login` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-22  0:27:05
+-- Dump completed on 2018-07-23  0:59:12

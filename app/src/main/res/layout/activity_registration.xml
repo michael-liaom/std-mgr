@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="40dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
@@ -27,6 +28,7 @@
             android:id="@+id/name_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:ems="10"
             android:hint="6个以上字符组成"
@@ -37,6 +39,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
@@ -50,6 +53,7 @@
             android:id="@+id/password_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:ems="10"
             android:hint="6个以上字符组成"
@@ -59,6 +63,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
@@ -72,6 +77,7 @@
             android:id="@+id/repeat_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:ems="10"
             android:hint="6个以上字符组成"
@@ -81,27 +87,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="邀请码:"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/invite_edit_ext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPersonName" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <RadioGroup
@@ -130,12 +116,59 @@
         </RadioGroup>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="学号或\n教师编号:"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/code_edit_ext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="邀请码:"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/invite_edit_ext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName" />
+    </LinearLayout>
+
     <ProgressBar
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="40dp"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/registration_student_button"

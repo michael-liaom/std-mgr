@@ -74,61 +74,70 @@ public class AuthUserDataUtils extends DBHandlerService{
         }).start();
     }
 
-    public void requestCheckInviationValid(final String regCode, final String genre,
+    private boolean checkInvitation(final int unifiedCode, final String regCode,
+                                    final String genre) {
+        String sql;
+        boolean isOk = true;
+
+        try {
+            Statement statement = jdbcMgrUtils.createStatement();
+
+            if (genre.equals(AuthUserData.GENRE_STUDENT)) {
+                sql = "SELECT * FROM " + TBL_STUDENT_REGISTATION
+                        + " WHERE "
+                        + StudentData.COL_CODE  + "=" + toValue(unifiedCode)
+                        + " AND "
+                        + StudentData.COL_REG_CODE  + "=" + toValue(regCode)
+                        + " AND "
+                        + COL_STATUS + "=" + STATUS_VALID
+                        + ";";
+                ResultSet resultSet = statement.executeQuery(sql);
+                if (resultSet != null) {
+                    if(!resultSet.next()) {
+                        isOk = false;
+                    }
+                }
+                else {
+                    isOk = false;
+                }
+            }
+            else {
+                sql = "SELECT * FROM " + TBL_TEACHER_REGISTATION
+                        + " WHERE "
+                        + TeacherData.COL_CODE  + "=" + toValue(unifiedCode)
+                        + " AND "
+                        + TeacherData.COL_REG_CODE  + "=" + toValue(regCode)
+                        + " AND "
+                        + COL_STATUS + "=" + STATUS_VALID
+                        + ";";
+                ResultSet resultSet = statement.executeQuery(sql);
+                if (resultSet != null) {
+                    if (!resultSet.next()) {
+                        isOk = false;
+                    }
+                }
+                else {
+                    isOk = false;
+                }
+            }
+            statement.close();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            isOk = false;
+        }
+
+        return isOk;
+    }
+
+    public void requestCheckInviationValid(final int unifiedCode, final String regCode, final String genre,
                                            final Handler handler, final String tag) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String sql;
-                boolean isOk = true;
 
-                try {
-                    int studend_id = -1;
-                    int teacher_id = -1;
-                    Statement statement = jdbcMgrUtils.createStatement();
-
-                    if (genre.equals(AuthUserData.GENRE_STUDENT)) {
-                        sql = "SELECT * FROM " + TBL_STUDENT_REGISTATION
-                                + " WHERE "
-                                + StudentData.COL_REG_CODE  + "=" + toValue(regCode)
-                                + " AND "
-                                + COL_STATUS + "=" + STATUS_VALID
-                                + ";";
-                        ResultSet resultSet = statement.executeQuery(sql);
-                        if (resultSet != null) {
-                            if(!resultSet.next()) {
-                                isOk = false;
-                            }
-                        }
-                        else {
-                            isOk = false;
-                        }
-                        statement.close();
-                    }
-                    else {
-                        sql = "SELECT * FROM " + TBL_TEACHER_REGISTATION
-                                + " WHERE "
-                                + TeacherData.COL_REG_CODE  + "=" + toValue(regCode)
-                                + " AND "
-                                + COL_STATUS + "=" + STATUS_VALID
-                                + ";";
-                        ResultSet resultSet = statement.executeQuery(sql);
-                        if (resultSet != null) {
-                            if (!resultSet.next()) {
-                                isOk = false;
-                            }
-                        }
-                        else {
-                            isOk = false;
-                        }
-                        statement.close();
-                    }
-
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                    isOk = false;
-                }
+                boolean isOk = checkInvitation(unifiedCode, regCode, genre);
 
                 if (isOk) {
                     processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
@@ -140,7 +149,7 @@ public class AuthUserDataUtils extends DBHandlerService{
         }).start();
     }
 
-    public void requestRegistration(final String regCode, final String genre,
+    public void requestRegistration(final int unifiedCode, final String regCode, final String genre,
                             final String name, final String password,
                             final Handler handler, final String tag) {
         new Thread(new Runnable() {
@@ -162,41 +171,7 @@ public class AuthUserDataUtils extends DBHandlerService{
                         isOk = false;
                     }
 
-                    if (isOk) {
-                        if (genre.equals(AuthUserData.GENRE_STUDENT)) {
-                            sql = "SELECT * FROM " + TBL_STUDENT_REGISTATION
-                                    + " WHERE "
-                                    + StudentData.COL_REG_CODE + "=" + toValue(regCode)
-                                    + " AND "
-                                    + COL_STATUS + "=" + STATUS_VALID
-                                    + ";";
-                            resultSet = statement.executeQuery(sql);
-                            if (resultSet != null && resultSet.next()) {
-                                StudentData studentData = new StudentData();
-                                studentData.extractFromResultSet(resultSet);
-                                authUser.studentData = studentData;
-                                studend_id = studentData.id;
-                            } else {
-                                isOk = false;
-                            }
-                        } else {
-                            sql = "SELECT * FROM " + TBL_TEACHER_REGISTATION
-                                    + " WHERE "
-                                    + TeacherData.COL_REG_CODE + "=" + toValue(regCode)
-                                    + " AND "
-                                    + COL_STATUS + "=" + STATUS_VALID
-                                    + ";";
-                            resultSet = statement.executeQuery(sql);
-                            if (resultSet != null && resultSet.next()) {
-                                TeacherData teacherData = new TeacherData();
-                                teacherData.extractFromResultSet(resultSet);
-                                authUser.teacherData = teacherData;
-                                teacher_id = teacherData.id;
-                            } else {
-                                isOk = false;
-                            }
-                        }
-                    }
+                    isOk = checkInvitation(unifiedCode, regCode, genre);
 
                     if (isOk) {
                         sql = "INSERT " + TBL_USER_LOGIN

@@ -7,18 +7,40 @@
     android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    tools:context=".AbsenceFormListActivity">
+    tools:context=".CourseStudentsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_weight="0"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/course_code_text_view"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/course_name_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:textSize="24sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="20dp"
         android:layout_weight="0"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <include
-            layout="@layout/activity_absence_form_list_item"
+            layout="@layout/activity_course_students_item"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_weight="1"></include>
@@ -45,21 +67,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="10dp"
-        android:layout_weight="1" />
+        android:layout_weight="0" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_weight="0"
         android:background="@android:color/darker_gray" />
-
-    <Button
-        android:id="@+id/apply_button"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="0"
-        android:text="我要请假"
-        android:visibility="gone" />
 
 </LinearLayout>

@@ -34,7 +34,7 @@ CREATE TABLE `absence_apply` (
   `cause` varchar(100) DEFAULT NULL,
   `approval` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='请假单';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='请假单';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `absence_apply` (
 
 LOCK TABLES `absence_apply` WRITE;
 /*!40000 ALTER TABLE `absence_apply` DISABLE KEYS */;
-INSERT INTO `absence_apply` VALUES (3,'1','1','病假','2018-07-20 15:23:00','2018-07-20 16:23:00','',NULL),(4,'1','1','病假','2018-07-21 03:06:00','2018-07-21 04:06:00','I\'m sick.',NULL),(5,'1','1','病假','2018-07-21 09:15:00','2018-07-21 11:15:00','I\'m sick.',NULL),(6,'1','1','病假','2018-07-21 09:22:00','2018-07-21 10:22:00','',NULL),(7,'1','1','病假','2018-07-21 09:41:00','2018-07-21 10:41:00','feel sick.',NULL),(8,'1','1','事假','2018-07-21 22:18:00','2018-07-22 00:18:00','不舒服',NULL);
+INSERT INTO `absence_apply` VALUES (3,'1','1','病假','2018-07-20 15:23:00','2018-07-20 16:23:00','',2),(4,'1','1','病假','2018-07-21 03:06:00','2018-07-21 04:06:00','I\'m sick.',1),(5,'1','2','病假','2018-07-21 09:15:00','2018-07-21 11:15:00','I\'m sick.',2),(6,'1','1','病假','2018-07-21 09:22:00','2018-07-21 10:22:00','',1),(7,'1','1','病假','2018-07-21 09:41:00','2018-07-21 10:41:00','feel sick.',1),(8,'1','1','事假','2018-07-21 22:18:00','2018-07-22 00:18:00','不舒服',1),(9,'1','2','病假','2018-07-22 10:25:00','2018-07-22 11:25:00','I\'m sick.',NULL),(10,'1','1','病假','2018-07-22 10:39:00','2018-07-23 10:39:00','',NULL),(11,'1','1','病假','2018-07-22 18:41:00','2018-07-23 18:41:00','',NULL);
 /*!40000 ALTER TABLE `absence_apply` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-22  0:27:04
+-- Dump completed on 2018-07-23  0:59:11

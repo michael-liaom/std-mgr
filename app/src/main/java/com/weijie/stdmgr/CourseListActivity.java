@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
@@ -19,13 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AbsenceFormListActivity extends AppCompatActivity {
-    final private static int REQUEST_FOR_ABSENCE_APPLY      = 1;
-    final private static int REQUEST_FOR_ABSENCE_CHECK    = 2;
-
-    private ListView listView;
+public class CourseListActivity extends AppCompatActivity {
     private ProgressBar progressBar;
-    private Button applyBotton;
 
     private ArrayList <Map<String, Object>> listMap;
     SimpleAdapter simpleAdapter;
@@ -33,44 +27,26 @@ public class AbsenceFormListActivity extends AppCompatActivity {
             "no",
             "code",
             "name",
-            "type",
-            "begin",
-            "approval"
+            "teacher",
+            "term",
+            "credit"
     };
     private int[] mapResurceId = {
             R.id.item_no_text_view,
             R.id.item_code_text_view,
             R.id.item_name_text_view,
-            R.id.item_type_text_tiew,
-            R.id.item_begin_text_view,
-            R.id.item_approval_text_view
+            R.id.item_teacher_text_tiew,
+            R.id.item_term_text_view,
+            R.id.item_credit_text_view
     };
 
-    private ArrayList <AbsenceFormData> arrayListAbsenceData;
+    private ArrayList <CourseData> arrayListCourseData;
     private AuthUserData authUser;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_FOR_ABSENCE_APPLY:
-                if (resultCode == AbsenceFormApplyActivity.RESULT_CODE_APPLY_SUCCESS) {
-                    requestData();
-                }
-                break;
-            case REQUEST_FOR_ABSENCE_CHECK:
-                if (resultCode == AbsenceFormCheckActivity.RESULT_CODE_COMMIT_SUCCESS) {
-                    requestData();
-                }
-                break;
-        }
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_absence_form_list);
+        setContentView(R.layout.activity_course_list);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -85,57 +61,41 @@ public class AbsenceFormListActivity extends AppCompatActivity {
 
     private void initData() {
         authUser = MyApplication.getInstance().authUser;
-        arrayListAbsenceData = new ArrayList<>();
+        arrayListCourseData = new ArrayList<>();
         listMap = new ArrayList<>();
     }
 
     private void initControls() {
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-        listView    = (ListView) findViewById(R.id.list_view_dynamic);
-        applyBotton = (Button) findViewById(R.id.apply_button);
+
+        ListView listView   = (ListView) findViewById(R.id.list_view_dynamic);
 
         simpleAdapter = new SimpleAdapter(this, listMap,
-                R.layout.activity_absence_form_list_item, mapKey, mapResurceId);
+                R.layout.activity_course_list_item, mapKey, mapResurceId);
         listView.setAdapter(simpleAdapter);
         listView.setOnItemClickListener(new  AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AbsenceFormData absenceFormData = arrayListAbsenceData.get(position);
-                Intent intent = new Intent(AbsenceFormListActivity.this,
-                        AbsenceFormCheckActivity.class);
-                intent.putExtra(AbsenceFormData.COL_ID, absenceFormData.id);
-                AbsenceFormListActivity.this.startActivityForResult(intent,
-                        REQUEST_FOR_ABSENCE_CHECK);
+                CourseData courseData = arrayListCourseData.get(position);
+                Intent intent = new Intent(CourseListActivity.this,
+                        CourseDetailActivity.class);
+                intent.putExtra(CourseData.COL_ID, courseData.id);
+                CourseListActivity.this.startActivity(intent);
             }
         });
-
-        applyBotton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivityForResult(new Intent(AbsenceFormListActivity.this,
-                        AbsenceFormApplyActivity.class), REQUEST_FOR_ABSENCE_APPLY);
-            }
-        });
-
-        if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
-            applyBotton.setVisibility(View.VISIBLE);
-        }
-        else {
-            applyBotton.setVisibility(View.GONE);
-        }
     }
 
     private void requestData() {
-        arrayListAbsenceData.clear();
+        arrayListCourseData.clear();
         if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
-            AbsenceFormDataUtils.getInstance()
-                    .requestFetchAppliesAsStudent(authUser.studend_id, arrayListAbsenceData,
-                            dbHandler, AbsenceFormDataUtils.TAG_FETCH_APPLIES_AS_STUDENT);
+            CourseDataUtils.getInstance()
+                    .requestFetchCoursesAsStudent(authUser.studend_id, arrayListCourseData,
+                            dbHandler, CourseDataUtils.TAG_FETCH_COURSES_AS_STUDENT);
         }
         else {
-            AbsenceFormDataUtils.getInstance()
-                    .requestFetchAppliesToAsTeacher(authUser.teacher_id, arrayListAbsenceData,
-                            dbHandler, AbsenceFormDataUtils.TAG_FETCH_APPLIES_AS_STUDENT);
+            CourseDataUtils.getInstance()
+                    .requestFetchCoursesAsTeacher(authUser.teacher_id, arrayListCourseData,
+                            dbHandler, CourseDataUtils.TAG_FETCH_COURSES_AS_TEACHER);
         }
         showBusyProgress(true);
     }
@@ -153,16 +113,16 @@ public class AbsenceFormListActivity extends AppCompatActivity {
 
     private void refreshData() {
         listMap.clear();
-        if (arrayListAbsenceData.size() > 0) {
-            for (int idx = 0; idx < arrayListAbsenceData.size(); idx++) {
-                AbsenceFormData absenceFormData = arrayListAbsenceData.get(idx);
+        if (arrayListCourseData.size() > 0) {
+            for (int idx = 0; idx < arrayListCourseData.size(); idx++) {
+                CourseData courseData = arrayListCourseData.get(idx);
                 Map<String, Object> items = new HashMap<String, Object>();
                 items.put(mapKey[0], Integer.toString(idx + 1));
-                items.put(mapKey[1], absenceFormData.studentCode);
-                items.put(mapKey[2], absenceFormData.studentName);
-                items.put(mapKey[3], absenceFormData.type);
-                items.put(mapKey[4], CommUtils.toLocalDateString(absenceFormData.begin));
-                items.put(mapKey[5], absenceFormData.getApprovalStatus());
+                items.put(mapKey[1], courseData.code);
+                items.put(mapKey[2], courseData.name);
+                items.put(mapKey[3], courseData.teacherName);
+                items.put(mapKey[4], Integer.toString(courseData.term));
+                items.put(mapKey[5], Integer.toString(courseData.credit));
                 listMap.add(items);
             }
         }
@@ -181,15 +141,15 @@ public class AbsenceFormListActivity extends AppCompatActivity {
 
     final DBHandler dbHandler = new DBHandler(this);
     private static class DBHandler extends Handler {
-        private final WeakReference<AbsenceFormListActivity> mActivity;
+        private final WeakReference<CourseListActivity> mActivity;
 
-        DBHandler(AbsenceFormListActivity activity) {
+        DBHandler(CourseListActivity activity) {
             mActivity = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(final Message msg) {
-            final AbsenceFormListActivity activity = mActivity.get();
+            final CourseListActivity activity = mActivity.get();
             if (activity != null) {
                 boolean is_sucess = false;
                 String message = null;
@@ -197,7 +157,8 @@ public class AbsenceFormListActivity extends AppCompatActivity {
                 String tag = (String) msg.obj;
                 if (tag != null) {
                     switch (tag) {
-                        case AbsenceFormDataUtils.TAG_FETCH_APPLIES_AS_STUDENT:
+                        case CourseDataUtils.TAG_FETCH_COURSES_AS_STUDENT:
+                        case CourseDataUtils.TAG_FETCH_COURSES_AS_TEACHER:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.refreshData();
                             }

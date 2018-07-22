@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/background"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingLeft="40dp"
@@ -11,7 +12,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="100dp"
         android:gravity="center"
         android:text="@string/app_name"
         android:textSize="30sp" />
@@ -51,7 +52,7 @@
         android:id="@+id/teacher_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -59,32 +60,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="我是老师"
+            android:text="老师"
             android:textColor="@android:color/darker_gray" />
 
         <Button
-            android:id="@+id/daily_for_teacher_button"
+            android:id="@+id/course_for_teacher_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="我的日常"
+            android:layout_weight="0"
+            android:text="我的课程"
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/room_for_teacher_button"
+            android:id="@+id/absence_for_teacher_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="宿舍信息"
-            android:textSize="18sp"
-            android:visibility="gone" />
+            android:layout_weight="0"
+            android:text="学生请假单"
+            android:textSize="18sp" />
 
         <Button
-            android:id="@+id/studentrwdpnybutton2"
+            android:id="@+id/my_student_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="学生奖惩"
+            android:text="我的学生"
             android:textSize="18sp" />
 
         <Button
@@ -100,7 +102,7 @@
         android:id="@+id/student_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -108,32 +110,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="我是学生"
+            android:text="学生"
             android:textColor="@android:color/darker_gray" />
 
         <Button
-            android:id="@+id/daily_for_student_button"
+            android:id="@+id/course_for_student_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="我的日常"
+            android:layout_weight="0"
+            android:text="我的课程"
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/room_for_student_button"
+            android:id="@+id/absence_for_student_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="宿舍信息"
-            android:textSize="18sp"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/studentrwdpnybutton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="学生奖惩"
+            android:layout_weight="0"
+            android:text="我的请假单"
             android:textSize="18sp" />
 
         <Button

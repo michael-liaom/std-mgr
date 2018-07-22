@@ -22,8 +22,8 @@ import android.widget.Toast;
 import java.lang.ref.WeakReference;
 
 public class AbsenceFormCheckActivity extends AppCompatActivity implements View.OnClickListener{
-    final static int RESULT_CODE_COMMIT_CANCEL   = 0;
-    final static int RESULT_CODE_COMMIT_SUCCESS  = 1;
+    final static int RESULT_CODE_COMMIT_NONE    = 0;
+    final static int RESULT_CODE_COMMIT_SUCCESS = 1;
 
     private TextView applyFromTextView;
     private TextView applyToTextView;
@@ -41,9 +41,40 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
     private AuthUserData authUser;
 
     @Override
+    public void onBackPressed() {
+        if (progressBar.getVisibility() != View.VISIBLE) {
+            setResult(RESULT_CODE_COMMIT_NONE);
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         if (view.getId() == R.id.commit_button) {
-
+            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                    .setMessage(R.string.title_approval_check)
+                    .setPositiveButton(R.string.button_approval, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AbsenceFormDataUtils.getInstance()
+                                    .requestApproveApply(absenceFormData, dbHandler,
+                                            AbsenceFormDataUtils.TAG_APPROVE_APPLY);
+                        }
+                    })
+                    .setNegativeButton(R.string.button_reject, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            AbsenceFormDataUtils.getInstance()
+                                    .requestRejectApply(absenceFormData, dbHandler,
+                                            AbsenceFormDataUtils.TAG_REJECT_APPLY);
+                        }
+                    })
+                    .setNeutralButton(R.string.button_pending, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    });
+            builder.show();
         }
     }
 
@@ -72,7 +103,7 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
 
         if (applyId > 0) {
             AbsenceFormDataUtils.getInstance().requestFetchApply(applyId, absenceFormData,
-                    dbHandler, AbsenceFormDataUtils.TAG_FETCH_APPLY);
+                    dbHandler, AbsenceFormDataUtils.TAG_FETCH_ONE_APPLY);
         }
     }
 
@@ -92,6 +123,14 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
         commiteButton       = (Button) findViewById(R.id.commit_button);
 
         commiteButton.setOnClickListener(this);
+
+        if(authUser.genre.equals(AuthUserData.GENRE_TEACHER) &&
+            absenceFormData.toTeacherId == authUser.teacher_id) {
+            commiteButton.setVisibility(View.VISIBLE);
+        }
+        else {
+            commiteButton.setVisibility(View.GONE);
+        }
     }
 
     private void refreshDisp() {
@@ -131,12 +170,11 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
 
         causeTextView.setText(absenceFormData.cause);
 
-        if (absenceFormData.approval == 0) {
-            approvalTextView.setText("待批准");
+        approvalTextView.setText(absenceFormData.getApprovalStatus());
+        if (absenceFormData.approval == AbsenceFormData.PENDING) {
             approvedByTextView.setText((""));
         }
         else {
-            approvalTextView.setText("已批准");
             approvedByTextView.setText(absenceFormData.toTeacherName);
         }
 
@@ -177,7 +215,7 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
                 String tag = (String) msg.obj;
                 if (tag != null) {
                     switch (tag) {
-                        case AbsenceFormDataUtils.TAG_FETCH_APPLY:
+                        case AbsenceFormDataUtils.TAG_FETCH_ONE_APPLY:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.refreshDisp();
                             }
@@ -187,15 +225,32 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
                             }
                             activity.showBusyProgress(false);
                             break;
-                        case AbsenceFormDataUtils.TAG_COMMIT_APPROVAL:
+                        case AbsenceFormDataUtils.TAG_APPROVE_APPLY:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                                         .setMessage(R.string.message_db_commit_success)
                                         .setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                Intent intent = new Intent();
-                                                activity.setResult(RESULT_CODE_COMMIT_SUCCESS, intent);
+                                                activity.setResult(RESULT_CODE_COMMIT_SUCCESS);
+                                                activity.finish();
+                                            }
+                                        });
+                                builder.show();
+                            }
+                            else {
+                                Toast.makeText(activity, R.string.message_db_operation_failure,
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            activity.showBusyProgress(false);
+                        case AbsenceFormDataUtils.TAG_REJECT_APPLY:
+                            if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+                                        .setMessage(R.string.message_db_commit_success)
+                                        .setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                activity.setResult(RESULT_CODE_COMMIT_SUCCESS);
                                                 activity.finish();
                                             }
                                         });

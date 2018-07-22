@@ -7,13 +7,15 @@ public class StudentData {
     final public static String TBL_NAME = "student_registration";
     final static String COL_ID          = "id";
     final static String COL_NAME        = "name";
-    final static String COL_CLASS_ID    = "class_id";
     final static String COL_CODE        = "code";
+    final static String COL_CLASS_ID    = "class_id";
     final static String COL_REG_CODE    = "reg_code";
     int id;
     String name;
-    int class_id;
     int code;
+    int class_id;
+    //Joint
+    String className;
 
     static String toDomain(String col) {
         return TBL_NAME + "." + col;
@@ -25,6 +27,28 @@ public class StudentData {
 
     static String getAsCol(String col) {
         return TBL_NAME + "_" + col;
+    }
+
+    static String getDomainColums() {
+        return toDomain(COL_ID)
+                + ","
+                + toDomain(COL_NAME)
+                + ","
+                + toDomain(COL_CODE)
+                + ","
+                + toDomain(COL_CLASS_ID);
+    }
+
+    static String getJointDomainColums() {
+        return ClassData.toDomainAs(ClassData.COL_NAME);
+    }
+
+    static String getJointTables() {
+        return ClassData.TBL_NAME;
+    }
+
+    static String getJointCondition() {
+        return toDomain(COL_CLASS_ID) + "=" + ClassData.toDomain(COL_ID);
     }
 
     public void extractFromResultSet(ResultSet resultSet) throws SQLException {

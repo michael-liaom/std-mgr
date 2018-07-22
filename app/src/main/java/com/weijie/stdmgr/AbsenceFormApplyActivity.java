@@ -70,8 +70,7 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
     @Override
     public void onBackPressed() {
         if (progressBar.getVisibility() != View.VISIBLE) {
-            Intent intent = new Intent();
-            setResult(RESULT_CODE_APPLY_CANCEL, intent);
+            setResult(RESULT_CODE_APPLY_CANCEL);
             super.onBackPressed();
         }
     }
@@ -368,7 +367,8 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
 
         float durationInHour = 0;
         if (daysEditText.getText().length() > 0) {
-            durationInHour += Integer.getInteger(daysEditText.getText().toString()) * 24;
+            String input = daysEditText.getText().toString();
+            durationInHour += Integer.valueOf(input) * 24;
         }
         if (hoursEditText.getText().length() > 0) {
             durationInHour += Float.parseFloat(hoursEditText.getText().toString());
@@ -489,8 +489,7 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
                                         .setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                Intent intent = new Intent();
-                                                activity.setResult(RESULT_CODE_APPLY_SUCCESS, intent);
+                                                activity.setResult(RESULT_CODE_APPLY_SUCCESS);
                                                 activity.finish();
                                             }
                                         });

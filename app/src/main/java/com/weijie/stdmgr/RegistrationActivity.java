@@ -18,6 +18,8 @@ import android.widget.Toast;
 import java.lang.ref.WeakReference;
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
+    final static int STUDENT_CODE_LEN   = 10;
+    final static int TEACHER_CODE_LEN   = 4;
     final static int MIN_INVATION_LEN   = 6;
     final static int RESULT_CODE_REGISTRATION_CANCEL  = 0;
     final static int RESULT_CODE_REGISTRATION_SUCCESS = 1;
@@ -29,6 +31,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private EditText nameEditText,
             passwdEditText,
             repeatEditText,
+            codeEditText,
             inviteEditText;
     private RadioButton studentRadioButton;
     private Button registerButton;
@@ -37,8 +40,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onBackPressed() {
         if (progressBar.getVisibility() != View.VISIBLE) {
-            Intent intent = new Intent();
-            setResult(RESULT_CODE_REGISTRATION_CANCEL, intent);
+            setResult(RESULT_CODE_REGISTRATION_CANCEL);
             super.onBackPressed();
         }
     }
@@ -62,7 +64,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         nameEditText    = (EditText)    findViewById(R.id.name_edit_text);
         passwdEditText  = (EditText)    findViewById(R.id.password_edit_text);
         repeatEditText  = (EditText)    findViewById(R.id.repeat_edit_text);
+        codeEditText    = (EditText)    findViewById(R.id.code_edit_ext);
         inviteEditText  = (EditText)    findViewById(R.id.invite_edit_ext);
+
         registerButton  = (Button)      findViewById(R.id.registration_student_button);
         studentRadioButton
                 = (RadioButton) findViewById(R.id.student_radio_utton);
@@ -111,6 +115,29 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                 R.string.message_input_password_mismatch,
                                 Toast.LENGTH_LONG).show();
                     }
+                }
+            }
+        });
+        codeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus){
+                    EditText editText = (EditText)view;
+                    if (RegistrationActivity.this.studentRadioButton.isChecked()) {
+                        if (editText.getText().toString().length() != RegistrationActivity.STUDENT_CODE_LEN) {
+                            Toast.makeText(RegistrationActivity.this,
+                                    R.string.message_input_student_code_invalid,
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        if (editText.getText().toString().length() != RegistrationActivity.TEACHER_CODE_LEN) {
+                            Toast.makeText(RegistrationActivity.this,
+                                    R.string.message_input_teacher_code_invalid,
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+
                 }
             }
         });
@@ -170,7 +197,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         else {
             genre = AuthUserData.GENRE_TEACHER;
         }
-        authUserDataUtils.requestCheckInviationValid(inviteEditText.getText().toString(), genre,
+        int unifiedCode = Integer.valueOf(codeEditText.getText().toString());
+        authUserDataUtils.requestCheckInviationValid(unifiedCode, inviteEditText.getText().toString(), genre,
                 dbHandler, AuthUserDataUtils.TAG_CHECK_INVATION_VALID);
     }
 
@@ -183,7 +211,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         else {
             genre = AuthUserData.GENRE_TEACHER;
         }
-        authUserDataUtils.requestRegistration(inviteEditText.getText().toString(),
+        int unifiedCode = Integer.valueOf(codeEditText.getText().toString());
+        authUserDataUtils.requestRegistration(unifiedCode, inviteEditText.getText().toString(),
                 genre, nameEditText.getText().toString(),
                 passwdEditText.getText().toString(), dbHandler,
                 AuthUserDataUtils.TAG_REGISTRATION);
@@ -252,8 +281,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                     @Override
                                     public void onClick(DialogInterface dialog, int which)
                                     {
-                                        Intent intent = new Intent();
-                                        activity.setResult(RESULT_CODE_REGISTRATION_SUCCESS, intent);
+                                        activity.setResult(RESULT_CODE_REGISTRATION_SUCCESS);
                                         activity.finish();
                                     }
                                 });

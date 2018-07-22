@@ -28,7 +28,10 @@ CREATE TABLE `class` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `code` int(11) NOT NULL,
-  `status` tinyint(1) DEFAULT NULL,
+  `section` varchar(20) NOT NULL,
+  `major` varchar(20) NOT NULL,
+  `grade` int(4) NOT NULL,
+  `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='学生班级信息';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -39,7 +42,7 @@ CREATE TABLE `class` (
 
 LOCK TABLES `class` WRITE;
 /*!40000 ALTER TABLE `class` DISABLE KEYS */;
-INSERT INTO `class` VALUES (1,'计算机',1440706,1);
+INSERT INTO `class` VALUES (1,'14级Web应用2班',1440706,'计算机科学系','Web应用',2014,1);
 /*!40000 ALTER TABLE `class` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-22  0:27:12
+-- Dump completed on 2018-07-23  0:59:19

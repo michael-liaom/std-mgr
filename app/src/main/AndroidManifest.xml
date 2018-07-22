@@ -28,29 +28,18 @@
         <activity
             android:name=".MainActivity"
             android:label="主菜单">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuTeacherActivity" />
         <activity
             android:name=".LoginActivity"
             android:label="用户登录" />
         <activity
-            android:name=".StuInfoActivity"
-            android:label="学籍信息" />
-        <activity
-            android:name=".DormActivity"
-            android:label="宿舍信息" />
-        <activity
             android:name=".AbsenceFormApplyActivity"
             android:label="日常信息" />
-        <activity
-            android:name=".StudentrwActivity"
-            android:label="学生奖惩信息" />
         <activity
             android:name=".RegistrationActivity"
             android:label="用户注册" />
@@ -59,11 +48,23 @@
             android:label="我的请假单" />
         <activity android:name=".SimpleDataPickerActivity" />
         <activity
-            android:name=".DailyMainActivity"
-            android:label="我的日常" />
-        <activity android:name=".StudentCourseActivity" />
-        <activity android:name=".AbsenceFormCheckActivity" />
-        <activity android:name=".HostSettingActivity"></activity>
+            android:name=".StudentCourseActivity"
+            android:label="课程列表"/>
+        <activity
+            android:name=".AbsenceFormCheckActivity"
+            android:label="请假单详情"/>
+        <activity
+            android:name=".HostSettingActivity"
+            android:label="服务器主机地址设定"/>
+        <activity
+            android:name=".CourseListActivity"
+            android:label="课程列表"/>
+        <activity
+            android:name=".CourseStudentsActivity"
+            android:label="授课学生列表"/>
+        <activity
+            android:name=".CourseDetailActivity"
+            android:label="课程详情"/>
     </application>
 
 </manifest>

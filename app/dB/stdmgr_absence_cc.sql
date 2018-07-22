@@ -29,7 +29,7 @@ CREATE TABLE `absence_cc` (
   `apply_id` int(11) DEFAULT NULL,
   `course_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='请假条抄送清单';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='请假条抄送清单';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `absence_cc` (
 
 LOCK TABLES `absence_cc` WRITE;
 /*!40000 ALTER TABLE `absence_cc` DISABLE KEYS */;
-INSERT INTO `absence_cc` VALUES (1,4,1),(2,4,2),(3,4,3),(4,4,4),(6,5,1),(7,5,2),(8,5,3),(9,5,4),(10,5,2),(11,6,1),(12,6,2),(13,6,3),(14,6,4),(15,6,2),(16,7,1),(17,7,5),(18,8,1);
+INSERT INTO `absence_cc` VALUES (1,4,1),(2,4,2),(3,4,3),(4,4,4),(6,5,1),(7,5,2),(8,5,3),(9,5,4),(10,5,2),(11,6,1),(12,6,2),(13,6,3),(14,6,4),(15,6,2),(16,7,1),(17,7,5),(18,8,1),(19,9,1),(20,10,5),(21,11,5);
 /*!40000 ALTER TABLE `absence_cc` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-22  0:27:00
+-- Dump completed on 2018-07-23  0:59:08

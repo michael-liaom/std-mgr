@@ -38,8 +38,7 @@ public class HostSettingActivity extends AppCompatActivity {
                     authUser.hostName = hostNameEdiText.getText().toString();
                     authUser.backupToLocal();
 
-                    Intent intent = new Intent();
-                    setResult(RETURN_CODE_OK, intent);
+                    setResult(RETURN_CODE_OK);
                     finish();
                 }
             }

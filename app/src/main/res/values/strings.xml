@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">学生工作管理系统</string>
+    <string name="app_name">学生日常工作管理</string>
     <string name="absence_apply_is_not_fully_file">请假单填写不完整</string>
     <string name="message_db_connect_failure">数据库连接失败！</string>
     <string name="message_db_operation_failure">数据库操作失败！</string>
@@ -13,8 +13,14 @@
     <string name="message_input_name_invalid">用户名无效!</string>
     <string name="message_input_password_invalid">密码无效!</string>
     <string name="message_input_password_mismatch">确认密码不匹配!</string>
+    <string name="message_input_student_code_invalid">学号无效!</string>
+    <string name="message_input_teacher_code_invalid">教师编号无效!</string>
     <string name="message_input_invation_invalid">邀请码无效!</string>
     <string name="message_registartion_half_baked">注册信息输入不完整</string>
     <string name="button_confirm">确认</string>
+    <string name="button_approval">批准</string>
+    <string name="button_reject">拒绝</string>
+    <string name="button_pending">待定</string>
+    <string name="title_approval_check">签批意见</string>
     <string name="title_activity_simple_pick_data">SimplePickDataActivity</string>
 </resources>

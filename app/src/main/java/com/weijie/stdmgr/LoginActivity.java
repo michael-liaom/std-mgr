@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             registerButton.setEnabled(false);
         }
         else {
-            progressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.INVISIBLE);
             loginButton.setEnabled(true);
             registerButton.setEnabled(true);
         }
@@ -129,8 +129,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                         .setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                Intent intent = new Intent();
-                                                activity.setResult(RESULT_CODE_LOGIN_SUCCESS, intent);
+                                                activity.setResult(RESULT_CODE_LOGIN_SUCCESS);
                                                 activity.finish();
                                             }
                                         });

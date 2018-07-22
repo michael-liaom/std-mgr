@@ -18,6 +18,7 @@ public class AuthUserData {
     final static String COL_GENRE       = "genre";
     final static String COL_STUDENT_ID  = "student_id";
     final static String COL_TEACHER_ID  = "teacher_id";
+
     final public static String GENRE_STUDENT    = "student";
     final public static String GENRE_TEACHER    = "teacher";
     final public static String REG_CODE_INVALID = "'-1'";
