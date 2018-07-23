@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `stdmgr` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `stdmgr`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: LocalHost    Database: stdmgr
+-- Host: localhost    Database: stdmgr
 -- ------------------------------------------------------
 -- Server version	5.5.60
 
@@ -28,8 +28,9 @@ CREATE TABLE `student_course` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `student_id` int(11) NOT NULL,
   `course_id` int(11) NOT NULL,
+  `approval` int(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='学生课程';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='学生课程';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +39,7 @@ CREATE TABLE `student_course` (
 
 LOCK TABLES `student_course` WRITE;
 /*!40000 ALTER TABLE `student_course` DISABLE KEYS */;
-INSERT INTO `student_course` VALUES (1,1,1);
+INSERT INTO `student_course` VALUES (1,1,1,1),(2,1,2,1),(3,1,3,1),(4,1,4,1),(5,1,5,1);
 /*!40000 ALTER TABLE `student_course` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-18 14:33:30
+-- Dump completed on 2018-07-23 22:11:17
