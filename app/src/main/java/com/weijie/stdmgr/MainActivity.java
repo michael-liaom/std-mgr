@@ -42,10 +42,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         }
         else if (requestCode == REQUEST_FOR_HOSTARESS) {
-            if (resultCode == HostSettingActivity.RETURN_CODE_OK) {
+            //if (resultCode == HostSettingActivity.RETURN_CODE_OK) {
                 jdbcMgrUtils.connect(authUser.hostName, dbHandler, JdbcMgrUtils.TAG_DB_CONNECT);
                 showBusyProgress(true);
-            }
+            //}
         }
     }
 
