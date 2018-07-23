@@ -72,9 +72,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         initialLayout = (LinearLayout) findViewById(R.id.initial_layout);
 
         teacherLayout = (LinearLayout) findViewById(R.id.teacher_layout);
-        Button teacherCourseButton   = (Button) findViewById(R.id.course_for_teacher_button);
+        Button teacherCourseButton  = (Button) findViewById(R.id.course_for_teacher_button);
+        Button teacherClassButton   = (Button) findViewById(R.id.myclass_for_teacher_button);
         Button teacherAbsenceButton        = (Button) findViewById(R.id.absence_for_teacher_button);
         teacherCourseButton.setOnClickListener(this);
+        teacherClassButton.setOnClickListener(this);
         teacherAbsenceButton.setOnClickListener(this);
 
         studentLayout = (LinearLayout) findViewById(R.id.student_layout);

@@ -19,11 +19,9 @@ public class StudentDataUtils extends DBHandlerService {
     private static WeakReference<StudentDataUtils> instance = null;
 
     private JdbcMgrUtils jdbcMgrUtils;
-    private AuthUserData authUser;
 
     private StudentDataUtils() {
         jdbcMgrUtils = JdbcMgrUtils.getInstance();
-        authUser = MyApplication.getInstance().authUser;
     }
 
     public synchronized static StudentDataUtils getInstance(){
@@ -38,34 +36,40 @@ public class StudentDataUtils extends DBHandlerService {
         return TBL_STUDENT_COURSE + "." + col;
     }
 
+    public boolean fetchStudentData(int studentId, StudentData studentData) {
+        String sql = "SELECT * FROM " + CourseData.TBL_NAME
+                + " WHERE "
+                + StudentData.COL_ID + "=" + toValue(studentId)
+                + " AND "
+                + COL_STATUS + "=" + STATUS_VALID
+                + ";";
+        boolean isOk = true;
+
+        try {
+            Statement statement = jdbcMgrUtils.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet != null && resultSet.next()) {
+                studentData.extractFromResultSet(resultSet);
+            }
+            else {
+                isOk = false;
+            }
+            statement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            isOk = false;
+        }
+
+        return  isOk;
+    }
+
     public void requestFetchStudentRegistration(final int studentId, final StudentData studentData,
                                        final Handler handler, final String tag) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String sql = "SELECT * FROM " + CourseData.TBL_NAME
-                        + " WHERE "
-                        + StudentData.COL_ID + "=" + toValue(studentId)
-                        + " AND "
-                        + COL_STATUS + "=" + STATUS_VALID
-                        + ";";
-                boolean isOk = true;
-
-                try {
-                    Statement statement = jdbcMgrUtils.createStatement();
-                    ResultSet resultSet = statement.executeQuery(sql);
-                    if (resultSet != null && resultSet.next()) {
-                        studentData.extractFromResultSet(resultSet);
-                    }
-                    else {
-                        isOk = false;
-                    }
-                    statement.close();
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                    isOk = false;
-                }
+                boolean isOk = fetchStudentData(studentId, studentData);
 
                 if (isOk) {
                     processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);

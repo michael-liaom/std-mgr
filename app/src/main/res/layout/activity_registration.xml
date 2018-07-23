@@ -130,7 +130,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/code_edit_ext"
+            android:id="@+id/code_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -149,11 +149,11 @@
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="邀请码:"
+            android:text="注册码:"
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/invite_edit_ext"
+            android:id="@+id/reg_code_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

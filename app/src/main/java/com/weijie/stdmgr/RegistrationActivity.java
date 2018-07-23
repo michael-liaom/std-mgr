@@ -32,7 +32,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             passwdEditText,
             repeatEditText,
             codeEditText,
-            inviteEditText;
+            regCodeEditText;
     private RadioButton studentRadioButton;
     private Button registerButton;
     private ProgressBar progressBar;
@@ -64,8 +64,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         nameEditText    = (EditText)    findViewById(R.id.name_edit_text);
         passwdEditText  = (EditText)    findViewById(R.id.password_edit_text);
         repeatEditText  = (EditText)    findViewById(R.id.repeat_edit_text);
-        codeEditText    = (EditText)    findViewById(R.id.code_edit_ext);
-        inviteEditText  = (EditText)    findViewById(R.id.invite_edit_ext);
+        codeEditText    = (EditText)    findViewById(R.id.code_edit_text);
+        regCodeEditText  = (EditText)    findViewById(R.id.reg_code_edit_text);
 
         registerButton  = (Button)      findViewById(R.id.registration_student_button);
         studentRadioButton
@@ -141,7 +141,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 }
             }
         });
-        inviteEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        regCodeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus){
@@ -181,7 +181,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         if (nameEditText.getText().toString().length() < AuthUserData.MIN_NAME_LEN ||
                 passwdEditText.getText().toString().length() < AuthUserData.MIN_PASSWORD_LEN ||
                 !passwdEditText.getText().toString().equals(repeatEditText.getText().toString()) ||
-                inviteEditText.getText().toString().length() < MIN_INVATION_LEN) {
+                regCodeEditText.getText().toString().length() < MIN_INVATION_LEN) {
             return false;
         }
 
@@ -198,7 +198,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             genre = AuthUserData.GENRE_TEACHER;
         }
         int unifiedCode = Integer.valueOf(codeEditText.getText().toString());
-        authUserDataUtils.requestCheckInviationValid(unifiedCode, inviteEditText.getText().toString(), genre,
+        authUserDataUtils.requestCheckInviationValid(unifiedCode, regCodeEditText.getText().toString(), genre,
                 dbHandler, AuthUserDataUtils.TAG_CHECK_INVATION_VALID);
     }
 
@@ -212,7 +212,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             genre = AuthUserData.GENRE_TEACHER;
         }
         int unifiedCode = Integer.valueOf(codeEditText.getText().toString());
-        authUserDataUtils.requestRegistration(unifiedCode, inviteEditText.getText().toString(),
+        authUserDataUtils.requestRegistration(unifiedCode, regCodeEditText.getText().toString(),
                 genre, nameEditText.getText().toString(),
                 passwdEditText.getText().toString(), dbHandler,
                 AuthUserDataUtils.TAG_REGISTRATION);
