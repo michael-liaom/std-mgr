@@ -110,6 +110,14 @@
             android:textSize="18sp" />
 
         <Button
+            android:id="@+id/myteacher_for_teacher_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="我的老师"
+            android:textSize="18sp" />
+
+        <Button
             android:id="@+id/absence_for_student_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

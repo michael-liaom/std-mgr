@@ -9,10 +9,14 @@ public class StudentData {
     final static String COL_NAME        = "name";
     final static String COL_CODE        = "code";
     final static String COL_CLASS_ID    = "class_id";
+    final static String COL_EMAIL       = "email";
+    final static String COL_ROOM        = "room";
     final static String COL_REG_CODE    = "reg_code";
     int id;
     String name;
     int code;
+    int email;
+    int room;
     int class_id;
     //Joint
     String className;
@@ -36,6 +40,10 @@ public class StudentData {
                 + ","
                 + toDomain(COL_CODE)
                 + ","
+                + toDomain(COL_EMAIL)
+                + ","
+                + toDomain(COL_ROOM)
+                + ","
                 + toDomain(COL_CLASS_ID);
     }
 
@@ -52,9 +60,11 @@ public class StudentData {
     }
 
     public void extractFromResultSet(ResultSet resultSet) throws SQLException {
-        id = resultSet.getInt(COL_ID);
-        name = resultSet.getString(COL_NAME);
+        id      = resultSet.getInt(COL_ID);
+        name    = resultSet.getString(COL_NAME);
+        code    = resultSet.getInt(COL_CODE);
+        email   = resultSet.getInt(COL_EMAIL);
+        room    = resultSet.getInt(COL_ROOM);
         class_id = resultSet.getInt(COL_CLASS_ID);
-        code = resultSet.getInt(COL_CODE);
     }
 }

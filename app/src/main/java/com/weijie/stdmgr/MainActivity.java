@@ -74,15 +74,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
         teacherLayout = (LinearLayout) findViewById(R.id.teacher_layout);
         Button teacherCourseButton  = (Button) findViewById(R.id.course_for_teacher_button);
         Button teacherClassButton   = (Button) findViewById(R.id.myclass_for_teacher_button);
-        Button teacherAbsenceButton        = (Button) findViewById(R.id.absence_for_teacher_button);
+        Button teacherAbsenceButton = (Button) findViewById(R.id.absence_for_teacher_button);
         teacherCourseButton.setOnClickListener(this);
         teacherClassButton.setOnClickListener(this);
         teacherAbsenceButton.setOnClickListener(this);
 
         studentLayout = (LinearLayout) findViewById(R.id.student_layout);
         Button studentCourseButton   = (Button) findViewById(R.id.course_for_student_button);
+        Button studentTeacherButton  = (Button) findViewById(R.id.myteacher_for_teacher_button);
         Button studentAbsenceButton  = (Button) findViewById(R.id.absence_for_student_button);
         studentCourseButton.setOnClickListener(this);
+        studentTeacherButton.setOnClickListener(this);
         studentAbsenceButton.setOnClickListener(this);
 
 
@@ -98,6 +100,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.myclass_for_teacher_button:
+                break;
+            case R.id.myteacher_for_teacher_button:
+                break;
             case R.id.course_for_student_button:
             case R.id.course_for_teacher_button:
                 startActivity(new Intent(this, CourseListActivity.class));
@@ -115,7 +121,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void checkAuth () {
         if (authUser.name.length() > 0 &&
                 authUser.password.length() > 0) {
-            authUserDataUtils.requestLogin(authUser.name, authUser.password, dbHandler, AuthUserDataUtils.TAG_LOGIN);
+            authUserDataUtils.requestLogin(authUser.name, authUser.password,
+                    dbHandler, AuthUserDataUtils.TAG_LOGIN);
             showBusyProgress(true);
         }
         else {
