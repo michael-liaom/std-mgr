@@ -75,45 +75,31 @@ public class MyDataActivity extends AppCompatActivity {
     }
 
     private void refreshData() {
-        TextView codeTextView = (TextView) findViewById(R.id.code_text_view);
-        TextView nameTextView = (TextView) findViewById(R.id.name_text_view);
-        TextView teacherTextView
-                = (TextView) findViewById(R.id.teacher_text_view);
-        TextView creditTextView
-                = (TextView) findViewById(R.id.credit_text_view);
-        TextView sectionTextView
-                = (TextView) findViewById(R.id.section_text_view);
-        TextView classroomTextView
-                = (TextView) findViewById(R.id.classroom_text_view);
-        TextView genreTextView
-                = (TextView) findViewById(R.id.genre_text_view);
-        TextView scheduleTextView
-                = (TextView) findViewById(R.id.schedule_text_view);
-        TextView termTextView = (TextView) findViewById(R.id.term_text_view);
+        if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
+            StudentData studentData = authUser.studentData;
+            TextView nameTextView = (TextView) findViewById(R.id.student_name_text_view);
+            TextView codeTextView = (TextView) findViewById(R.id.student_code_text_view);
+            /*
+            TextView teacherTextView
+                    = (TextView) findViewById(R.id.teacher_text_view);
+            TextView creditTextView
+                    = (TextView) findViewById(R.id.credit_text_view);
+            TextView sectionTextView
+                    = (TextView) findViewById(R.id.section_text_view);
+            TextView classroomTextView
+                    = (TextView) findViewById(R.id.classroom_text_view);
+            TextView genreTextView
+                    = (TextView) findViewById(R.id.genre_text_view);
+            TextView scheduleTextView
+                    = (TextView) findViewById(R.id.schedule_text_view);
+            TextView termTextView = (TextView) findViewById(R.id.term_text_view);
+            */
 
-        codeTextView.setText(courseData.code);
-        nameTextView.setText(courseData.name);
-        teacherTextView.setText(courseData.teacherName);
-        creditTextView.setText(Integer.toString(courseData.credit));
-        sectionTextView.setText(courseData.section);
-        classroomTextView.setText(courseData.classroom);
-        genreTextView.setText(courseData.genre);
-        scheduleTextView.setText(courseData.schedule);
-        termTextView.setText(Integer.toString(courseData.term));
+            codeTextView.setText(studentData.code);
+            nameTextView.setText(studentData.name);
+        }
+        else {
 
-        if (authUser.teacher_id == courseData.teacherId) {
-            Button button = (Button) findViewById(R.id.action_button);
-            button.setVisibility(View.VISIBLE);
-
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(CourseDetailActivity.this,
-                            CourseStudentsActivity.class);
-                    intent.putExtra(CourseData.COL_ID, courseData.id);
-                    startActivity(intent);
-                }
-            });
         }
     }
 
