@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `stdmgr` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `stdmgr`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: localhost    Database: stdmgr
+-- Host: LocalHost    Database: stdmgr
 -- ------------------------------------------------------
 -- Server version	5.5.60
 
@@ -25,15 +25,15 @@ DROP TABLE IF EXISTS `user_login`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_login` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
   `password` varchar(45) NOT NULL,
   `genre` varchar(10) NOT NULL,
   `student_id` int(11) NOT NULL,
   `teacher_id` int(11) NOT NULL,
-  `status` int(1) NOT NULL,
+  `status` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='用户登陆信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户登陆信息';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,6 @@ CREATE TABLE `user_login` (
 
 LOCK TABLES `user_login` WRITE;
 /*!40000 ALTER TABLE `user_login` DISABLE KEYS */;
-INSERT INTO `user_login` VALUES (4,'student','123456','student',1,-1,1),(5,'teacher','123456','teacher',-1,2,1);
 /*!40000 ALTER TABLE `user_login` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-23  0:59:12
+-- Dump completed on 2018-07-18 14:33:32

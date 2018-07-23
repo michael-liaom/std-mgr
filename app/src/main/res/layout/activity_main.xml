@@ -26,10 +26,10 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_weight="0"
-            app:srcCompat="@mipmap/ic_logo" />
+            android:background="@mipmap/ic_logo" />
 
         <TextView
             android:layout_width="match_parent"
@@ -45,7 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:visibility="invisible" />
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -73,28 +74,28 @@
             android:textSize="18sp" />
 
         <Button
+            android:id="@+id/myclass_for_teacher_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="我的班级"
+            android:textSize="18sp" />
+
+        <Button
             android:id="@+id/absence_for_teacher_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="0"
-            android:text="学生请假单"
+            android:text="学生请假情况"
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/my_student_button"
+            android:id="@+id/my_data_teacher_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="我的学生"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/registration_teacher_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="我的资料"
+            android:text="我的的个人资料"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -132,11 +133,11 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/registration_student_button"
+            android:id="@+id/my_data_student_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="我的学籍"
+            android:text="我的个人资料"
             android:textSize="18sp" />
     </LinearLayout>
 

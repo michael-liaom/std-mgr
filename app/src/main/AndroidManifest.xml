@@ -49,22 +49,25 @@
         <activity android:name=".SimpleDataPickerActivity" />
         <activity
             android:name=".StudentCourseActivity"
-            android:label="课程列表"/>
+            android:label="课程列表" />
         <activity
             android:name=".AbsenceFormCheckActivity"
-            android:label="请假单详情"/>
+            android:label="请假单详情" />
         <activity
             android:name=".HostSettingActivity"
-            android:label="服务器主机地址设定"/>
+            android:label="服务器主机地址设定" />
         <activity
             android:name=".CourseListActivity"
-            android:label="课程列表"/>
+            android:label="课程列表" />
         <activity
             android:name=".CourseStudentsActivity"
-            android:label="授课学生列表"/>
+            android:label="授课学生列表" />
         <activity
             android:name=".CourseDetailActivity"
-            android:label="课程详情"/>
+            android:label="课程详情" />
+        <activity
+            android:name=".MyDataActivity"
+            android:label="我的个人资料"/>
     </application>
 
 </manifest>
