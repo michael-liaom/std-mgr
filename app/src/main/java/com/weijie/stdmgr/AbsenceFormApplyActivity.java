@@ -47,7 +47,7 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
     private EditText causeEditText;
     private EditText beginDateEditText,
             endingDateEditText;
-    private Spinner applyToSpinner;
+    private TextView classTeacherTextView;
     private TextView courseTextView;
     private TextView courseTeacherTextView;
     private EditText courseCountEditText;
@@ -63,6 +63,8 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
 
     private ArrayAdapter<String> adapterCc;
     private AbsenceFormData absenceFormData;
+
+    private int requestCounter;
 
     private MyOnFocusChangeListener myOnFocusChangeListener = new MyOnFocusChangeListener();
 
@@ -91,7 +93,7 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
                         }
                     }
                 }
-                refreshDisp();
+                refreshControlDisp();
                 break;
             }
         }
@@ -110,7 +112,7 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
         initData();
         initControls();
 
-        showBusyProgress(true);
+        requestData();
     }
 
     private void initData() {
@@ -123,19 +125,6 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
 
 
         classData = new ClassData();
-        initApplyToListData();
-    }
-
-    private void initApplyToListData() {
-        ClassDataUtils.getInstance().requestFetchClassData(authUser.studend_id, classData,
-                dbHandler, ClassDataUtils.TAG_FETCH_CLASS_DATA);
-
-    }
-
-    private void initApplyCCListData() {
-        StudentDataUtils.getInstance()
-                .requestFetchStudentCourseData(authUser.studend_id, true,
-                        ccCourseList, dbHandler, StudentDataUtils.TAG_FETCH_STUDENT_COURSE);
     }
 
     private void refreshClassTeacherDisplay() {
@@ -143,7 +132,7 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
         classTeacherTextView.setText(classData.teacherName);
     }
 
-    private void refreshApplyCcDataPicker() {
+    private void refreshCourseDataPicker() {
         ccPickItems.clear();
         for (CourseData courseData : ccCourseList) {
             boolean isPicked = false;
@@ -155,19 +144,18 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
                     courseData.id, isPicked);
             ccPickItems.add(pickItemData);
         }
-
-        refreshDisp();
     }
 
     private void initControls() {
-        TextView menuTextView = (TextView) findViewById(R.id.menu_text_view);
+        TextView menuTextView = (TextView) findViewById(R.id.title_text_view);
         applyFrom           = (TextView) findViewById(R.id.apply_from_text_view);
         inputForm           = findViewById(R.id.input_form);
-        applyTypeSpinner    = (Spinner) findViewById(R.id.apply_type_spinner);
-        causeEditText       = (EditText) findViewById(R.id.cause_edit_text);
         beginDateEditText   = (EditText) findViewById(R.id.begin_date_edit_text);
         endingDateEditText  = (EditText) findViewById(R.id.ending_date_edit_text);
-        applyToSpinner      = (Spinner) findViewById(R.id.apply_to_spinner);
+        applyTypeSpinner    = (Spinner) findViewById(R.id.apply_type_spinner);
+        causeEditText       = (EditText) findViewById(R.id.cause_edit_text);
+        classTeacherTextView
+                = (TextView) findViewById(R.id.class_teacher_text_view);
         courseTextView      = (TextView) findViewById(R.id.course_text_view);
         courseTeacherTextView
                 = (TextView) findViewById(R.id.course_teacher_text_view);
@@ -199,34 +187,42 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
                 // Another interface callback
             }
         });
-
-        refreshDisp();
-
         menuTextView.setFocusable(true);
         menuTextView.setFocusableInTouchMode(true);
         menuTextView.requestFocus();
     }
 
-    private void refreshDisp() {
-        if (absenceFormData.studentId > 0) {
-            applyFrom.setText(absenceFormData.studentName);
-        }
-        else {
-            applyFrom.setText(authUser.studentData.name);
-        }
+    private void requestData() {
+        ClassDataUtils.getInstance().requestFetchClassData(authUser.studend_id, classData,
+                dbHandler, ClassDataUtils.TAG_FETCH_CLASS_DATA);
+        StudentDataUtils.getInstance()
+                .requestFetchStudentCourseData(authUser.studend_id, true,
+                        ccCourseList, dbHandler, StudentDataUtils.TAG_FETCH_STUDENT_COURSE);
+        requestCounter = 2;
+        showBusyProgress(true);
+    }
 
-        String courseName       = "";
-        String courseTeacher    = "";
-        for (int idx = 0; idx < ccPickItems.size(); idx++) {
-            SimplePickItemData itemData = ccPickItems.get(idx);
-            if (itemData.isPicked) {
-                courseName      = ccCourseList.get(idx).code + " " + ccCourseList.get(idx).name;
-                courseTeacher   = ccCourseList.get(idx).teacherName;
-                break;
+    private void refreshControlDisp() {
+        if (requestCounter == 0) {
+            if (absenceFormData.studentId > 0) {
+                applyFrom.setText(absenceFormData.studentName);
+            } else {
+                applyFrom.setText(authUser.studentData.name);
             }
+
+            String courseName = "";
+            String courseTeacher = "";
+            for (int idx = 0; idx < ccPickItems.size(); idx++) {
+                SimplePickItemData itemData = ccPickItems.get(idx);
+                if (itemData.isPicked) {
+                    courseName = ccCourseList.get(idx).code + " " + ccCourseList.get(idx).name;
+                    courseTeacher = ccCourseList.get(idx).teacherName;
+                    break;
+                }
+            }
+            courseTextView.setText(courseName);
+            courseTeacherTextView.setText(courseTeacher);
         }
-        courseTextView.setText(courseName);
-        courseTeacherTextView.setText(courseTeacher);
     }
 
     private void showBusyProgress(boolean isBussy) {
@@ -248,7 +244,7 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
                         SimpleDataPickerActivity.class);
                 SimpleDataPickerActivity.Builder builder
                         = new SimpleDataPickerActivity.Builder("抄送任课老师",
-                        "", ccPickItems, true);
+                        "", ccPickItems, false);
                 intent.putExtra(SimpleDataPickerActivity.PARAM_EXTRA_DATA_KEY, builder);
                 startActivityForResult(intent, REQUEST_CODE_GETTING_CC);
                 break;
@@ -270,7 +266,8 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
         //Please write the code
         if (    beginDateEditText.getText().length() > 0 &&
                 endingDateEditText.getText().length() > 0 &&
-                !courseTextView.getText().equals(DATA_PICKER_NOSETTING)) {
+                courseTextView.getText().length() > 0 &&
+                courseCountEditText.getText().length() > 0) {
             Date begin  = CommUtils.toDate(beginDateEditText.getText().toString());
             Date ending = CommUtils.toDate(endingDateEditText.getText().toString());
             if (ending.getTime() >= begin.getTime()) {
@@ -294,16 +291,14 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
     }
 
     private void commiteData() {
-        int posi;
 
         absenceFormData.studentId = authUser.studend_id;
 
-        absenceFormData.type = applyTypeSpinner.getSelectedItem().toString();
-
         absenceFormData.begin   = CommUtils.toDate(beginDateEditText.getText().toString());
         absenceFormData.ending  = CommUtils.toDate(endingDateEditText.getText().toString());
+        absenceFormData.type    = applyTypeSpinner.getSelectedItem().toString();
+        absenceFormData.cause   = causeEditText.getText().toString();
 
-        posi = applyToSpinner.getSelectedItemPosition();
         absenceFormData.classTeacherId = classData.teacherId;
 
         for (int idx = 0; idx < ccPickItems.size(); idx++) {
@@ -318,6 +313,7 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
         AbsenceFormDataUtils applyDataUtils = AbsenceFormDataUtils.getInstance();
         applyDataUtils.requestCommitApply(absenceFormData,
                 dbHandler, AbsenceFormDataUtils.TAG_COMMIT_APPLY);
+        requestCounter++;
         showBusyProgress(true);
     }
 
@@ -407,27 +403,36 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
                 if (tag != null) {
                     switch (tag) {
                         case ClassDataUtils.TAG_FETCH_CLASS_DATA:
+                            activity.requestCounter--;
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.refreshClassTeacherDisplay();
-                                activity.initApplyCCListData();
+                                activity.refreshControlDisp();
                             }
                             else {
                                 activity.showBusyProgress(false);
                                 Toast.makeText(activity, R.string.message_db_operation_failure,
                                         Toast.LENGTH_LONG).show();
                             }
+                            if (activity.requestCounter == 0) {
+                                activity.showBusyProgress(false);
+                            }
                             break;
                         case StudentDataUtils.TAG_FETCH_STUDENT_COURSE:
+                            activity.requestCounter--;
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
-                                activity.refreshApplyCcDataPicker();
+                                activity.refreshCourseDataPicker();
+                                activity.refreshControlDisp();
                             }
                             else {
                                 Toast.makeText(activity, R.string.message_db_operation_failure,
                                         Toast.LENGTH_LONG).show();
                             }
-                            activity.showBusyProgress(false);
+                            if (activity.requestCounter == 0) {
+                                activity.showBusyProgress(false);
+                            }
                             break;
                         case AbsenceFormDataUtils.TAG_COMMIT_APPLY:
+                            activity.requestCounter--;
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                                         .setMessage(R.string.message_db_commit_success)
@@ -444,7 +449,9 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
                                 Toast.makeText(activity, R.string.message_db_operation_failure,
                                         Toast.LENGTH_LONG).show();
                             }
-                            activity.showBusyProgress(false);
+                            if (activity.requestCounter == 0) {
+                                activity.showBusyProgress(false);
+                            }
                             break;
                     }
                 }

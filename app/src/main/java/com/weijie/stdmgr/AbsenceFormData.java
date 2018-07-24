@@ -16,7 +16,7 @@ public class AbsenceFormData extends DBHandlerService {
     final static String COL_TYPE        = "type";
     final static String COL_CAUSE       = "cause";
     final static String COL_COURSE_ID   = "course_id";
-    final static String COL_COURSE_COUNT= "course_id";
+    final static String COL_COURSE_COUNT= "course_count";
     final static String COL_CLASS_APPROVAL  = "class_approval";
     final static String COL_COURSE_APPROVAL = "course_approval";
 

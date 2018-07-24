@@ -19,7 +19,7 @@
         android:paddingRight="20dp">
 
         <TextView
-            android:id="@+id/menu_text_view"
+            android:id="@+id/title_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -175,14 +175,13 @@
                     android:text="辅导员:"
                     android:textSize="14sp" />
 
-                <Spinner
-                    android:id="@+id/apply_to_spinner"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/class_teacher_text_view"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true" />
+                    android:layout_weight="1" />
+
             </LinearLayout>
 
             <View
@@ -209,13 +208,13 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/_text_view"
+                    android:id="@+id/course_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                    android:textSize="18sp" />
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:layout_width="20dp"

@@ -47,9 +47,9 @@ public class ClassDataUtils extends DBHandlerService {
                             + " WHERE "
                             + ClassData.getJointCondition()
                             + " AND "
-                            + ClassData.COL_ID + "=" + toValue(classId)
+                            + ClassData.toDomain(COL_ID) + "=" + toValue(classId)
                             + " AND "
-                            + COL_STATUS + "=" + STATUS_VALID
+                            + ClassData.toDomain(COL_STATUS) + "=" + STATUS_VALID
                             + ";";
                     ResultSet resultSet = statement.executeQuery(sql);
                     if (resultSet != null && resultSet.next()) {
