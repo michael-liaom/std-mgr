@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import java.lang.ref.WeakReference;
 public class MyDataActivity extends AppCompatActivity {
     private AuthUserData authUser;
 
+    LinearLayout studentLayout, teacherLayout;
     private ProgressBar progressBar;
 
 
@@ -40,10 +42,13 @@ public class MyDataActivity extends AppCompatActivity {
     }
 
     private void initControls() {
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
-        Button button = (Button) findViewById(R.id.action_button);
-        button.setVisibility(View.GONE);
+        studentLayout   = (LinearLayout) findViewById(R.id.student_layout);
+        teacherLayout   = (LinearLayout) findViewById(R.id.teacher_layout);
+        progressBar     = (ProgressBar) findViewById(R.id.progress_bar);
+
+        studentLayout.setVisibility(View.GONE);
+        teacherLayout.setVisibility(View.GONE);
     }
 
     private void requestData() {
@@ -57,7 +62,7 @@ public class MyDataActivity extends AppCompatActivity {
         else {
             authUser.teacherData = new TeacherData();
             TeacherDataUtils.getInstance()
-                    .requestFetchTeacherRegistration(authUser.studend_id, authUser.teacherData, dbHandler,
+                    .requestFetchTeacherRegistration(authUser.teacher_id, authUser.teacherData, dbHandler,
                             TeacherDataUtils.TAG_FETCH_TEACHER_REGISTRATION);
             showBusyProgress(true);
         }
@@ -79,27 +84,37 @@ public class MyDataActivity extends AppCompatActivity {
             StudentData studentData = authUser.studentData;
             TextView nameTextView = (TextView) findViewById(R.id.student_name_text_view);
             TextView codeTextView = (TextView) findViewById(R.id.student_code_text_view);
-            /*
-            TextView teacherTextView
-                    = (TextView) findViewById(R.id.teacher_text_view);
-            TextView creditTextView
-                    = (TextView) findViewById(R.id.credit_text_view);
             TextView sectionTextView
-                    = (TextView) findViewById(R.id.section_text_view);
-            TextView classroomTextView
-                    = (TextView) findViewById(R.id.classroom_text_view);
-            TextView genreTextView
-                    = (TextView) findViewById(R.id.genre_text_view);
-            TextView scheduleTextView
-                    = (TextView) findViewById(R.id.schedule_text_view);
-            TextView termTextView = (TextView) findViewById(R.id.term_text_view);
-            */
+                    = (TextView) findViewById(R.id.student_section_text_view);
+            TextView majorTextView= (TextView) findViewById(R.id.student_major_text_view);
+            TextView classTextView= (TextView) findViewById(R.id.student_class_text_view);
+            TextView roomTextView = (TextView) findViewById(R.id.student_room_text_view);
+            TextView emailTextView= (TextView) findViewById(R.id.student_email_text_view);
 
-            codeTextView.setText(studentData.code);
             nameTextView.setText(studentData.name);
+            codeTextView.setText(Integer.toString(studentData.code));
+            sectionTextView.setText(studentData.classData.section);
+            majorTextView.setText(studentData.classData.major);
+            classTextView.setText(studentData.classData.name);
+            roomTextView.setText(studentData.room);
+            emailTextView.setText(studentData.email);
+            studentLayout.setVisibility(View.VISIBLE);
         }
         else {
+            TeacherData teacherData = authUser.teacherData;
+            TextView nameTextView = (TextView) findViewById(R.id.teacher_name_text_view);
+            TextView codeTextView = (TextView) findViewById(R.id.teacher_code_text_view);
+            TextView sectionTextView
+                    = (TextView) findViewById(R.id.teacher_section_text_view);
+            TextView roomTextView = (TextView) findViewById(R.id.teacher_room_text_view);
+            TextView emailTextView= (TextView) findViewById(R.id.teacher_email_text_view);
 
+            nameTextView.setText(teacherData.name);
+            codeTextView.setText(Integer.toString(teacherData.code));
+            sectionTextView.setText(teacherData.section);
+            roomTextView.setText(teacherData.room);
+            emailTextView.setText(teacherData.email);
+            teacherLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -121,7 +136,8 @@ public class MyDataActivity extends AppCompatActivity {
                 String tag = (String) msg.obj;
                 if (tag != null) {
                     switch (tag) {
-                        case CourseDataUtils.TAG_FETCH_COURSE_DATA:
+                        case StudentDataUtils.TAG_FETCH_STUDENT_REGISTRATION:
+                        case TeacherDataUtils.TAG_FETCH_TEACHER_REGISTRATION:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.refreshData();
                             }

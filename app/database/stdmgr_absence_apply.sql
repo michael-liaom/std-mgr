@@ -27,7 +27,6 @@ DROP TABLE IF EXISTS `absence_apply`;
 CREATE TABLE `absence_apply` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `student_id` int(11) NOT NULL,
-  `to_teacher_id` int(11) NOT NULL,
   `type` varchar(10) NOT NULL,
   `begin` date NOT NULL,
   `end` date NOT NULL,
@@ -37,7 +36,7 @@ CREATE TABLE `absence_apply` (
   `class_approval` int(1) DEFAULT NULL,
   `course_approval` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='请假单';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='请假单';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +45,7 @@ CREATE TABLE `absence_apply` (
 
 LOCK TABLES `absence_apply` WRITE;
 /*!40000 ALTER TABLE `absence_apply` DISABLE KEYS */;
-INSERT INTO `absence_apply` VALUES (3,1,1,'病假','2018-07-20','2018-07-20','',1,0,2,NULL),(4,1,1,'病假','2018-07-21','2018-07-21','I\'m sick.',2,0,1,NULL),(5,1,2,'病假','2018-07-21','2018-07-21','I\'m sick.',3,0,2,NULL),(6,1,1,'病假','2018-07-21','2018-07-21','',4,0,1,NULL),(7,1,1,'病假','2018-07-21','2018-07-21','feel sick.',5,0,1,NULL),(8,1,1,'事假','2018-07-21','2018-07-22','不舒服',1,0,1,NULL),(9,1,2,'病假','2018-07-22','2018-07-22','I\'m sick.',2,0,NULL,NULL),(10,1,1,'病假','2018-07-22','2018-07-23','',3,0,NULL,NULL),(11,1,1,'病假','2018-07-22','2018-07-23','',4,0,NULL,NULL);
+INSERT INTO `absence_apply` VALUES (3,1,'病假','2018-07-20','2018-07-20','',1,0,2,NULL),(4,1,'病假','2018-07-21','2018-07-21','I\'m sick.',2,0,1,NULL),(5,1,'病假','2018-07-21','2018-07-21','I\'m sick.',3,0,2,NULL),(6,1,'病假','2018-07-21','2018-07-21','',4,0,1,NULL),(7,1,'病假','2018-07-21','2018-07-21','feel sick.',5,0,1,NULL),(8,1,'事假','2018-07-21','2018-07-22','不舒服',1,0,1,NULL),(9,1,'病假','2018-07-22','2018-07-22','I\'m sick.',2,0,NULL,NULL),(10,1,'病假','2018-07-22','2018-07-23','',3,0,NULL,NULL),(11,1,'病假','2018-07-22','2018-07-23','',4,0,NULL,NULL),(12,1,'病假','2018-07-24','2018-07-25','I\'m sickly.',1,2,0,0);
 /*!40000 ALTER TABLE `absence_apply` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-24 15:07:02
+-- Dump completed on 2018-07-24 20:33:11

@@ -26,46 +26,60 @@ public class ClassDataUtils extends DBHandlerService {
         return instance.get();
     }
 
+    public boolean fetchClaseData(int classId, ClassData classData) {
+        String sql;
+        boolean isOk = true;
+
+        try {
+            Statement statement = jdbcMgrUtils.createStatement();
+            sql = "SELECT "
+                    + ClassData.getDomainColums()
+                    + ","
+                    + ClassData.getJointDomainColums()
+                    + " FROM "
+                    + ClassData.TBL_NAME
+                    + ","
+                    + ClassData.getJointTables()
+                    + " WHERE "
+                    + ClassData.getJointCondition()
+                    + " AND "
+                    + ClassData.toDomain(COL_ID) + "=" + toValue(classId)
+                    + " AND "
+                    + ClassData.toDomain(COL_STATUS) + "=" + STATUS_VALID
+                    + ";";
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet != null && resultSet.next()) {
+                classData.extractFromResultSet(resultSet);
+                classData.extractJointFromResultSet(resultSet);
+            }
+            else {
+                isOk = false;
+            }
+
+            statement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            isOk = false;
+        }
+
+        if (isOk) {
+            TeacherData teacherData = new TeacherData();
+            isOk = TeacherDataUtils.getInstance().fetchTeachData(classData.teacherId, teacherData);
+            if (isOk) {
+                classData.teacherData = teacherData;
+            }
+        }
+
+        return isOk;
+    }
+
     public void requestFetchClassData(final int classId, final ClassData classData,
                                                 final Handler handler, final String tag) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String sql;
-                boolean isOk = true;
-
-                try {
-                    Statement statement = jdbcMgrUtils.createStatement();
-                    sql = "SELECT "
-                            + ClassData.getDomainColums()
-                            + ","
-                            + ClassData.getJointDomainColums()
-                            + " FROM "
-                            + ClassData.TBL_NAME
-                            + ","
-                            + ClassData.getJointTables()
-                            + " WHERE "
-                            + ClassData.getJointCondition()
-                            + " AND "
-                            + ClassData.toDomain(COL_ID) + "=" + toValue(classId)
-                            + " AND "
-                            + ClassData.toDomain(COL_STATUS) + "=" + STATUS_VALID
-                            + ";";
-                    ResultSet resultSet = statement.executeQuery(sql);
-                    if (resultSet != null && resultSet.next()) {
-                        classData.extractFromResultSet(resultSet);
-                        classData.extractJointFromResultSet(resultSet);
-                    }
-                    else {
-                        isOk = false;
-                    }
-
-                    statement.close();
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                    isOk = false;
-                }
+                boolean isOk = fetchClaseData(classId, classData);
 
                 if (isOk) {
                     processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);

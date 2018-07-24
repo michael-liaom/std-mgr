@@ -28,17 +28,17 @@
             android:textSize="30sp" />
 
         <TextView
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:text="请假人: " />
 
         <TextView
             android:id="@+id/apply_from_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_weight="1" />
+            android:layout_weight="0" />
 
     </LinearLayout>
 
@@ -68,20 +68,20 @@
                 android:paddingRight="20dp">
 
                 <TextView
-                    android:layout_width="40dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:text="班级:" />
 
                 <TextView
-                    android:id="@+id/student_class_text_View"
+                    android:id="@+id/class_name_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1" />
 
                 <TextView
-                    android:layout_width="40dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="0"
@@ -121,7 +121,8 @@
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:gravity="center" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -135,7 +136,8 @@
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:gravity="center" />
 
             </LinearLayout>
 
@@ -318,7 +320,7 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/master_approval_text_view"
+                    android:id="@+id/class_approval_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"

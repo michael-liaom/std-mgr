@@ -8,10 +8,11 @@ public class StudentData {
     final static String COL_ID          = "id";
     final static String COL_NAME        = "name";
     final static String COL_CODE        = "code";
-    final static String COL_CLASS_ID    = "class_id";
     final static String COL_EMAIL       = "email";
     final static String COL_ROOM        = "room";
+    final static String COL_CLASS_ID    = "class_id";
     final static String COL_REG_CODE    = "reg_code";
+
     int id;
     String name;
     int code;
@@ -20,6 +21,8 @@ public class StudentData {
     int class_id;
     //Joint
     String className;
+    //Seperated
+    ClassData classData;
 
     static String toDomain(String col) {
         return TBL_NAME + "." + col;

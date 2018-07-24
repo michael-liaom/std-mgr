@@ -109,14 +109,6 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
 
         commiteButton.setOnClickListener(this);
 
-        if(authUser.genre.equals(AuthUserData.GENRE_TEACHER) &&
-                (absenceFormData.classTeacher.id == authUser.teacher_id ||
-                absenceFormData.courseData.teacherId == authUser.teacher_id)) {
-            commiteButton.setVisibility(View.VISIBLE);
-        }
-        else {
-            commiteButton.setVisibility(View.GONE);
-        }
     }
 
     private void requestData() {
@@ -144,15 +136,19 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
         TextView courseTextView     = (TextView) findViewById(R.id.course_text_view);
         TextView courseTeacherTextView
                 = (TextView) findViewById(R.id.course_teacher_text_view);
-        TextView courseCountTextView= (TextView) findViewById(R.id.course_count_edit_text);
+        TextView courseCountTextView= (TextView) findViewById(R.id.course_count_text_view);
         TextView classApprovalTextView
-                = (TextView) findViewById(R.id.master_approval_text_view);
+                = (TextView) findViewById(R.id.class_approval_text_view);
+        TextView classApprovedByTextView
+                = (TextView) findViewById(R.id.class_approved_by_text_view);
         TextView courseApprovalTextView
                 = (TextView) findViewById(R.id.course_approval_text_view);
+        TextView courseApprovedByTextView
+                = (TextView) findViewById(R.id.course_approved_by_text_view);
 
         applyFromTextView.setText(absenceFormData.studentName);
-        classNameTextView.setText(absenceFormData.studentData.className);
-        studentCodeTextView.setText(absenceFormData.studentCode);
+        classNameTextView.setText(absenceFormData.studentData.classData.name);
+        studentCodeTextView.setText(Integer.toString(absenceFormData.studentCode));
         beginTextView.setText(CommUtils.toLocalDateString(absenceFormData.begin));
         endingTextView.setText(CommUtils.toLocalDateString(absenceFormData.ending));
         typeTextView.setText(absenceFormData.type);
@@ -161,14 +157,14 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
         courseTextView.setText(absenceFormData.courseData.code + " "
                 + absenceFormData.courseData.name);
         courseTeacherTextView.setText(absenceFormData.courseData.teacherName);
-        courseCountTextView.setText(absenceFormData.courseCount);
+        courseCountTextView.setText(Integer.toString(absenceFormData.courseCount));
 
         classApprovalTextView.setText(absenceFormData.getClassApprovalStatus());
         if (absenceFormData.classApproval == AbsenceFormData.PENDING) {
             classApprovalTextView.setText((""));
         }
         else {
-            classApprovalTextView.setText(absenceFormData.classTeacher.name);
+            classApprovedByTextView.setText(absenceFormData.classTeacher.name);
         }
 
         courseApprovalTextView.setText(absenceFormData.getCourseApprovalStatus());
@@ -176,7 +172,7 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
             courseApprovalTextView.setText((""));
         }
         else {
-            courseApprovalTextView.setText(absenceFormData.courseData.teacherName);
+            courseApprovedByTextView.setText(absenceFormData.courseData.teacherName);
         }
 
         if(absenceFormData.classTeacher.id == authUser.teacher_id &&
@@ -185,6 +181,15 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
         }
         else if(absenceFormData.courseData.teacherId == authUser.teacher_id &&
                 absenceFormData.courseApproval == AbsenceFormData.PENDING) {
+            commiteButton.setVisibility(View.VISIBLE);
+        }
+        else {
+            commiteButton.setVisibility(View.GONE);
+        }
+
+        if(authUser.genre.equals(AuthUserData.GENRE_TEACHER) &&
+                (absenceFormData.classTeacher.id == authUser.teacher_id ||
+                        absenceFormData.courseData.teacherId == authUser.teacher_id)) {
             commiteButton.setVisibility(View.VISIBLE);
         }
         else {

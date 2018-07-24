@@ -37,7 +37,8 @@ public class StudentDataUtils extends DBHandlerService {
     }
 
     public boolean fetchStudentData(int studentId, StudentData studentData) {
-        String sql = "SELECT * FROM " + CourseData.TBL_NAME
+        String sql = "SELECT * FROM "
+                + StudentData.TBL_NAME
                 + " WHERE "
                 + StudentData.COL_ID + "=" + toValue(studentId)
                 + " AND "
@@ -59,6 +60,14 @@ public class StudentDataUtils extends DBHandlerService {
         catch (SQLException e) {
             e.printStackTrace();
             isOk = false;
+        }
+
+        if (isOk) {
+            ClassData classData = new ClassData();
+            isOk = ClassDataUtils.getInstance().fetchClaseData(studentData.class_id, classData);
+            if (isOk) {
+                studentData.classData = classData;
+            }
         }
 
         return  isOk;

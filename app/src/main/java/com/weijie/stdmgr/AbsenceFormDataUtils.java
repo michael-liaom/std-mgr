@@ -114,14 +114,14 @@ public class AbsenceFormDataUtils extends DBHandlerService{
                             + AbsenceFormData.getJointCondition()
                             + " AND "
                             + " ("          //---1
-                            + TeacherData.toDomainAsClass(COL_ID)
+                            + TeacherData.toDomainClass(COL_ID)
                             + "=" + toValue(teacherId)
                             + " OR "
                             + " ("          //---2
                             + AbsenceFormData.toDomain(AbsenceFormData.COL_CLASS_APPROVAL)
                             + "=" + toValue(AbsenceFormData.APPROVAL)
                             + " AND "
-                            + TeacherData.toDomainAsCourse(COL_ID)
+                            + TeacherData.toDomainCourse(COL_ID)
                             + "=" + toValue(teacherId)
                             + ")) "          //---2,1
                             + " ORDER BY "
@@ -197,6 +197,24 @@ public class AbsenceFormDataUtils extends DBHandlerService{
                 catch (SQLException e) {
                     e.printStackTrace();
                     isOk = false;
+                }
+
+                if (isOk) {
+                    StudentData studentData = new StudentData();
+                    isOk = StudentDataUtils.getInstance().
+                            fetchStudentData(absenceFormData.studentId, studentData);
+                    if (isOk) {
+                        absenceFormData.studentData = studentData;
+                    }
+                }
+
+                if (isOk) {
+                    TeacherData teacherData = new TeacherData();
+                    isOk = TeacherDataUtils.getInstance().
+                            fetchTeachData(absenceFormData.classTeacherId, teacherData);
+                    if (isOk) {
+                        absenceFormData.classTeacher = teacherData;
+                    }
                 }
 
                 if (isOk) {

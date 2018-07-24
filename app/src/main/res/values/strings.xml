@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">学生日常</string>
+    <string name="app_name">学校日常</string>
     <string name="absence_apply_is_not_fully_file">请假单填写不完整</string>
     <string name="absence_apply_date_invalid">请假单请假时间无效</string>
     <string name="message_db_connect_failure">数据库连接失败！</string>

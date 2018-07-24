@@ -72,17 +72,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
         initialLayout = (LinearLayout) findViewById(R.id.initial_layout);
 
         teacherLayout = (LinearLayout) findViewById(R.id.teacher_layout);
-        Button teacherCourseButton  = (Button) findViewById(R.id.course_for_teacher_button);
-        Button teacherClassButton   = (Button) findViewById(R.id.myclass_for_teacher_button);
-        Button teacherAbsenceButton = (Button) findViewById(R.id.absence_for_teacher_button);
+        Button teacherCourseButton  = (Button) findViewById(R.id.mycourse_teacher_button);
+        Button teacherClassButton   = (Button) findViewById(R.id.myclass_teacher_button);
+        Button teacherAbsenceButton = (Button) findViewById(R.id.absence_teacher_button);
+        Button teacherMyDataButton  = (Button) findViewById(R.id.mydata_teacher_button);
         teacherCourseButton.setOnClickListener(this);
         teacherClassButton.setOnClickListener(this);
         teacherAbsenceButton.setOnClickListener(this);
+        teacherMyDataButton.setOnClickListener(this);
 
         studentLayout = (LinearLayout) findViewById(R.id.student_layout);
-        Button studentCourseButton   = (Button) findViewById(R.id.course_for_student_button);
-        Button studentTeacherButton  = (Button) findViewById(R.id.myteacher_for_teacher_button);
-        Button studentAbsenceButton  = (Button) findViewById(R.id.absence_for_student_button);
+        Button studentCourseButton  = (Button) findViewById(R.id.mycourse_student_button);
+        Button studentTeacherButton = (Button) findViewById(R.id.myteacher_student_button);
+        Button studentAbsenceButton = (Button) findViewById(R.id.myabsence_student_button);
+        Button studentMyDataButton  = (Button) findViewById(R.id.mydata_student_button);
         studentCourseButton.setOnClickListener(this);
         studentTeacherButton.setOnClickListener(this);
         studentAbsenceButton.setOnClickListener(this);
@@ -100,17 +103,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.myclass_for_teacher_button:
+            case R.id.myclass_teacher_button:
                 break;
-            case R.id.myteacher_for_teacher_button:
+            case R.id.myteacher_student_button:
                 break;
-            case R.id.course_for_student_button:
-            case R.id.course_for_teacher_button:
+            case R.id.mycourse_student_button:
+            case R.id.mycourse_teacher_button:
                 startActivity(new Intent(this, CourseListActivity.class));
                 break;
-            case R.id.absence_for_student_button:
-            case R.id.absence_for_teacher_button:
+            case R.id.myabsence_student_button:
+            case R.id.absence_teacher_button:
                 startActivity(new Intent(this, AbsenceFormListActivity.class));
+                break;
+            case R.id.mydata_student_button:
+            case R.id.mydata_teacher_button:
+                startActivity(new Intent(this, MyDataActivity.class));
                 break;
             case R.id.logout_button://主菜单的登陆按钮
                 responseLogout();

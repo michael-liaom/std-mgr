@@ -38,13 +38,13 @@
             android:label="用户登录" />
         <activity
             android:name=".AbsenceFormApplyActivity"
-            android:label="日常信息" />
+            android:label="请假单填写" />
         <activity
             android:name=".RegistrationActivity"
             android:label="用户注册" />
         <activity
             android:name=".AbsenceFormListActivity"
-            android:label="我的请假单" />
+            android:label="请假单列表" />
         <activity android:name=".SimpleDataPickerActivity" />
         <activity
             android:name=".StudentCourseActivity"

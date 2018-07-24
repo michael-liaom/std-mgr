@@ -10,6 +10,7 @@ public class TeacherData {
     final static String COL_CODE        = "code";
     final static String COL_SECTION     = "section";
     final static String COL_ROOM        = "room";
+    final static String COL_EMAIL       = "email";
     final static String COL_REG_CODE    = "reg_code";
     final static String ALIAS_CLASS       = "class_teacher";
     final static String TBL_ALIAS_CLASS = "teacher_registration AS " + ALIAS_CLASS;
@@ -19,8 +20,9 @@ public class TeacherData {
     int id;
     String name;
     int code;
-    int section;
-    int room;
+    String section;
+    String room;
+    String email;
 
     static String toDomain(String col) {
         return TBL_NAME + "." + col;
@@ -34,7 +36,7 @@ public class TeacherData {
         return TBL_NAME + "_" + col;
     }
 
-    static String toDomainInClass(String col) {
+    static String toDomainClass(String col) {
         return ALIAS_CLASS + "." + col;
     }
 
@@ -46,7 +48,7 @@ public class TeacherData {
         return ALIAS_CLASS + "_" + col;
     }
 
-    static String toDomainInCourse(String col) {
+    static String toDomainCourse(String col) {
         return ALIAS_COURSE + "." + col;
     }
 
@@ -67,6 +69,8 @@ public class TeacherData {
                 + ","
                 + toDomain(COL_ROOM)
                 + ","
+                + toDomain(COL_EMAIL)
+                + ","
                 + toDomain(COL_CODE);
     }
 
@@ -74,7 +78,8 @@ public class TeacherData {
         id      = resultSet.getInt(COL_ID);
         name    = resultSet.getString(COL_NAME);
         code    = resultSet.getInt(COL_CODE);
-        section = resultSet.getInt(COL_SECTION);
-        room    = resultSet.getInt(COL_ROOM);
+        section = resultSet.getString(COL_SECTION);
+        room    = resultSet.getString(COL_ROOM);
+        email   = resultSet.getString(COL_EMAIL);
     }
 }

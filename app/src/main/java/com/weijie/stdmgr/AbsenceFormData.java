@@ -120,13 +120,13 @@ public class AbsenceFormData extends DBHandlerService {
                 + "=" + ClassData.toDomain(COL_ID)
                 + " AND "
                 + ClassData.toDomain(CourseData.COL_TEACHER_ID)
-                + "=" + TeacherData.toDomainInClass(COL_ID)
+                + "=" + TeacherData.toDomainClass(COL_ID)
                 + " AND "
                 + toDomain(COL_COURSE_ID)
                 + "=" + CourseData.toDomain(COL_ID)
                 + " AND "
                 + CourseData.toDomain(CourseData.COL_TEACHER_ID)
-                + "=" + TeacherData.toDomainInCourse(COL_ID);
+                + "=" + TeacherData.toDomainCourse(COL_ID);
     }
 
     String getClassApprovalStatus() {
@@ -158,8 +158,8 @@ public class AbsenceFormData extends DBHandlerService {
         studentId   = resultSet.getInt(COL_STUDENT_ID);
         type        = resultSet.getString(COL_TYPE);
         cause       = resultSet.getString(COL_CAUSE);
-        begin       = CommUtils.toTimestamp(resultSet.getString(COL_BEGIN));
-        ending      = CommUtils.toTimestamp(resultSet.getString(COL_END));
+        begin       = resultSet.getDate(COL_BEGIN);
+        ending      = resultSet.getDate(COL_END);
         courseId  = resultSet.getInt(COL_COURSE_ID);
         courseCount = resultSet.getInt(COL_COURSE_COUNT);
         classApproval = resultSet.getInt(COL_CLASS_APPROVAL);

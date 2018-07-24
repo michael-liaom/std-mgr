@@ -29,8 +29,9 @@ CREATE TABLE `teacher_registration` (
   `name` varchar(45) NOT NULL,
   `code` int(11) DEFAULT NULL,
   `mobile` varchar(20) DEFAULT NULL,
-  `room` varchar(10) DEFAULT NULL,
   `section` varchar(45) DEFAULT NULL,
+  `room` varchar(10) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
   `reg_code` varchar(6) DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -43,7 +44,7 @@ CREATE TABLE `teacher_registration` (
 
 LOCK TABLES `teacher_registration` WRITE;
 /*!40000 ALTER TABLE `teacher_registration` DISABLE KEYS */;
-INSERT INTO `teacher_registration` VALUES (1,'张杰',510001,NULL,NULL,'计算机系','-1',1),(2,'刘民',510002,NULL,NULL,'计算机系',NULL,1),(3,'何伟民',510003,NULL,NULL,'计算机系',NULL,1),(4,'赵一文',510004,NULL,NULL,'计算机系',NULL,1);
+INSERT INTO `teacher_registration` VALUES (1,'张杰',510001,NULL,'计算机系',NULL,NULL,'-1',1),(2,'刘民',510002,NULL,'计算机系',NULL,NULL,NULL,1),(3,'何伟民',510003,NULL,'计算机系',NULL,NULL,NULL,1),(4,'赵一文',510004,NULL,'计算机系',NULL,NULL,NULL,1);
 /*!40000 ALTER TABLE `teacher_registration` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-24 15:07:06
+-- Dump completed on 2018-07-24 20:33:15

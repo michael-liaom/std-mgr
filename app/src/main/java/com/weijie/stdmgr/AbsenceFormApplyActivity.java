@@ -310,8 +310,8 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
             }
         }
 
-        AbsenceFormDataUtils applyDataUtils = AbsenceFormDataUtils.getInstance();
-        applyDataUtils.requestCommitApply(absenceFormData,
+        absenceFormData.courseCount = Integer.valueOf(courseCountEditText.getText().toString());
+        AbsenceFormDataUtils.getInstance().requestCommitApply(absenceFormData,
                 dbHandler, AbsenceFormDataUtils.TAG_COMMIT_APPLY);
         requestCounter++;
         showBusyProgress(true);
