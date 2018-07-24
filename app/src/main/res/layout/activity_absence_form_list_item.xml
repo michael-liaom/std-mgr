@@ -17,7 +17,7 @@
         android:id="@+id/item_code_text_view"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_weight="1"
         android:text="学号"
         android:textSize="12sp" />
@@ -26,7 +26,7 @@
         android:id="@+id/item_name_text_view"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_weight="1"
         android:text="姓名"
         android:textSize="12sp" />
@@ -35,7 +35,7 @@
         android:id="@+id/item_type_text_tiew"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_weight="1"
         android:text="类别"
         android:textSize="12sp" />
@@ -44,7 +44,7 @@
         android:id="@+id/item_begin_text_view"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_weight="1"
         android:text="请假时间"
         android:textSize="12sp" />
@@ -53,7 +53,7 @@
         android:id="@+id/item_class_approval_text_view"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
         android:text="院系签批"
@@ -63,7 +63,7 @@
         android:id="@+id/item_course_approval_text_view"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
         android:text="课任签批"

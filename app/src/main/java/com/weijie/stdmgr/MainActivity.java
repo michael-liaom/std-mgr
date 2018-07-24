@@ -89,6 +89,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         studentCourseButton.setOnClickListener(this);
         studentTeacherButton.setOnClickListener(this);
         studentAbsenceButton.setOnClickListener(this);
+        studentMyDataButton.setOnClickListener(this);
 
 
         logoutButton = (Button) findViewById(R.id.logout_button);

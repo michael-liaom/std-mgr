@@ -188,8 +188,10 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
         }
 
         if(authUser.genre.equals(AuthUserData.GENRE_TEACHER) &&
-                (absenceFormData.classTeacher.id == authUser.teacher_id ||
-                        absenceFormData.courseData.teacherId == authUser.teacher_id)) {
+                ((absenceFormData.classTeacher.id == authUser.teacher_id &&
+                        absenceFormData.classApproval == AbsenceFormData.PENDING)||
+                        absenceFormData.courseData.teacherId == authUser.teacher_id &&
+                absenceFormData.courseApproval == AbsenceFormData.PENDING)) {
             commiteButton.setVisibility(View.VISIBLE);
         }
         else {

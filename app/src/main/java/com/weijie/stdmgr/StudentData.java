@@ -16,8 +16,8 @@ public class StudentData {
     int id;
     String name;
     int code;
-    int email;
-    int room;
+    String email;
+    String room;
     int class_id;
     //Joint
     String className;
@@ -66,8 +66,8 @@ public class StudentData {
         id      = resultSet.getInt(COL_ID);
         name    = resultSet.getString(COL_NAME);
         code    = resultSet.getInt(COL_CODE);
-        email   = resultSet.getInt(COL_EMAIL);
-        room    = resultSet.getInt(COL_ROOM);
+        email   = resultSet.getString(COL_EMAIL);
+        room    = resultSet.getString(COL_ROOM);
         class_id = resultSet.getInt(COL_CLASS_ID);
     }
 }
