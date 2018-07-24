@@ -35,7 +35,8 @@ public class AbsenceFormListActivity extends AppCompatActivity {
             "name",
             "type",
             "begin",
-            "approval"
+            "class_approval",
+            "course_approval"
     };
     private int[] mapResurceId = {
             R.id.item_no_text_view,
@@ -43,7 +44,8 @@ public class AbsenceFormListActivity extends AppCompatActivity {
             R.id.item_name_text_view,
             R.id.item_type_text_tiew,
             R.id.item_begin_text_view,
-            R.id.item_approval_text_view
+            R.id.item_class_approval_text_view,
+            R.id.item_course_approval_text_view
     };
 
     private ArrayList <AbsenceFormData> arrayListAbsenceData;
@@ -162,7 +164,8 @@ public class AbsenceFormListActivity extends AppCompatActivity {
                 items.put(mapKey[2], absenceFormData.studentName);
                 items.put(mapKey[3], absenceFormData.type);
                 items.put(mapKey[4], CommUtils.toLocalDateString(absenceFormData.begin));
-                items.put(mapKey[5], absenceFormData.getApprovalStatus());
+                items.put(mapKey[5], absenceFormData.getClassApprovalStatus());
+                items.put(mapKey[6], absenceFormData.getCourseApprovalStatus());
                 listMap.add(items);
             }
         }

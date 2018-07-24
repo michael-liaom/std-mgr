@@ -11,6 +11,11 @@ public class TeacherData {
     final static String COL_SECTION     = "section";
     final static String COL_ROOM        = "room";
     final static String COL_REG_CODE    = "reg_code";
+    final static String ALIAS_CLASS       = "class_teacher";
+    final static String TBL_ALIAS_CLASS = "teacher_registration AS " + ALIAS_CLASS;
+    final static String ALIAS_COURSE    = "course_teacher";
+    final static String TBL_ALIAS_COURSE= "teacher_registration AS " + ALIAS_COURSE;
+
     int id;
     String name;
     int code;
@@ -27,6 +32,30 @@ public class TeacherData {
 
     static String getAsCol(String col) {
         return TBL_NAME + "_" + col;
+    }
+
+    static String toDomainInClass(String col) {
+        return ALIAS_CLASS + "." + col;
+    }
+
+    static String toDomainAsClass(String col) {
+        return ALIAS_CLASS + "." + col + " AS " + ALIAS_CLASS + "_" + col;
+    }
+
+    static String getAsClassCol(String col) {
+        return ALIAS_CLASS + "_" + col;
+    }
+
+    static String toDomainInCourse(String col) {
+        return ALIAS_COURSE + "." + col;
+    }
+
+    static String toDomainAsCourse(String col) {
+        return ALIAS_COURSE + "." + col + " AS " + ALIAS_COURSE + "_" + col;
+    }
+
+    static String getAsCourseCol(String col) {
+        return ALIAS_COURSE + "_" + col;
     }
 
     static String getDomainColums() {

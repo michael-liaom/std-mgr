@@ -25,15 +25,6 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
     final static int RESULT_CODE_COMMIT_NONE    = 0;
     final static int RESULT_CODE_COMMIT_SUCCESS = 1;
 
-    private TextView applyFromTextView;
-    private TextView applyToTextView;
-    private TextView applyCcTextView;
-    private TextView applyTypeTextView;
-    private TextView beginTextView,
-            daysTextView,
-            hoursTextView,
-            causeTextView;
-    private TextView approvalTextView, approvedByTextView;
     private Button commiteButton;
     private ProgressBar progressBar;
 
@@ -56,16 +47,28 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
                     .setPositiveButton(R.string.button_approval, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            if (absenceFormData.classTeacher.id == authUser.teacher_id) {
+                                absenceFormData.classApproval = AbsenceFormData.APPROVAL;
+                            }
+                            if (absenceFormData.courseData.teacherId == authUser.teacher_id) {
+                                absenceFormData.courseApproval = AbsenceFormData.APPROVAL;
+                            }
                             AbsenceFormDataUtils.getInstance()
-                                    .requestApproveApply(absenceFormData, dbHandler,
+                                    .requestSignApply(absenceFormData, dbHandler,
                                             AbsenceFormDataUtils.TAG_APPROVE_APPLY);
                         }
                     })
                     .setNegativeButton(R.string.button_reject, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            if (absenceFormData.classTeacher.id == authUser.teacher_id) {
+                                absenceFormData.classApproval = AbsenceFormData.REJECT;
+                            }
+                            if (absenceFormData.courseData.teacherId == authUser.teacher_id) {
+                                absenceFormData.courseApproval = AbsenceFormData.REJECT;
+                            }
                             AbsenceFormDataUtils.getInstance()
-                                    .requestRejectApply(absenceFormData, dbHandler,
+                                    .requestSignApply(absenceFormData, dbHandler,
                                             AbsenceFormDataUtils.TAG_REJECT_APPLY);
                         }
                     })
@@ -90,34 +93,16 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
 
         initData();
         initControls();
-        showBusyProgress(true);
+        requestData();
     }
 
     private void initData() {
-        Intent intent = getIntent();
-        //获取传递的值
-        int applyId = intent.getIntExtra(AbsenceFormData.COL_ID, 0);
-
         authUser = MyApplication.getInstance().authUser;
         absenceFormData = new AbsenceFormData();
 
-        if (applyId > 0) {
-            AbsenceFormDataUtils.getInstance().requestFetchApply(applyId, absenceFormData,
-                    dbHandler, AbsenceFormDataUtils.TAG_FETCH_ONE_APPLY);
-        }
     }
 
     private void initControls() {
-        applyFromTextView   = (TextView) findViewById(R.id.apply_from_text_view);
-        applyToTextView     = (TextView) findViewById(R.id.apply_to_text_view);
-        applyCcTextView     = (TextView) findViewById(R.id.apply_cc_text_view);
-        applyTypeTextView   = (TextView) findViewById(R.id.apply_type_text_view);
-        beginTextView       = (TextView) findViewById(R.id.begin_text_view);
-        daysTextView        = (TextView) findViewById(R.id.days_text_view);
-        hoursTextView       = (TextView) findViewById(R.id.hours_text_view);
-        causeTextView       = (TextView) findViewById(R.id.cause_text_view);
-        approvalTextView    = (TextView) findViewById(R.id.approval_text_view);
-        approvedByTextView  = (TextView) findViewById(R.id.approved_by_text_view);
         progressBar
                 = (ProgressBar) findViewById(R.id.progress_bar);
         commiteButton       = (Button) findViewById(R.id.commit_button);
@@ -125,7 +110,8 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
         commiteButton.setOnClickListener(this);
 
         if(authUser.genre.equals(AuthUserData.GENRE_TEACHER) &&
-            absenceFormData.toTeacherId == authUser.teacher_id) {
+                (absenceFormData.classTeacher.id == authUser.teacher_id ||
+                absenceFormData.courseData.teacherId == authUser.teacher_id)) {
             commiteButton.setVisibility(View.VISIBLE);
         }
         else {
@@ -133,53 +119,72 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
         }
     }
 
+    private void requestData() {
+        Intent intent = getIntent();
+        //获取传递的值
+        int applyId = intent.getIntExtra(AbsenceFormData.COL_ID, 0);
+
+        if (applyId > 0) {
+            AbsenceFormDataUtils.getInstance().requestFetchApply(applyId, absenceFormData,
+                    dbHandler, AbsenceFormDataUtils.TAG_FETCH_ONE_APPLY);
+            showBusyProgress(true);
+        }
+    }
+
     private void refreshDisp() {
+        TextView applyFromTextView  = (TextView) findViewById(R.id.apply_from_text_view);
+        TextView classNameTextView  = (TextView) findViewById(R.id.class_name_text_view);
+        TextView studentCodeTextView= (TextView) findViewById(R.id.student_code_text_View);
+        TextView beginTextView      = (TextView) findViewById(R.id.begin_text_view);
+        TextView endingTextView     = (TextView) findViewById(R.id.ending_text_view);
+        TextView typeTextView       = (TextView) findViewById(R.id.type_text_view);
+        TextView causeTextView      = (TextView) findViewById(R.id.cause_text_view);
+        TextView classTeacherTextView
+                = (TextView) findViewById(R.id.class_teacher_text_view);
+        TextView courseTextView     = (TextView) findViewById(R.id.course_text_view);
+        TextView courseTeacherTextView
+                = (TextView) findViewById(R.id.course_teacher_text_view);
+        TextView courseCountTextView= (TextView) findViewById(R.id.course_count_edit_text);
+        TextView classApprovalTextView
+                = (TextView) findViewById(R.id.master_approval_text_view);
+        TextView courseApprovalTextView
+                = (TextView) findViewById(R.id.course_approval_text_view);
+
         applyFromTextView.setText(absenceFormData.studentName);
-        applyToTextView.setText(absenceFormData.toTeacherName);
-
-        StringBuilder builder = new StringBuilder();
-        int idx = 0;
-        for (CourseData courseData : absenceFormData.ccList) {
-            if (idx > 0) {
-                builder.append(", ");
-            }
-            builder.append(courseData.name);
-            builder.append(" / ");
-            builder.append(courseData.teacherName);
-            idx++;
-        }
-        applyCcTextView.setText(builder);
-        applyTypeTextView.setText(absenceFormData.type);
+        classNameTextView.setText(absenceFormData.studentData.className);
+        studentCodeTextView.setText(absenceFormData.studentCode);
         beginTextView.setText(CommUtils.toLocalDateString(absenceFormData.begin));
-        long duration = (absenceFormData.ending.getTime() - absenceFormData.begin.getTime() ) / 1000;
-        int days = (int) (duration / 86400);
-        int hours = (int)(duration - days * 86400 ) / 3600;
-        if (days > 0) {
-            daysTextView.setText(Integer.toString(days));
-        }
-        else {
-            daysTextView.setText("--");
-        }
-
-        if (hours >1) {
-            hoursTextView.setText(Integer.toString(hours));
-        }
-        else {
-            hoursTextView.setText("1");
-        }
-
+        endingTextView.setText(CommUtils.toLocalDateString(absenceFormData.ending));
+        typeTextView.setText(absenceFormData.type);
         causeTextView.setText(absenceFormData.cause);
+        classTeacherTextView.setText(absenceFormData.classTeacher.name);
+        courseTextView.setText(absenceFormData.courseData.code + " "
+                + absenceFormData.courseData.name);
+        courseTeacherTextView.setText(absenceFormData.courseData.teacherName);
+        courseCountTextView.setText(absenceFormData.courseCount);
 
-        approvalTextView.setText(absenceFormData.getApprovalStatus());
-        if (absenceFormData.approval == AbsenceFormData.PENDING) {
-            approvedByTextView.setText((""));
+        classApprovalTextView.setText(absenceFormData.getClassApprovalStatus());
+        if (absenceFormData.classApproval == AbsenceFormData.PENDING) {
+            classApprovalTextView.setText((""));
         }
         else {
-            approvedByTextView.setText(absenceFormData.toTeacherName);
+            classApprovalTextView.setText(absenceFormData.classTeacher.name);
         }
 
-        if(absenceFormData.toTeacherId == authUser.teacher_id &&
-                absenceFormData.approval == 0) {
+        courseApprovalTextView.setText(absenceFormData.getCourseApprovalStatus());
+        if (absenceFormData.courseApproval == AbsenceFormData.PENDING) {
+            courseApprovalTextView.setText((""));
+        }
+        else {
+            courseApprovalTextView.setText(absenceFormData.courseData.teacherName);
+        }
+
+        if(absenceFormData.classTeacher.id == authUser.teacher_id &&
+                absenceFormData.classApproval == AbsenceFormData.PENDING) {
+            commiteButton.setVisibility(View.VISIBLE);
+        }
+        else if(absenceFormData.courseData.teacherId == authUser.teacher_id &&
+                absenceFormData.courseApproval == AbsenceFormData.PENDING) {
             commiteButton.setVisibility(View.VISIBLE);
         }
         else {

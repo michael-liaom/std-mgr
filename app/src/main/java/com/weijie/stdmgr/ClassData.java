@@ -12,6 +12,7 @@ public class ClassData {
     final static String COL_SECTION = "section";
     final static String COL_MAJOR   = "major";
     final static String COL_GRADE   = "grade";
+    final static String COL_TEACHER_ID  = "teacher_id";
 
     int id;
     String name;
@@ -19,13 +20,11 @@ public class ClassData {
     String section,
         major;
     int grade;
-
+    int teacherId;
+    //Joint data
+    String teacherName;
     //Seperated data
-    ArrayList<TeacherData> materList;
-
-    ClassData() {
-        materList = new ArrayList<>();
-    }
+    TeacherData teacherData;
 
     static String toDomain(String col) {
         return TBL_NAME + "." + col;
@@ -50,7 +49,9 @@ public class ClassData {
                 + ","
                 + toDomain(COL_MAJOR)
                 + ","
-                + toDomain(COL_GRADE);
+                + toDomain(COL_GRADE)
+                + ","
+                + toDomain(COL_TEACHER_ID);
     }
 
     static String getColums() {
@@ -64,7 +65,21 @@ public class ClassData {
                 + ","
                 + COL_MAJOR
                 + ","
-                + COL_GRADE;
+                + COL_GRADE
+                + ","
+                + COL_TEACHER_ID;
+    }
+
+    static String getJointDomainColums() {
+        return TeacherData.toDomainAs(TeacherData.COL_NAME);
+    }
+
+    static String getJointTables() {
+        return TeacherData.TBL_NAME;
+    }
+
+    static String getJointCondition() {
+        return toDomain(COL_TEACHER_ID) + "=" + TeacherData.toDomain(COL_ID);
     }
 
     public void extractFromResultSet(ResultSet resultSet) throws SQLException {
@@ -74,5 +89,10 @@ public class ClassData {
         section = resultSet.getString(COL_SECTION);
         major   = resultSet.getString(COL_MAJOR);
         grade   = resultSet.getInt(COL_GRADE);
+        teacherId = resultSet.getInt(COL_TEACHER_ID);
+    }
+
+    public void extractJointFromResultSet(ResultSet resultSet) throws SQLException {
+        teacherName = resultSet.getString(TeacherData.getAsCol(TeacherData.COL_NAME));
     }
 }

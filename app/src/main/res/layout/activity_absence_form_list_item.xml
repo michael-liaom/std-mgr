@@ -50,12 +50,22 @@
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/item_approval_text_view"
+        android:id="@+id/item_class_approval_text_view"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="批准"
+        android:text="院系批准"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/item_course_approval_text_view"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="任课批准"
         android:textSize="12sp" />
 </LinearLayout>

@@ -38,6 +38,44 @@ public class CourseDataUtils extends DBHandlerService {
         return TBL_STUDENT_COURSE + "." + col;
     }
 
+    public boolean fetchCourseData( int courseId, CourseData courseData) {
+        boolean isOk = true;
+
+        try {
+            Statement statement = jdbcMgrUtils.createStatement();
+            String sql = "SELECT "
+                    + CourseData.getDomainColums()
+                    + ","
+                    + CourseData.getJointDomainColums()
+                    + " FROM "
+                    + CourseData.TBL_NAME
+                    + ","
+                    + CourseData.getJointTables()
+                    + " WHERE "
+                    + CourseData.toDomain(COL_ID) + "=" + toValue(courseId)
+                    + " AND "
+                    + CourseData.toDomain(COL_STATUS) + "=" + STATUS_VALID
+                    + " AND "
+                    + CourseData.getJointCondition()
+                    + ";";
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet != null && resultSet.next()) {
+                courseData.extractFromResultSet(resultSet);
+                courseData.extractJointFromResultSet(resultSet);
+            }
+            else {
+                isOk = false;
+            }
+            statement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            isOk = false;
+        }
+
+        return isOk;
+    }
+
     public void requestFetchCourseData(final int courseId, final CourseData courseData,
                                       final Handler handler, final String tag) {
         new Thread(new Runnable() {
@@ -46,37 +84,7 @@ public class CourseDataUtils extends DBHandlerService {
                 String sql;
                 boolean isOk = true;
 
-                try {
-                    Statement statement = jdbcMgrUtils.createStatement();
-                    sql = "SELECT "
-                            + CourseData.getDomainColums()
-                            + ","
-                            + CourseData.getJointDomainColums()
-                            + " FROM "
-                            + CourseData.TBL_NAME
-                            + ","
-                            + CourseData.getJointTables()
-                            + " WHERE "
-                            + CourseData.toDomain(COL_ID) + "=" + toValue(courseId)
-                            + " AND "
-                            + CourseData.toDomain(COL_STATUS) + "=" + STATUS_VALID
-                            + " AND "
-                            + CourseData.getJointCondition()
-                            + ";";
-                    ResultSet resultSet = statement.executeQuery(sql);
-                    if (resultSet != null && resultSet.next()) {
-                        courseData.extractFromResultSet(resultSet);
-                        courseData.extractJointFromResultSet(resultSet);
-                    }
-                    else {
-                        isOk = false;
-                    }
-                    statement.close();
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                    isOk = false;
-                }
+                isOk = fetchCourseData(courseId, courseData);
 
                 if (isOk) {
                     TeacherData teacherData = new TeacherData();

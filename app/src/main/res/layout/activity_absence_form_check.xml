@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/menu_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:focusable="true"
@@ -28,16 +28,18 @@
             android:textSize="30sp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:text="请假人: " />
 
         <TextView
             android:id="@+id/apply_from_text_view"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0" />
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1" />
+
     </LinearLayout>
 
     <View
@@ -66,20 +68,155 @@
                 android:paddingRight="20dp">
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="班主任\n辅导员:"
-                    android:textSize="18sp" />
+                    android:layout_weight="0"
+                    android:text="班级:" />
 
                 <TextView
-                    android:id="@+id/apply_to_text_view"
+                    android:id="@+id/student_class_text_View"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:textSize="18sp" />
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0"
+                    android:text="学号:" />
+
+                <TextView
+                    android:id="@+id/student_code_text_View"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="请假时间:" />
+
+                <TextView
+                    android:id="@+id/begin_text_view"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="right"
+                    android:text="至" />
+
+                <TextView
+                    android:id="@+id/ending_text_view"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="请假类型:" />
+
+                <TextView
+                    android:id="@+id/type_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="请假原因:" />
+
+                <TextView
+                    android:id="@+id/cause_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="辅导员:"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/class_teacher_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1" />
 
             </LinearLayout>
 
@@ -93,21 +230,21 @@
             <LinearLayout
                 android:id="@+id/cc_layout"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="48dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp">
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:text="任科老师:"
-                    android:textSize="18sp" />
+                    android:text="请假课程:"
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/apply_cc_text_view"
+                    android:id="@+id/course_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -117,151 +254,45 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@android:color/darker_gray" />
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="48dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp">
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="请假类型:"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/apply_type_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@android:color/darker_gray" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="请假时间:"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/begin_text_view"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="请假时长:"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/days_text_view"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="right"
-                    android:text="天"
-                    android:textSize="18sp" />
+                    android:gravity="start"
+                    android:text="任课老师:"
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/hours_text_view"
+                    android:id="@+id/course_teacher_text_view"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:editable="false" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0"
+                    android:gravity="start"
+                    android:text="缺课次数:"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/course_count_text_view"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="小时"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@android:color/darker_gray" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:background="@android:color/background_light"
-                android:orientation="horizontal"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:text="请假原因:"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/cause_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:gravity="top|start"
-                    android:textSize="18sp" />
+                    android:layout_weight="1" />
 
             </LinearLayout>
 
@@ -280,14 +311,14 @@
                 android:paddingRight="20dp">
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0"
-                    android:text="签批状态: "
-                    android:textSize="18sp" />
+                    android:text="辅导员签批: "
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/approval_text_view"
+                    android:id="@+id/master_approval_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
@@ -303,7 +334,52 @@
                     android:text="签批人:" />
 
                 <TextView
-                    android:id="@+id/approved_by_text_view"
+                    android:id="@+id/class_approved_by_text_view"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0"
+                    android:gravity="bottom" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:text="任课老师签批: " />
+
+                <TextView
+                    android:id="@+id/course_approval_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0"
+                    android:gravity="bottom"
+                    android:text="签批人:" />
+
+                <TextView
+                    android:id="@+id/course_approved_by_text_view"
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
