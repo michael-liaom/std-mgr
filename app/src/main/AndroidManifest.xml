@@ -58,7 +58,7 @@
             android:name=".CourseListActivity"
             android:label="课程列表" />
         <activity
-            android:name=".CourseStudentsActivity"
+            android:name=".CourseStudentListActivity"
             android:label="授课学生列表" />
         <activity
             android:name=".CourseDetailActivity"
@@ -71,7 +71,9 @@
             android:label="我的老师" />
         />
         <activity android:name=".TeacherDetailActivity" />
-        <activity android:name=".ClassListActivity"></activity>
+        <activity android:name=".ClassListActivity" />
+        <activity android:name=".ClassDetailActivity" />
+        <activity android:name=".ClassStudentListActivity"></activity>
     </application>
 
 </manifest>

@@ -7,10 +7,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClassListActivity extends AppCompatActivity {
+public class CourseStudentListActivity extends AppCompatActivity {
+    private int taskCount;
     private ProgressBar progressBar;
 
     private ArrayList<Map<String, Object>> listMap;
@@ -27,24 +28,25 @@ public class ClassListActivity extends AppCompatActivity {
             "no",
             "code",
             "name",
-            "section"
+            "class"
     };
     private int[] mapResurceId = {
             R.id.item_no_text_view,
             R.id.item_code_text_view,
             R.id.item_name_text_view,
-            R.id.item_section_text_tiew
+            R.id.item_class_text_tiew
     };
 
-    private ArrayList <ClassData> arrayListClass;
     private AuthUserData authUser;
-
+    private ArrayList<StudentData> arrayListStudent;
+    private CourseData courseData;
+    private int courseId;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_class_list);
+        setContentView(R.layout.activity_course_student_list);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -53,42 +55,49 @@ public class ClassListActivity extends AppCompatActivity {
 
         initData();
         initControls();
-
         requestData();
     }
+
     private void initData() {
         authUser = MyApplication.getInstance().authUser;
-        arrayListClass = new ArrayList<>();
+        arrayListStudent = new ArrayList<>();
         listMap = new ArrayList<>();
+
+        Intent intent = getIntent();
+        courseId = intent.getIntExtra(CourseData.COL_ID, 0);
     }
 
     private void initControls() {
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-
+        courseData  = new CourseData();
         ListView listView   = (ListView) findViewById(R.id.list_view_dynamic);
 
         simpleAdapter = new SimpleAdapter(this, listMap,
-                R.layout.activity_teacher_list_item, mapKey, mapResurceId);
-
+                R.layout.activity_course_student_list_item, mapKey, mapResurceId);
         listView.setAdapter(simpleAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*
+        listView.setOnItemClickListener(new  AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ClassData classData = arrayListClass.get(position);
-                Intent intent = new Intent(ClassListActivity.this,
-                        ClassStudentListActivity.class);
-                intent.putExtra(ClassData.COL_ID, classData.id);
-                ClassListActivity.this.startActivity(intent);
+                StudentData studentData = arrayListStudent.get(position);
+                Intent intent = new Intent(CourseStudentListActivity.this,
+                        StudentsDetailActivity.class);
+                intent.putExtra(CourseData.COL_ID, studentData.id);
+                CourseStudentListActivity.this.startActivity(intent);
             }
         });
+        */
     }
 
     private void requestData() {
-        arrayListClass.clear();
-        ClassDataUtils.getInstance()
-                .requestFetchListOfTeacher(authUser.teacher_id, arrayListClass,
-                        dbHandler, ClassDataUtils.TAG_FETCH_LIST_OF_TEACHER);
-        showBusyProgress(true);
+        if(courseId > 0) {
+            CourseDataUtils.getInstance().requestFetchCourseData(courseId, courseData,
+                            dbHandler, CourseDataUtils.TAG_FETCH_COURSES_AS_TEACHER);
+            StudentDataUtils.getInstance().requestFetchStudentListOfCourse(courseId, true,
+                    arrayListStudent, dbHandler, StudentDataUtils.TAG_FETCH_STUDENT_LIST_OF_COURSE);
+            taskCount = 2;
+            showBusyProgress(true);
+        }
     }
 
     private void showBusyProgress(boolean isBussy) {
@@ -102,16 +111,25 @@ public class ClassListActivity extends AppCompatActivity {
         }
     }
 
-    private void refreshData() {
+    private void refreshCourseInf() {
+        TextView courseCodeTextView
+                = (TextView) findViewById(R.id.course_code_text_view);
+        TextView courseNameTextView
+                = (TextView) findViewById(R.id.course_name_text_view);
+        courseCodeTextView.setText(courseData.code);
+        courseNameTextView.setText(courseData.name);
+    }
+
+    private  void refreshStudentList() {
         listMap.clear();
-        if (arrayListClass.size() > 0) {
-            for (int idx = 0; idx < arrayListClass.size(); idx++) {
-                ClassData classData = arrayListClass.get(idx);
+        if (arrayListStudent.size() > 0) {
+            for (int idx = 0; idx < arrayListStudent.size(); idx++) {
+                StudentData studentData = arrayListStudent.get(idx);
                 Map<String, Object> items = new HashMap<String, Object>();
                 items.put(mapKey[0], Integer.toString(idx + 1));
-                items.put(mapKey[1], classData.code);
-                items.put(mapKey[2], classData.name);
-                items.put(mapKey[3], classData.section);
+                items.put(mapKey[1], studentData.code);
+                items.put(mapKey[2], studentData.name);
+                items.put(mapKey[3], studentData.className);
                 listMap.add(items);
             }
         }
@@ -128,15 +146,15 @@ public class ClassListActivity extends AppCompatActivity {
 
     final DBHandler dbHandler = new DBHandler(this);
     private static class DBHandler extends Handler {
-        private final WeakReference<ClassListActivity> mActivity;
+        private final WeakReference<CourseStudentListActivity> mActivity;
 
-        DBHandler(ClassListActivity activity) {
+        DBHandler(CourseStudentListActivity activity) {
             mActivity = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(final Message msg) {
-            final ClassListActivity activity = mActivity.get();
+            final CourseStudentListActivity activity = mActivity.get();
             if (activity != null) {
                 boolean is_sucess = false;
                 String message = null;
@@ -144,15 +162,27 @@ public class ClassListActivity extends AppCompatActivity {
                 String tag = (String) msg.obj;
                 if (tag != null) {
                     switch (tag) {
-                        case ClassDataUtils.TAG_FETCH_LIST_OF_TEACHER:
+                        case CourseDataUtils.TAG_FETCH_COURSES_AS_TEACHER:
+                            activity.taskCount--;
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
-                                activity.refreshData();
+                                activity.refreshCourseInf();
                             }
                             else {
                                 Toast.makeText(activity, R.string.message_db_operation_failure,
                                         Toast.LENGTH_LONG).show();
                             }
-                            activity.showBusyProgress(false);
+                            activity.showBusyProgress(activity.taskCount>0);
+                            break;
+                        case StudentDataUtils.TAG_FETCH_STUDENT_LIST_OF_COURSE:
+                            activity.taskCount--;
+                            if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
+                                activity.refreshStudentList();
+                            }
+                            else {
+                                Toast.makeText(activity, R.string.message_db_operation_failure,
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            activity.showBusyProgress(activity.taskCount>0);
                             break;
                     }
                 }

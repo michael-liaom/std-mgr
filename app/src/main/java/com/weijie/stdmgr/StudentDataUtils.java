@@ -16,6 +16,8 @@ public class StudentDataUtils extends DBHandlerService {
     final static String TAG_FETCH_STUDENT_REGISTRATION  = "TAG_FETCH_STUDENT_REGISTRATION";
     final static String TAG_FETCH_STUDENT_COURSE        = "TAG_FETCH_STUDENT_COURSE";
     final static String TAG_FETCH_TEACHERS_OF_STUDENT   = "TAG_FETCH_TEACHERS_OF_STUDENT";
+    final static String TAG_FETCH_STUDENT_LIST_OF_COURSE= "TAG_FETCH_STUDENT_LIST_OF_COURSE";
+    final static String TAG_FETCH_STUDENT_LIST_OF_CLASS = "TAG_FETCH_STUDENT_LIST_OF_CLASS";
 
     private static WeakReference<StudentDataUtils> instance = null;
 
@@ -238,4 +240,135 @@ public class StudentDataUtils extends DBHandlerService {
             }
         }).start();
     }
+
+    private boolean fetchStudentListOfCourse(final int courseId,
+                                          final boolean isStrictApproval,
+                                          final ArrayList<StudentData> arrayList) {
+        String sql;
+        boolean isOk = true;
+
+        try {
+            Statement statement = jdbcMgrUtils.createStatement();
+            sql = "SELECT "
+                    + StudentData.getDomainColums()
+                    + " FROM "
+                    + TBL_STUDENT_COURSE
+                    + " , "
+                    + StudentData.TBL_NAME
+                    + " WHERE "
+                    + toDomain(COL_COURSE_ID) + "=" + toValue(courseId)
+                    + " AND "
+                    + toDomain(COL_STUDENT_ID) + "=" + StudentData.toDomain(COL_ID);
+            if (isStrictApproval) {
+                sql +=  " AND ";
+                sql += toDomain(COL_APPROVAL) + "=" + STATUS_VALID;
+            }
+            sql += ";";
+
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet != null) {
+                while (resultSet.next()) {
+                    StudentData studentData = new StudentData();
+                    studentData.extractFromResultSet(resultSet);
+                    arrayList.add(studentData);
+                }
+            }
+            else {
+                isOk = false;
+            }
+            statement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            isOk = false;
+        }
+
+        return isOk;
+    }
+
+    public void requestFetchStudentListOfCourse(final int courseId, final boolean isStrictApproval,
+                                             final ArrayList<StudentData> arrayList,
+                                             final Handler handler, final String tag) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String sql;
+                boolean isOk = fetchStudentListOfCourse(courseId, isStrictApproval, arrayList);
+
+                if (isOk) {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
+                }
+                else {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_FAILURE, tag);
+                }
+            }
+        }).start();
+    }
+
+    private boolean fetchStudentListOfClass(final int classId,
+                                             final boolean isStrictApproval,
+                                             final ArrayList<StudentData> arrayList) {
+        String sql;
+        boolean isOk = true;
+
+        try {
+            Statement statement = jdbcMgrUtils.createStatement();
+            sql = "SELECT "
+                    + StudentData.getDomainColums()
+                    + ","
+                    + StudentData.getJointDomainColums()
+                    + " FROM "
+                    + StudentData.TBL_NAME
+                    + " AND "
+                    + StudentData.getJointTables()
+                    + " WHERE "
+                    + StudentData.toDomain(StudentData.COL_CLASS_ID) + "=" + toValue(classId)
+                    + " AND "
+                    + StudentData.getJointCondition();
+            if (isStrictApproval) {
+                sql +=  " AND ";
+                sql += toDomain(COL_APPROVAL) + "=" + STATUS_VALID;
+            }
+            sql += ";";
+
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet != null) {
+                while (resultSet.next()) {
+                    StudentData studentData = new StudentData();
+                    studentData.extractFromResultSet(resultSet);
+                    arrayList.add(studentData);
+                }
+            }
+            else {
+                isOk = false;
+            }
+            statement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            isOk = false;
+        }
+
+        return isOk;
+    }
+
+    public void requestFetchStudentListOfClass(final int classId, final boolean isStrictApproval,
+                                                final ArrayList<StudentData> arrayList,
+                                                final Handler handler, final String tag) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String sql;
+                boolean isOk = fetchStudentListOfClass(classId, isStrictApproval, arrayList);
+
+                if (isOk) {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
+                }
+                else {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_FAILURE, tag);
+                }
+            }
+        }).start();
+    }
+
 }

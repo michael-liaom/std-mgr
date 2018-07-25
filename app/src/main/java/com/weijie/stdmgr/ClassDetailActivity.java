@@ -14,16 +14,17 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
-public class CourseDetailActivity extends AppCompatActivity {
+public class ClassDetailActivity extends AppCompatActivity {
     private AuthUserData authUser;
-    private CourseData courseData;
+    private ClassData classData;
 
     private ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_detail);
+        setContentView(R.layout.activity_class_detail);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -37,7 +38,7 @@ public class CourseDetailActivity extends AppCompatActivity {
 
     private void initData() {
         authUser    = MyApplication.getInstance().authUser;
-        courseData  = new CourseData();
+        classData  = new ClassData();
     }
 
     private void initControls() {
@@ -49,12 +50,12 @@ public class CourseDetailActivity extends AppCompatActivity {
 
     private void requestData() {
         Intent intent = getIntent();
-        int courseId = intent.getIntExtra(CourseData.COL_ID, 0);
+        int classId = intent.getIntExtra(CourseData.COL_ID, 0);
 
-        if (courseId > 0) {
-            CourseDataUtils.getInstance()
-                    .requestFetchCourseData(courseId, courseData, dbHandler,
-                            CourseDataUtils.TAG_FETCH_COURSE_DATA);
+        if (classId > 0) {
+            ClassDataUtils.getInstance()
+                    .requestFetchClassData(classId, classData, dbHandler,
+                            ClassDataUtils.TAG_FETCH_CLASS_DATA);
             showBusyProgress(true);
         }
     }
@@ -75,38 +76,30 @@ public class CourseDetailActivity extends AppCompatActivity {
         TextView nameTextView = (TextView) findViewById(R.id.name_text_view);
         TextView teacherTextView
                 = (TextView) findViewById(R.id.teacher_text_view);
-        TextView creditTextView
-                = (TextView) findViewById(R.id.credit_text_view);
+        TextView gradeTextView
+                = (TextView) findViewById(R.id.grade_text_view);
         TextView sectionTextView
                 = (TextView) findViewById(R.id.section_text_view);
-        TextView classroomTextView
-                = (TextView) findViewById(R.id.classroom_text_view);
-        TextView genreTextView
-                = (TextView) findViewById(R.id.genre_text_view);
-        TextView scheduleTextView
-                = (TextView) findViewById(R.id.schedule_text_view);
-        TextView termTextView = (TextView) findViewById(R.id.term_text_view);
+        TextView majorTextView
+                = (TextView) findViewById(R.id.major_text_view);
 
-        codeTextView.setText(courseData.code);
-        nameTextView.setText(courseData.name);
-        teacherTextView.setText(courseData.teacherName);
-        creditTextView.setText(Integer.toString(courseData.credit));
-        sectionTextView.setText(courseData.section);
-        classroomTextView.setText(courseData.classroom);
-        genreTextView.setText(courseData.genre);
-        scheduleTextView.setText(courseData.schedule);
-        termTextView.setText(Integer.toString(courseData.term));
+        codeTextView.setText(classData.code);
+        nameTextView.setText(classData.name);
+        teacherTextView.setText(classData.teacherName);
+        gradeTextView.setText(Integer.toString(classData.grade));
+        sectionTextView.setText(classData.section);
+        majorTextView.setText(classData.major);
 
-        if (authUser.teacher_id == courseData.teacherId) {
+        if (authUser.teacher_id == classData.teacherId) {
             Button button = (Button) findViewById(R.id.action_button);
             button.setVisibility(View.VISIBLE);
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(CourseDetailActivity.this,
+                    Intent intent = new Intent(ClassDetailActivity.this,
                             CourseStudentListActivity.class);
-                    intent.putExtra(CourseData.COL_ID, courseData.id);
+                    intent.putExtra(CourseData.COL_ID, classData.id);
                     startActivity(intent);
                 }
             });
@@ -115,15 +108,15 @@ public class CourseDetailActivity extends AppCompatActivity {
 
     final DBHandler dbHandler = new DBHandler(this);
     private static class DBHandler extends Handler {
-        private final WeakReference<CourseDetailActivity> mActivity;
+        private final WeakReference<ClassDetailActivity> mActivity;
 
-        DBHandler(CourseDetailActivity activity) {
+        DBHandler(ClassDetailActivity activity) {
             mActivity = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(final Message msg) {
-            final CourseDetailActivity activity = mActivity.get();
+            final ClassDetailActivity activity = mActivity.get();
             if (activity != null) {
                 boolean is_sucess = false;
                 String message = null;
@@ -131,7 +124,7 @@ public class CourseDetailActivity extends AppCompatActivity {
                 String tag = (String) msg.obj;
                 if (tag != null) {
                     switch (tag) {
-                        case CourseDataUtils.TAG_FETCH_COURSE_DATA:
+                        case ClassDataUtils.TAG_FETCH_CLASS_DATA:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.refreshData();
                             }

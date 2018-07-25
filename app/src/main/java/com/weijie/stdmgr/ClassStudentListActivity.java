@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CourseStudentsActivity extends AppCompatActivity {
+public class ClassStudentListActivity extends AppCompatActivity {
     private int taskCount;
     private ProgressBar progressBar;
 
@@ -29,25 +29,26 @@ public class CourseStudentsActivity extends AppCompatActivity {
             "no",
             "code",
             "name",
-            "class"
+            "room"
     };
     private int[] mapResurceId = {
             R.id.item_no_text_view,
             R.id.item_code_text_view,
             R.id.item_name_text_view,
-            R.id.item_class_text_tiew
+            R.id.item_room_text_tiew
     };
 
     private AuthUserData authUser;
     private ArrayList<StudentData> arrayListStudent;
-    private CourseData courseData;
-    private int courseId;
+    private ClassData classData;
+    private int classId;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_students);
+        setContentView(R.layout.activity_class_student_list);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -65,38 +66,37 @@ public class CourseStudentsActivity extends AppCompatActivity {
         listMap = new ArrayList<>();
 
         Intent intent = getIntent();
-        courseId = intent.getIntExtra(CourseData.COL_ID, 0);
+        classId = intent.getIntExtra(CourseData.COL_ID, 0);
     }
 
     private void initControls() {
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-        courseData  = new CourseData();
+        classData  = new ClassData();
         ListView listView   = (ListView) findViewById(R.id.list_view_dynamic);
 
         simpleAdapter = new SimpleAdapter(this, listMap,
-                R.layout.activity_course_students_item, mapKey, mapResurceId);
+                R.layout.activity_class_student_list_item, mapKey, mapResurceId);
         listView.setAdapter(simpleAdapter);
-        /*
         listView.setOnItemClickListener(new  AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 StudentData studentData = arrayListStudent.get(position);
-                Intent intent = new Intent(CourseStudentsActivity.this,
-                        StudentsDetailActivity.class);
+                Intent intent = new Intent(ClassStudentListActivity.this,
+                        PersonDetailActivity.class);
+                intent.putExtra(AuthUserData.COL_GENRE, AuthUserData.GENRE_STUDENT);
                 intent.putExtra(CourseData.COL_ID, studentData.id);
-                CourseStudentsActivity.this.startActivity(intent);
+                ClassStudentListActivity.this.startActivity(intent);
             }
         });
-        */
     }
 
     private void requestData() {
-        if(courseId > 0) {
-            CourseDataUtils courseDataUtils = CourseDataUtils.getInstance();
-            courseDataUtils.requestFetchCourseData(courseId, courseData,
-                            dbHandler, CourseDataUtils.TAG_FETCH_COURSES_AS_TEACHER);
-            courseDataUtils.requestFetchStudentsOfCourse(courseId, true,
-                    arrayListStudent, dbHandler, CourseDataUtils.TAG_FETCH_STUDENTS_OF_COURSE);
+        if(classId > 0) {
+            ClassDataUtils classDataUtils = ClassDataUtils.getInstance();
+            classDataUtils.requestFetchClassData(classId, classData,
+                    dbHandler, CourseDataUtils.TAG_FETCH_COURSES_AS_TEACHER);
+            StudentDataUtils.getInstance().requestFetchStudentListOfClass(classId, true,
+                    arrayListStudent, dbHandler, StudentDataUtils.TAG_FETCH_STUDENT_LIST_OF_CLASS);
             taskCount = 2;
             showBusyProgress(true);
         }
@@ -113,13 +113,13 @@ public class CourseStudentsActivity extends AppCompatActivity {
         }
     }
 
-    private void refreshCourseInf() {
-        TextView courseCodeTextView
-                = (TextView) findViewById(R.id.course_code_text_view);
-        TextView courseNameTextView
-                = (TextView) findViewById(R.id.course_name_text_view);
-        courseCodeTextView.setText(courseData.code);
-        courseNameTextView.setText(courseData.name);
+    private void refreshClassInf() {
+        TextView classCodeTextView
+                = (TextView) findViewById(R.id.class_code_text_view);
+        TextView classNameTextView
+                = (TextView) findViewById(R.id.class_name_text_view);
+        classCodeTextView.setText(classData.code);
+        classNameTextView.setText(classData.name);
     }
 
     private  void refreshStudentList() {
@@ -131,7 +131,7 @@ public class CourseStudentsActivity extends AppCompatActivity {
                 items.put(mapKey[0], Integer.toString(idx + 1));
                 items.put(mapKey[1], studentData.code);
                 items.put(mapKey[2], studentData.name);
-                items.put(mapKey[3], studentData.className);
+                items.put(mapKey[3], studentData.room);
                 listMap.add(items);
             }
         }
@@ -141,8 +141,6 @@ public class CourseStudentsActivity extends AppCompatActivity {
             items.put(mapKey[1], "");
             items.put(mapKey[2], "无数据");
             items.put(mapKey[3], "");
-            items.put(mapKey[4], "");
-            items.put(mapKey[5], "");
             listMap.add(items);
         }
         simpleAdapter.notifyDataSetChanged();
@@ -150,15 +148,15 @@ public class CourseStudentsActivity extends AppCompatActivity {
 
     final DBHandler dbHandler = new DBHandler(this);
     private static class DBHandler extends Handler {
-        private final WeakReference<CourseStudentsActivity> mActivity;
+        private final WeakReference<ClassStudentListActivity> mActivity;
 
-        DBHandler(CourseStudentsActivity activity) {
+        DBHandler(ClassStudentListActivity activity) {
             mActivity = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(final Message msg) {
-            final CourseStudentsActivity activity = mActivity.get();
+            final ClassStudentListActivity activity = mActivity.get();
             if (activity != null) {
                 boolean is_sucess = false;
                 String message = null;
@@ -166,10 +164,10 @@ public class CourseStudentsActivity extends AppCompatActivity {
                 String tag = (String) msg.obj;
                 if (tag != null) {
                     switch (tag) {
-                        case CourseDataUtils.TAG_FETCH_COURSES_AS_TEACHER:
+                        case ClassDataUtils.TAG_FETCH_CLASS_DATA:
                             activity.taskCount--;
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
-                                activity.refreshCourseInf();
+                                activity.refreshClassInf();
                             }
                             else {
                                 Toast.makeText(activity, R.string.message_db_operation_failure,
@@ -177,7 +175,7 @@ public class CourseStudentsActivity extends AppCompatActivity {
                             }
                             activity.showBusyProgress(activity.taskCount>0);
                             break;
-                        case CourseDataUtils.TAG_FETCH_STUDENTS_OF_COURSE:
+                        case StudentDataUtils.TAG_FETCH_STUDENT_LIST_OF_CLASS:
                             activity.taskCount--;
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.refreshStudentList();

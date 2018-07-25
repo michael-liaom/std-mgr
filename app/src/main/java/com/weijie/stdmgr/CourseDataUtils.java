@@ -17,7 +17,6 @@ public class CourseDataUtils extends DBHandlerService {
     final static String TAG_FETCH_COURSE_DATA           = "TAG_FETCH_COURSE_DATA";
     final static String TAG_FETCH_COURSES_AS_STUDENT    = "TAG_COURSES_AS_STUDENT";
     final static String TAG_FETCH_COURSES_AS_TEACHER    = "TAG_FETCH_COURSES_AS_TEACHER";
-    final static String TAG_FETCH_STUDENTS_OF_COURSE    = "TAG_FETCH_STUDENTS_OF_COURSE";
 
     private static WeakReference<CourseDataUtils> instance = null;
 
@@ -105,69 +104,6 @@ public class CourseDataUtils extends DBHandlerService {
         }).start();
     }
 
-    private boolean fetchStudentsOfCourse(final int courseId,
-                                         final boolean isStrictApproval,
-                                         final ArrayList<StudentData> arrayList) {
-        String sql;
-        boolean isOk = true;
-
-        try {
-            Statement statement = jdbcMgrUtils.createStatement();
-            sql = "SELECT "
-                    + StudentData.getDomainColums()
-                    + " FROM "
-                    + TBL_STUDENT_COURSE
-                    + " , "
-                    + StudentData.TBL_NAME
-                    + " WHERE "
-                    + toDomain(COL_COURSE_ID) + "=" + toValue(courseId)
-                    + " AND "
-                    + toDomain(COL_STUDENT_ID) + "=" + StudentData.toDomain(COL_ID);
-            if (isStrictApproval) {
-                sql +=  " AND ";
-                sql += toDomain(COL_APPROVAL) + "=" + STATUS_VALID;
-            }
-            sql += ";";
-
-            ResultSet resultSet = statement.executeQuery(sql);
-            if (resultSet != null) {
-                while (resultSet.next()) {
-                    StudentData studentData = new StudentData();
-                    studentData.extractFromResultSet(resultSet);
-                    arrayList.add(studentData);
-                }
-            }
-            else {
-                isOk = false;
-            }
-            statement.close();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-            isOk = false;
-        }
-
-        return isOk;
-    }
-
-    public void requestFetchStudentsOfCourse(final int courseId, final boolean isStrictApproval,
-                                             final ArrayList<StudentData> arrayList,
-                                             final Handler handler, final String tag) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String sql;
-                boolean isOk = fetchStudentsOfCourse(courseId, isStrictApproval, arrayList);
-
-                if (isOk) {
-                processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
-            }
-                else {
-                processHandler(handler, JdbcMgrUtils.DB_REQUEST_FAILURE, tag);
-            }
-        }
-    }).start();
-}
 
     public void requestFetchCoursesAsStudent(final int studentId,
                                              final ArrayList<CourseData> arrayList,
