@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -15,17 +14,20 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
-public class MyDataActivity extends AppCompatActivity {
-    private AuthUserData authUser;
+public class PersonDetailActivity extends AppCompatActivity {
+    String genre;
+    TeacherData teacherData;
+    StudentData studentData;
 
     LinearLayout studentLayout, teacherLayout;
     private ProgressBar progressBar;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_data);
+        setContentView(R.layout.activity_person_detail);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -38,7 +40,6 @@ public class MyDataActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        authUser    = MyApplication.getInstance().authUser;
     }
 
     private void initControls() {
@@ -52,20 +53,32 @@ public class MyDataActivity extends AppCompatActivity {
     }
 
     private void requestData() {
-        if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
-            authUser.studentData = new StudentData();
-            StudentDataUtils.getInstance()
-                    .requestFetchStudentRegistration(authUser.studend_id, authUser.studentData, dbHandler,
-                            StudentDataUtils.TAG_FETCH_STUDENT_REGISTRATION);
-            showBusyProgress(true);
+        Intent intent = getIntent();
+        //获取传递的值
+        genre = intent.getStringExtra(AuthUserData.COL_GENRE);
+        if (genre != null) {
+            if (genre.equals(AuthUserData.GENRE_STUDENT)) {
+                studentData = new StudentData();
+                int studendId = intent.getIntExtra(StudentData.COL_ID, 0);
+                if (studendId > 0) {
+                    StudentDataUtils.getInstance()
+                            .requestFetchStudentRegistration(studendId, studentData, dbHandler,
+                                    StudentDataUtils.TAG_FETCH_STUDENT_REGISTRATION);
+                    showBusyProgress(true);
+                }
+            }
+            else {
+                teacherData = new TeacherData();
+                int teacherId = intent.getIntExtra(TeacherData.COL_ID, 0);
+                if (teacherId > 0) {
+                    TeacherDataUtils.getInstance()
+                            .requestFetchTeacherRegistration(teacherId, teacherData, dbHandler,
+                                    TeacherDataUtils.TAG_FETCH_TEACHER_REGISTRATION);
+                    showBusyProgress(true);
+                }
+            }
         }
-        else {
-            authUser.teacherData = new TeacherData();
-            TeacherDataUtils.getInstance()
-                    .requestFetchTeacherRegistration(authUser.teacher_id, authUser.teacherData, dbHandler,
-                            TeacherDataUtils.TAG_FETCH_TEACHER_REGISTRATION);
-            showBusyProgress(true);
-        }
+
     }
 
     private void showBusyProgress(boolean isBussy) {
@@ -80,8 +93,7 @@ public class MyDataActivity extends AppCompatActivity {
     }
 
     private void refreshData() {
-        if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
-            StudentData studentData = authUser.studentData;
+        if (genre.equals(AuthUserData.GENRE_STUDENT)) {
             TextView nameTextView = (TextView) findViewById(R.id.student_name_text_view);
             TextView codeTextView = (TextView) findViewById(R.id.student_code_text_view);
             TextView sectionTextView
@@ -101,7 +113,6 @@ public class MyDataActivity extends AppCompatActivity {
             studentLayout.setVisibility(View.VISIBLE);
         }
         else {
-            TeacherData teacherData = authUser.teacherData;
             TextView nameTextView = (TextView) findViewById(R.id.teacher_name_text_view);
             TextView codeTextView = (TextView) findViewById(R.id.teacher_code_text_view);
             TextView sectionTextView
@@ -120,15 +131,15 @@ public class MyDataActivity extends AppCompatActivity {
 
     final DBHandler dbHandler = new DBHandler(this);
     private static class DBHandler extends Handler {
-        private final WeakReference<MyDataActivity> mActivity;
+        private final WeakReference<PersonDetailActivity> mActivity;
 
-        DBHandler(MyDataActivity activity) {
+        DBHandler(PersonDetailActivity activity) {
             mActivity = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(final Message msg) {
-            final MyDataActivity activity = mActivity.get();
+            final PersonDetailActivity activity = mActivity.get();
             if (activity != null) {
                 boolean is_sucess = false;
                 String message = null;

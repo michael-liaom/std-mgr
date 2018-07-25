@@ -17,6 +17,7 @@ public class CourseDataUtils extends DBHandlerService {
     final static String TAG_FETCH_COURSE_DATA           = "TAG_FETCH_COURSE_DATA";
     final static String TAG_FETCH_COURSES_AS_STUDENT    = "TAG_COURSES_AS_STUDENT";
     final static String TAG_FETCH_COURSES_AS_TEACHER    = "TAG_FETCH_COURSES_AS_TEACHER";
+    final static String TAG_FETCH_STUDENTS_OF_COURSE    = "TAG_FETCH_STUDENTS_OF_COURSE";
 
     private static WeakReference<CourseDataUtils> instance = null;
 
@@ -95,11 +96,6 @@ public class CourseDataUtils extends DBHandlerService {
                 }
 
                 if (isOk) {
-                    courseData.arrayListStudent = new ArrayList<>();
-                    isOk = fetchStudentsOfCourse(courseId, true, courseData.arrayListStudent);
-                }
-
-                if (isOk) {
                     processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
                 }
                 else {
@@ -153,6 +149,25 @@ public class CourseDataUtils extends DBHandlerService {
 
         return isOk;
     }
+
+    public void requestFetchStudentsOfCourse(final int courseId, final boolean isStrictApproval,
+                                             final ArrayList<StudentData> arrayList,
+                                             final Handler handler, final String tag) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String sql;
+                boolean isOk = fetchStudentsOfCourse(courseId, isStrictApproval, arrayList);
+
+                if (isOk) {
+                processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
+            }
+                else {
+                processHandler(handler, JdbcMgrUtils.DB_REQUEST_FAILURE, tag);
+            }
+        }
+    }).start();
+}
 
     public void requestFetchCoursesAsStudent(final int studentId,
                                              final ArrayList<CourseData> arrayList,

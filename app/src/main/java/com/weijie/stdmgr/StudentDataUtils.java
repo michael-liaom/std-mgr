@@ -15,6 +15,7 @@ public class StudentDataUtils extends DBHandlerService {
     final static String COL_APPROVAL    = "approval";
     final static String TAG_FETCH_STUDENT_REGISTRATION  = "TAG_FETCH_STUDENT_REGISTRATION";
     final static String TAG_FETCH_STUDENT_COURSE        = "TAG_FETCH_STUDENT_COURSE";
+    final static String TAG_FETCH_TEACHERS_OF_STUDENT   = "TAG_FETCH_TEACHERS_OF_STUDENT";
 
     private static WeakReference<StudentDataUtils> instance = null;
 
@@ -64,7 +65,7 @@ public class StudentDataUtils extends DBHandlerService {
 
         if (isOk) {
             ClassData classData = new ClassData();
-            isOk = ClassDataUtils.getInstance().fetchClaseData(studentData.class_id, classData);
+            isOk = ClassDataUtils.getInstance().fetchClassData(studentData.class_id, classData);
             if (isOk) {
                 studentData.classData = classData;
             }
@@ -152,4 +153,89 @@ public class StudentDataUtils extends DBHandlerService {
         }).start();
     }
 
+    public void requestFetchTeachersOfStudent(final int studentId,
+                                              final ArrayList<TeacherData> arrayList,
+                                              final Handler handler, final String tag) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String sql;
+                boolean isOk = true;
+
+                try {
+                    Statement statement = jdbcMgrUtils.createStatement();
+                    sql = "SELECT "
+                            + TeacherData.getDomainColums()
+                            + " FROM "
+                            + TeacherData.TBL_NAME
+                            + ","
+                            + ClassData.TBL_NAME
+                            + ","
+                            + StudentData.TBL_NAME
+                            + " WHERE "
+                            + StudentData.toDomain(COL_ID) + "=" + toValue(studentId)
+                            + " AND "
+                            + ClassData.toDomain(COL_ID)
+                            + " = "
+                            + StudentData.toDomain(StudentData.COL_CLASS_ID)
+                            + " AND "
+                            + TeacherData.toDomain(COL_ID)
+                            + "="
+                            + ClassData.toDomain(ClassData.COL_TEACHER_ID)
+                            + " UNION "
+                            + " SELECT "
+                            + TeacherData.getDomainColums()
+                            + " FROM "
+                            + TeacherData.TBL_NAME
+                            + ","
+                            + CourseDataUtils.TBL_STUDENT_COURSE
+                            + ","
+                            + CourseData.TBL_NAME
+                            + ","
+                            + StudentData.TBL_NAME
+                            + " WHERE "
+                            + StudentData.toDomain(COL_ID) + "=" + toValue(studentId)
+                            + " AND "
+                            + CourseDataUtils.toDomain(CourseDataUtils.COL_STUDENT_ID)
+                            + " = "
+                            + StudentData.toDomain(COL_ID)
+                            + " AND "
+                            + CourseDataUtils.toDomain(CourseDataUtils.COL_COURSE_ID)
+                            + "="
+                            + CourseData.toDomain(COL_ID)
+                            + " AND "
+                            + CourseData.toDomain(CourseData.COL_TEACHER_ID)
+                            + "="
+                            + TeacherData.toDomain(COL_ID)
+                            + ";";
+
+                    sql += ";";
+
+                    ResultSet resultSet = statement.executeQuery(sql);
+                    if (resultSet != null) {
+                        while (resultSet.next()) {
+                            TeacherData teacherData = new TeacherData();
+                            teacherData.extractFromResultSet(resultSet);
+                            arrayList.add(teacherData);
+                        }
+                    }
+                    else {
+                        isOk = false;
+                    }
+                    statement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    isOk = false;
+                }
+
+                if (isOk) {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
+                }
+                else {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_FAILURE, tag);
+                }
+            }
+        }).start();
+    }
 }

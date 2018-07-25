@@ -34,7 +34,6 @@ public class CourseData {
     String teacherName;
     //Seperated
     TeacherData teacherData;
-    ArrayList<StudentData> arrayListStudent;
 
     static String toDomain(String col) {
         return TBL_NAME + "." + col;

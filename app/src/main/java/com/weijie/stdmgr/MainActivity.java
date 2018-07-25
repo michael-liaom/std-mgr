@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -105,8 +104,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.myclass_teacher_button:
+                startActivity(new Intent(this, ClassListActivity.class));
                 break;
             case R.id.myteacher_student_button:
+                startActivity(new Intent(this, TeacherListActivity.class));
                 break;
             case R.id.mycourse_student_button:
             case R.id.mycourse_teacher_button:
@@ -117,9 +118,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 startActivity(new Intent(this, AbsenceFormListActivity.class));
                 break;
             case R.id.mydata_student_button:
-            case R.id.mydata_teacher_button:
-                startActivity(new Intent(this, MyDataActivity.class));
+            case R.id.mydata_teacher_button:{
+                Intent intent = new Intent(this, PersonDetailActivity.class);
+                intent.putExtra(AuthUserData.COL_GENRE, authUser.genre);
+                if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
+                    intent.putExtra(StudentData.COL_ID, authUser.studend_id);
+                }
+                else {
+                    intent.putExtra(StudentData.COL_ID, authUser.teacher_id);
+                }
+                startActivity(intent);
                 break;
+            }
             case R.id.logout_button://主菜单的登陆按钮
                 responseLogout();
                 break;
