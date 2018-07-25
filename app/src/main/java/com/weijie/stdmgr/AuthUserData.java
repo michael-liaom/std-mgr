@@ -9,6 +9,9 @@ import java.sql.SQLException;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * Created by weijie on 2018/5/15.
+ */
 public class AuthUserData {
     final static int MIN_NAME_LEN       = 6;
     final static int MIN_PASSWORD_LEN   = 6;

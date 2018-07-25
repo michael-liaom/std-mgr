@@ -2,6 +2,9 @@ package com.weijie.stdmgr;
 
 import java.io.Serializable;
 
+/**
+ * Created by weijie on 2018/7/21.
+ */
 public class SimplePickItemData implements Serializable {
     String  name;
     Integer id;

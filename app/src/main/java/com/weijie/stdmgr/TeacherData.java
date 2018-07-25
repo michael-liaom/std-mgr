@@ -3,6 +3,9 @@ package com.weijie.stdmgr;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Created by weijie on 2018/5/15.
+ */
 public class TeacherData {
     final static String TBL_NAME        = "teacher_registration";
     final static String COL_ID          = "id";

@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
+/**
+ * Created by weijie on 2018/7/17.
+ */
 public class PersonDetailActivity extends AppCompatActivity {
     String genre;
     TeacherData teacherData;
@@ -63,7 +66,7 @@ public class PersonDetailActivity extends AppCompatActivity {
                 if (studendId > 0) {
                     StudentDataUtils.getInstance()
                             .requestFetchStudentRegistration(studendId, studentData, dbHandler,
-                                    StudentDataUtils.TAG_FETCH_STUDENT_REGISTRATION);
+                                    StudentDataUtils.TAG_FETCH_REGIST);
                     showBusyProgress(true);
                 }
             }
@@ -73,7 +76,7 @@ public class PersonDetailActivity extends AppCompatActivity {
                 if (teacherId > 0) {
                     TeacherDataUtils.getInstance()
                             .requestFetchTeacherRegistration(teacherId, teacherData, dbHandler,
-                                    TeacherDataUtils.TAG_FETCH_TEACHER_REGISTRATION);
+                                    TeacherDataUtils.TAG_FETCH_REGIST);
                     showBusyProgress(true);
                 }
             }
@@ -147,8 +150,8 @@ public class PersonDetailActivity extends AppCompatActivity {
                 String tag = (String) msg.obj;
                 if (tag != null) {
                     switch (tag) {
-                        case StudentDataUtils.TAG_FETCH_STUDENT_REGISTRATION:
-                        case TeacherDataUtils.TAG_FETCH_TEACHER_REGISTRATION:
+                        case StudentDataUtils.TAG_FETCH_REGIST:
+                        case TeacherDataUtils.TAG_FETCH_REGIST:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.refreshData();
                             }

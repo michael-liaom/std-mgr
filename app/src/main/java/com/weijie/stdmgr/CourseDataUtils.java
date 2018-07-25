@@ -8,15 +8,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+/**
+ * Created by weijie on 2018/5/17.
+ */
 public class CourseDataUtils extends DBHandlerService {
     final static String TBL_STUDENT_COURSE = "student_course";
     final static String COL_STUDENT_ID  = "student_id";
     final static String COL_COURSE_ID   = "course_id";
     final static String COL_APPROVAL    = "approval";
 
-    final static String TAG_FETCH_COURSE_DATA           = "TAG_FETCH_COURSE_DATA";
-    final static String TAG_FETCH_COURSES_AS_STUDENT    = "TAG_COURSES_AS_STUDENT";
-    final static String TAG_FETCH_COURSES_AS_TEACHER    = "TAG_FETCH_COURSES_AS_TEACHER";
+    final static String TAG_FETCH_COURSE_DATA   = "TAG_FETCH_COURSE_DATA";
+    final static String TAG_FETCH_COURSE_LIST   = "TAG_FETCH_COURSE_LIST";
 
     private static WeakReference<CourseDataUtils> instance = null;
 
@@ -105,7 +107,7 @@ public class CourseDataUtils extends DBHandlerService {
     }
 
 
-    public void requestFetchCoursesAsStudent(final int studentId,
+    public void requestFetchCourseListOfStudent(final int studentId,
                                              final ArrayList<CourseData> arrayList,
                                              final Handler handler, final String tag) {
         new Thread(new Runnable() {
@@ -168,7 +170,7 @@ public class CourseDataUtils extends DBHandlerService {
         }).start();
     }
 
-    public void requestFetchCoursesAsTeacher(final int teacherId,
+    public void requestFetchCourseListOfTeacher(final int teacherId,
                                              final ArrayList<CourseData> arrayList,
                                              final Handler handler, final String tag) {
         new Thread(new Runnable() {

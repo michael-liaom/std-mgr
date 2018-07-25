@@ -21,6 +21,9 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
+/**
+ * Created by weijie on 2018/6/7.
+ */
 public class AbsenceFormCheckActivity extends AppCompatActivity implements View.OnClickListener{
     final static int RESULT_CODE_COMMIT_NONE    = 0;
     final static int RESULT_CODE_COMMIT_SUCCESS = 1;
@@ -55,7 +58,7 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
                             }
                             AbsenceFormDataUtils.getInstance()
                                     .requestSignApply(absenceFormData, dbHandler,
-                                            AbsenceFormDataUtils.TAG_APPROVE_APPLY);
+                                            AbsenceFormDataUtils.TAG_SIGN_APPLY);
                         }
                     })
                     .setNegativeButton(R.string.button_reject, new DialogInterface.OnClickListener() {
@@ -69,7 +72,7 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
                             }
                             AbsenceFormDataUtils.getInstance()
                                     .requestSignApply(absenceFormData, dbHandler,
-                                            AbsenceFormDataUtils.TAG_REJECT_APPLY);
+                                            AbsenceFormDataUtils.TAG_SIGN_APPLY);
                         }
                     })
                     .setNeutralButton(R.string.button_pending, new DialogInterface.OnClickListener() {
@@ -237,25 +240,7 @@ public class AbsenceFormCheckActivity extends AppCompatActivity implements View.
                             }
                             activity.showBusyProgress(false);
                             break;
-                        case AbsenceFormDataUtils.TAG_APPROVE_APPLY:
-                            if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(activity)
-                                        .setMessage(R.string.message_db_commit_success)
-                                        .setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                activity.setResult(RESULT_CODE_COMMIT_SUCCESS);
-                                                activity.finish();
-                                            }
-                                        });
-                                builder.show();
-                            }
-                            else {
-                                Toast.makeText(activity, R.string.message_db_operation_failure,
-                                        Toast.LENGTH_LONG).show();
-                            }
-                            activity.showBusyProgress(false);
-                        case AbsenceFormDataUtils.TAG_REJECT_APPLY:
+                        case AbsenceFormDataUtils.TAG_SIGN_APPLY:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                                         .setMessage(R.string.message_db_commit_success)

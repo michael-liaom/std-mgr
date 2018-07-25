@@ -46,9 +46,6 @@
             android:label="请假单列表" />
         <activity android:name=".SimpleDataPickerActivity" />
         <activity
-            android:name=".StudentCourseActivity"
-            android:label="课程列表" />
-        <activity
             android:name=".AbsenceFormCheckActivity"
             android:label="请假单详情" />
         <activity
@@ -65,15 +62,19 @@
             android:label="课程详情" />
         <activity
             android:name=".PersonDetailActivity"
-            android:label="我的个人资料" />
+            android:label="个人详细资料" />
         <activity
             android:name=".TeacherListActivity"
             android:label="我的老师" />
-        />
-        <activity android:name=".TeacherDetailActivity" />
-        <activity android:name=".ClassListActivity" />
-        <activity android:name=".ClassDetailActivity" />
-        <activity android:name=".ClassStudentListActivity"></activity>
+        <activity
+            android:name=".ClassListActivity"
+            android:label="班级列表" />
+        <activity
+            android:name=".ClassDetailActivity"
+            android:label="班级详情" />
+        <activity
+            android:name=".ClassStudentListActivity"
+            android:label="班级学生列表" />
     </application>
 
 </manifest>

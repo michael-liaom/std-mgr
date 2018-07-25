@@ -8,11 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class AuthUserDataUtils extends DBHandlerService{
-    final public static String TBL_STUDENT_REGISTATION = "student_registration";
-    final public static String TBL_TEACHER_REGISTATION = "teacher_registration";
-    final public static String TBL_USER_LOGIN           = "user_login";
+    final private static String TBL_STUDENT_REGISTATION = "student_registration";
+    final private static String TBL_TEACHER_REGISTATION = "teacher_registration";
+    final private static String TBL_USER_LOGIN           = "user_login";
+
     final public static String TAG_LOGIN                = "TAG_LOGIN";
-    final public static String TAG_FETCH_STUDENT_REG    = "TAG_FETCH_STUDENT_REG";
     final public static String TAG_REGISTRATION         = "TAG_REGISTRATION";
     final public static String TAG_CHECK_NAME_VALID     = "TAG_CHECK_NAME_VALID";
     final public static String TAG_CHECK_INVATION_VALID = "TAG_CHECK_INVATION_VALID";
@@ -309,123 +309,6 @@ public class AuthUserDataUtils extends DBHandlerService{
                                 isOk = false;
                             }
                         }
-                    }
-                    statement.close();
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                    isOk = false;
-                }
-
-                if (isOk) {
-                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
-                }
-                else {
-                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_FAILURE, tag);
-                }
-            }
-        }).start();
-    }
-
-    public void requestFetchStudendRegistration(final int studentId, final StudentData studentData,
-                                                final Handler handler, final String tag) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String sql = "SELECT * FROM " + TBL_STUDENT_REGISTATION
-                        + " WHERE "
-                        + StudentData.COL_ID + "=" + toValue(studentId)
-                        + " AND "
-                        + COL_STATUS + "=" + STATUS_VALID
-                        + ";";
-                boolean isOk = true;
-
-                try {
-                    Statement statement = jdbcMgrUtils.createStatement();
-                    ResultSet resultSet = statement.executeQuery(sql);
-                    if (resultSet != null && resultSet.next()) {
-                        studentData.extractFromResultSet(resultSet);
-                    }
-                    else {
-                        isOk = false;
-                    }
-                    statement.close();
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                    isOk = false;
-                }
-
-                if (isOk) {
-                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
-                }
-                else {
-                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_FAILURE, tag);
-                }
-            }
-        }).start();
-    }
-
-    public void requstUpdateStudentRegistration(final StudentData studentData,
-                                                final Handler handler, final String tag) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final String sql="UPDATE " + TBL_STUDENT_REGISTATION
-                        + " SET "
-                        + StudentData.COL_NAME      + "=" + toValue(studentData.name)
-                        + ","
-                        + StudentData.COL_CLASS_ID  + "=" + toValue(studentData.class_id)
-                        + ","
-                        + StudentData.COL_CODE      + "=" + toValue(studentData.code)
-                        + " WHERE "
-                        + StudentData.COL_ID        + "=" + toValue(studentData.id)
-                        + ";";
-                boolean isOk = true;
-
-                try {
-                    Statement statement = jdbcMgrUtils.createStatement();
-                    int affect =statement.executeUpdate(sql);
-                    if (affect != 1) {
-                        isOk = false;
-                    }
-                    statement.close();
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                    isOk = false;
-                }
-
-                if (isOk) {
-                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
-                }
-                else {
-                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_FAILURE, tag);
-                }
-            }
-        }).start();
-    }
-
-    public void requstAppendStudentRegistration(final StudentData studentData,
-                                                final Handler handler, final String tag) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final String sql="INSERT " + TBL_STUDENT_REGISTATION
-                        + " SET "
-                        + StudentData.COL_NAME      + "=" + toValue(studentData.name)
-                        + ","
-                        + StudentData.COL_CLASS_ID  + "=" + toValue(studentData.class_id)
-                        + ","
-                        + StudentData.COL_CODE      + "=" + toValue(studentData.code)
-                        + ";";
-                boolean isOk = true;
-
-                try {
-                    Statement statement = jdbcMgrUtils.createStatement();
-                    int affect =statement.executeUpdate(sql);
-                    if (affect != 1) {
-                        isOk = false;
                     }
                     statement.close();
                 }

@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
+/**
+ * Created by weijie on 2018/5/30.
+ */
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
     final static int STUDENT_CODE_LEN   = 10;
     final static int TEACHER_CODE_LEN   = 4;

@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Created by weijie on 2018/7/17.
+ */
 public class ClassStudentListActivity extends AppCompatActivity {
     private int taskCount;
     private ProgressBar progressBar;
@@ -94,9 +97,9 @@ public class ClassStudentListActivity extends AppCompatActivity {
         if(classId > 0) {
             ClassDataUtils classDataUtils = ClassDataUtils.getInstance();
             classDataUtils.requestFetchClassData(classId, classData,
-                    dbHandler, CourseDataUtils.TAG_FETCH_COURSES_AS_TEACHER);
-            StudentDataUtils.getInstance().requestFetchStudentListOfClass(classId, true,
-                    arrayListStudent, dbHandler, StudentDataUtils.TAG_FETCH_STUDENT_LIST_OF_CLASS);
+                    dbHandler, classDataUtils.TAG_FETCH_CLASS_DATA);
+            StudentDataUtils.getInstance().requestFetchStudentListOfClass(classId,
+                    arrayListStudent, dbHandler, StudentDataUtils.TAG_FETCH_LIST);
             taskCount = 2;
             showBusyProgress(true);
         }
@@ -118,7 +121,7 @@ public class ClassStudentListActivity extends AppCompatActivity {
                 = (TextView) findViewById(R.id.class_code_text_view);
         TextView classNameTextView
                 = (TextView) findViewById(R.id.class_name_text_view);
-        classCodeTextView.setText(classData.code);
+        classCodeTextView.setText(Integer.toString(classData.code));
         classNameTextView.setText(classData.name);
     }
 
@@ -129,7 +132,7 @@ public class ClassStudentListActivity extends AppCompatActivity {
                 StudentData studentData = arrayListStudent.get(idx);
                 Map<String, Object> items = new HashMap<String, Object>();
                 items.put(mapKey[0], Integer.toString(idx + 1));
-                items.put(mapKey[1], studentData.code);
+                items.put(mapKey[1], Integer.toString(studentData.code));
                 items.put(mapKey[2], studentData.name);
                 items.put(mapKey[3], studentData.room);
                 listMap.add(items);
@@ -175,7 +178,7 @@ public class ClassStudentListActivity extends AppCompatActivity {
                             }
                             activity.showBusyProgress(activity.taskCount>0);
                             break;
-                        case StudentDataUtils.TAG_FETCH_STUDENT_LIST_OF_CLASS:
+                        case StudentDataUtils.TAG_FETCH_LIST:
                             activity.taskCount--;
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.refreshStudentList();

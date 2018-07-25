@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
+/**
+ * Created by weijie on 2018/5/5.
+ */
 public class ClassDetailActivity extends AppCompatActivity {
     private AuthUserData authUser;
     private ClassData classData;

@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Created by weijie on 2018/6/10.
+ */
 public class AbsenceFormListActivity extends AppCompatActivity {
     final private static int REQUEST_FOR_ABSENCE_APPLY      = 1;
     final private static int REQUEST_FOR_ABSENCE_CHECK    = 2;
@@ -131,13 +134,13 @@ public class AbsenceFormListActivity extends AppCompatActivity {
         arrayListAbsenceData.clear();
         if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
             AbsenceFormDataUtils.getInstance()
-                    .requestFetchAppliesAsStudent(authUser.studend_id, arrayListAbsenceData,
-                            dbHandler, AbsenceFormDataUtils.TAG_FETCH_APPLIES_AS_STUDENT);
+                    .requestFetchApplieListFromStudent(authUser.studend_id, arrayListAbsenceData,
+                            dbHandler, AbsenceFormDataUtils.TAG_FETCH_APPLIE_LIST);
         }
         else {
             AbsenceFormDataUtils.getInstance()
-                    .requestFetchAppliesToAsTeacher(authUser.teacher_id, arrayListAbsenceData,
-                            dbHandler, AbsenceFormDataUtils.TAG_FETCH_APPLIES_AS_STUDENT);
+                    .requestFetchApplyListToTeacher(authUser.teacher_id, arrayListAbsenceData,
+                            dbHandler, AbsenceFormDataUtils.TAG_FETCH_APPLIE_LIST);
         }
         showBusyProgress(true);
     }
@@ -200,7 +203,7 @@ public class AbsenceFormListActivity extends AppCompatActivity {
                 String tag = (String) msg.obj;
                 if (tag != null) {
                     switch (tag) {
-                        case AbsenceFormDataUtils.TAG_FETCH_APPLIES_AS_STUDENT:
+                        case AbsenceFormDataUtils.TAG_FETCH_APPLIE_LIST:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.refreshData();
                             }

@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Created by weijie on 2018/5/3.
+ */
 public class ClassListActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
@@ -86,8 +89,8 @@ public class ClassListActivity extends AppCompatActivity {
     private void requestData() {
         arrayListClass.clear();
         ClassDataUtils.getInstance()
-                .requestFetchListOfTeacher(authUser.teacher_id, arrayListClass,
-                        dbHandler, ClassDataUtils.TAG_FETCH_LIST_OF_TEACHER);
+                .requestFetchClassListOfTeacher(authUser.teacher_id, arrayListClass,
+                        dbHandler, ClassDataUtils.TAG_FETCH_CLASS_LIST);
         showBusyProgress(true);
     }
 
@@ -144,7 +147,7 @@ public class ClassListActivity extends AppCompatActivity {
                 String tag = (String) msg.obj;
                 if (tag != null) {
                     switch (tag) {
-                        case ClassDataUtils.TAG_FETCH_LIST_OF_TEACHER:
+                        case ClassDataUtils.TAG_FETCH_CLASS_LIST:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.refreshData();
                             }

@@ -15,6 +15,9 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
+/**
+ * Created by weijie on 2018/5/5.
+ */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     final static int RESULT_CODE_LOGIN_SUCCESS  = 1;
     final static int RESULT_CODE_LOGIN_NONE     = 0;

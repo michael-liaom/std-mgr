@@ -33,7 +33,7 @@ import java.util.Locale;
 
 
 /**
- * Created by weijie on 2018/7/8.
+ * Created by weijie on 2018/5/8.
  */
 public class AbsenceFormApplyActivity extends AppCompatActivity implements View.OnClickListener {
     final static int REQUEST_CODE_GETTING_CC    = 0;
@@ -197,7 +197,7 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
                 dbHandler, ClassDataUtils.TAG_FETCH_CLASS_DATA);
         StudentDataUtils.getInstance()
                 .requestFetchStudentCourseData(authUser.studend_id, true,
-                        ccCourseList, dbHandler, StudentDataUtils.TAG_FETCH_STUDENT_COURSE);
+                        ccCourseList, dbHandler, StudentDataUtils.TAG_FETCH_COURSE);
         requestCounter = 2;
         showBusyProgress(true);
     }
@@ -417,7 +417,7 @@ public class AbsenceFormApplyActivity extends AppCompatActivity implements View.
                                 activity.showBusyProgress(false);
                             }
                             break;
-                        case StudentDataUtils.TAG_FETCH_STUDENT_COURSE:
+                        case StudentDataUtils.TAG_FETCH_COURSE:
                             activity.requestCounter--;
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.refreshCourseDataPicker();

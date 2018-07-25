@@ -9,22 +9,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class AbsenceFormDataUtils extends DBHandlerService{
-    final public static String TAG_FETCH_APPLIES_AS_STUDENT = "TAG_FETCH_APPLIES_AS_STUDENT";
-    final public static String TAG_FETCH_ONE_APPLY      = "TAG_FETCH_ONE_APPLY";
-    final public static String TAG_COMMIT_APPLY         = "TAG_COMMIT_APPLY";
-    final public static String TAG_COMMIT_APPROVAL      = "TAG_COMMIT_APPROVAL";
-    final public static String TAG_FETCH_APPLY_CC       = "TAG_FETCH_APPLY_CC";
-    final public static String TAG_APPROVE_APPLY        = "TAG_APPROVE_APPLY";
-    final public static String TAG_REJECT_APPLY         = "TAG_REJECT_APPLY";
+    final public static String TAG_FETCH_APPLIE_LIST= "TAG_FETCH_APPLIE_LIST";
+    final public static String TAG_FETCH_ONE_APPLY  = "TAG_FETCH_ONE_APPLY";
+    final public static String TAG_COMMIT_APPLY     = "TAG_COMMIT_APPLY";
+    final public static String TAG_SIGN_APPLY       = "TAG_SIGN_APPLY";
 
     private static WeakReference<AbsenceFormDataUtils> instance = null;
 
     private JdbcMgrUtils jdbcMgrUtils;
-    private AuthUserData authUser;
 
     private AbsenceFormDataUtils() {
         jdbcMgrUtils = JdbcMgrUtils.getInstance();
-        authUser = MyApplication.getInstance().authUser;
     }
 
     public synchronized static AbsenceFormDataUtils getInstance(){
@@ -35,7 +30,7 @@ public class AbsenceFormDataUtils extends DBHandlerService{
         return instance.get();
     }
 
-    public void requestFetchAppliesAsStudent(final int studentId,
+    public void requestFetchApplieListFromStudent(final int studentId,
                                              final ArrayList<AbsenceFormData> arrayList,
                                              final Handler handler, final String tag) {
         new Thread(new Runnable() {
@@ -92,7 +87,7 @@ public class AbsenceFormDataUtils extends DBHandlerService{
         }).start();
     }
 
-    public void requestFetchAppliesToAsTeacher(final int teacherId,
+    public void requestFetchApplyListToTeacher(final int teacherId,
                                              final ArrayList<AbsenceFormData> arrayList,
                                              final Handler handler, final String tag) {
         new Thread(new Runnable() {
@@ -293,7 +288,6 @@ public class AbsenceFormDataUtils extends DBHandlerService{
                 try {
                     String sql;
                     Statement statement = jdbcMgrUtils.createStatement();
-                    ResultSet resultSet;
 
                     sql = "UPDATE "
                             + AbsenceFormData.TBL_NAME

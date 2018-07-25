@@ -8,9 +8,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+/**
+ * Created by weijie on 2018/5/9.
+ */
 public class ClassDataUtils extends DBHandlerService {
-    final public static String TAG_FETCH_CLASS_DATA         = "TAG_FETCH_CLASS_DATA";
-    final public static String TAG_FETCH_LIST_OF_TEACHER    = "TAG_FETCH_LIST_OF_TEACHER";
+    final public static String TAG_FETCH_CLASS_DATA = "TAG_FETCH_CLASS_DATA";
+    final public static String TAG_FETCH_CLASS_LIST = "TAG_FETCH_CLASS_LIST";
 
     private static WeakReference<ClassDataUtils> instance = null;
 
@@ -93,7 +96,7 @@ public class ClassDataUtils extends DBHandlerService {
         }).start();
     }
 
-    public void requestFetchListOfTeacher(final int teacherId,
+    public void requestFetchClassListOfTeacher(final int teacherId,
                                            final ArrayList<ClassData> arrayList,
                                            final Handler handler, final String tag) {
         new Thread(new Runnable() {

@@ -17,7 +17,7 @@ import java.lang.ref.WeakReference;
 
 
 /**
- * Created by weijie on 2018/7/7.
+ * Created by weijie on 2018/5/7.
  */
 public class MainActivity extends Activity implements View.OnClickListener {
     final static int REQUEST_FOR_LOGIN      = 1;

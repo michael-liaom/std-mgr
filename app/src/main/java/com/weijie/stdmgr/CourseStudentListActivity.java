@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Created by weijie on 2018/5/22.
+ */
 public class CourseStudentListActivity extends AppCompatActivity {
     private int taskCount;
     private ProgressBar progressBar;
@@ -92,9 +95,9 @@ public class CourseStudentListActivity extends AppCompatActivity {
     private void requestData() {
         if(courseId > 0) {
             CourseDataUtils.getInstance().requestFetchCourseData(courseId, courseData,
-                            dbHandler, CourseDataUtils.TAG_FETCH_COURSES_AS_TEACHER);
+                            dbHandler, CourseDataUtils.TAG_FETCH_COURSE_DATA);
             StudentDataUtils.getInstance().requestFetchStudentListOfCourse(courseId, true,
-                    arrayListStudent, dbHandler, StudentDataUtils.TAG_FETCH_STUDENT_LIST_OF_COURSE);
+                    arrayListStudent, dbHandler, StudentDataUtils.TAG_FETCH_LIST);
             taskCount = 2;
             showBusyProgress(true);
         }
@@ -162,7 +165,7 @@ public class CourseStudentListActivity extends AppCompatActivity {
                 String tag = (String) msg.obj;
                 if (tag != null) {
                     switch (tag) {
-                        case CourseDataUtils.TAG_FETCH_COURSES_AS_TEACHER:
+                        case CourseDataUtils.TAG_FETCH_COURSE_DATA:
                             activity.taskCount--;
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.refreshCourseInf();
@@ -173,7 +176,7 @@ public class CourseStudentListActivity extends AppCompatActivity {
                             }
                             activity.showBusyProgress(activity.taskCount>0);
                             break;
-                        case StudentDataUtils.TAG_FETCH_STUDENT_LIST_OF_COURSE:
+                        case StudentDataUtils.TAG_FETCH_LIST:
                             activity.taskCount--;
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.refreshStudentList();

@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Created by weijie on 2018/5/23.
+ */
 public class CourseListActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
@@ -89,13 +92,13 @@ public class CourseListActivity extends AppCompatActivity {
         arrayListCourseData.clear();
         if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
             CourseDataUtils.getInstance()
-                    .requestFetchCoursesAsStudent(authUser.studend_id, arrayListCourseData,
-                            dbHandler, CourseDataUtils.TAG_FETCH_COURSES_AS_STUDENT);
+                    .requestFetchCourseListOfStudent(authUser.studend_id, arrayListCourseData,
+                            dbHandler, CourseDataUtils.TAG_FETCH_COURSE_LIST);
         }
         else {
             CourseDataUtils.getInstance()
-                    .requestFetchCoursesAsTeacher(authUser.teacher_id, arrayListCourseData,
-                            dbHandler, CourseDataUtils.TAG_FETCH_COURSES_AS_TEACHER);
+                    .requestFetchCourseListOfTeacher(authUser.teacher_id, arrayListCourseData,
+                            dbHandler, CourseDataUtils.TAG_FETCH_COURSE_LIST);
         }
         showBusyProgress(true);
     }
@@ -157,8 +160,7 @@ public class CourseListActivity extends AppCompatActivity {
                 String tag = (String) msg.obj;
                 if (tag != null) {
                     switch (tag) {
-                        case CourseDataUtils.TAG_FETCH_COURSES_AS_STUDENT:
-                        case CourseDataUtils.TAG_FETCH_COURSES_AS_TEACHER:
+                        case CourseDataUtils.TAG_FETCH_COURSE_LIST:
                             if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
                                 activity.refreshData();
                             }

@@ -14,6 +14,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
+/**
+ * Created by weijie on 2018/5/8
+ */
 class DBHandlerService {
     final public static String COL_STATUS       = "status";
     final public static String STATUS_VALID     = "'1'";
