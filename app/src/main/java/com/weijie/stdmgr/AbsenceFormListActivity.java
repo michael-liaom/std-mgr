@@ -105,12 +105,14 @@ public class AbsenceFormListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new  AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AbsenceFormData absenceFormData = arrayListAbsenceData.get(position);
-                Intent intent = new Intent(AbsenceFormListActivity.this,
-                        AbsenceFormCheckActivity.class);
-                intent.putExtra(AbsenceFormData.COL_ID, absenceFormData.id);
-                AbsenceFormListActivity.this.startActivityForResult(intent,
-                        REQUEST_FOR_ABSENCE_CHECK);
+                if (position < arrayListAbsenceData.size()) {
+                    AbsenceFormData absenceFormData = arrayListAbsenceData.get(position);
+                    Intent intent = new Intent(AbsenceFormListActivity.this,
+                            AbsenceFormCheckActivity.class);
+                    intent.putExtra(AbsenceFormData.COL_ID, absenceFormData.id);
+                    AbsenceFormListActivity.this.startActivityForResult(intent,
+                            REQUEST_FOR_ABSENCE_CHECK);
+                }
             }
         });
 

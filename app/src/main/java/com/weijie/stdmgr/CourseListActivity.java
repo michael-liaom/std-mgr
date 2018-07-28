@@ -79,11 +79,13 @@ public class CourseListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new  AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CourseData courseData = arrayListCourseData.get(position);
-                Intent intent = new Intent(CourseListActivity.this,
-                        CourseDetailActivity.class);
-                intent.putExtra(CourseData.COL_ID, courseData.id);
-                CourseListActivity.this.startActivity(intent);
+                if (position <arrayListCourseData.size()) {
+                    CourseData courseData = arrayListCourseData.get(position);
+                    Intent intent = new Intent(CourseListActivity.this,
+                            CourseDetailActivity.class);
+                    intent.putExtra(CourseData.COL_ID, courseData.id);
+                    CourseListActivity.this.startActivity(intent);
+                }
             }
         });
     }

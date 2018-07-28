@@ -77,11 +77,13 @@ public class ClassListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ClassData classData = arrayListClass.get(position);
-                Intent intent = new Intent(ClassListActivity.this,
-                        ClassStudentListActivity.class);
-                intent.putExtra(ClassData.COL_ID, classData.id);
-                ClassListActivity.this.startActivity(intent);
+                if (position < arrayListClass.size()) {
+                    ClassData classData = arrayListClass.get(position);
+                    Intent intent = new Intent(ClassListActivity.this,
+                            ClassStudentListActivity.class);
+                    intent.putExtra(ClassData.COL_ID, classData.id);
+                    ClassListActivity.this.startActivity(intent);
+                }
             }
         });
     }

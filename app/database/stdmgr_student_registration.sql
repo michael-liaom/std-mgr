@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `stdmgr` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `stdmgr`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: LocalHost    Database: stdmgr
+-- Host: localhost    Database: stdmgr
 -- ------------------------------------------------------
 -- Server version	5.5.60
 
@@ -32,8 +32,6 @@ CREATE TABLE `student_registration` (
   `mobile` varchar(20) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
   `room` varchar(10) DEFAULT NULL,
-  `section` varchar(45) DEFAULT NULL,
-  `major` varchar(45) DEFAULT NULL,
   `reg_code` varchar(6) DEFAULT NULL,
   `status` int(1) NOT NULL,
   PRIMARY KEY (`id`)
@@ -46,7 +44,7 @@ CREATE TABLE `student_registration` (
 
 LOCK TABLES `student_registration` WRITE;
 /*!40000 ALTER TABLE `student_registration` DISABLE KEYS */;
-INSERT INTO `student_registration` VALUES (1,'廖炜杰',1,1440706172,NULL,NULL,NULL,NULL,NULL,'-1',1);
+INSERT INTO `student_registration` VALUES (1,'廖炜杰',1,1440706172,NULL,NULL,NULL,'-1',1);
 /*!40000 ALTER TABLE `student_registration` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-24 20:33:09
+-- Dump completed on 2018-07-28 17:53:28

@@ -77,12 +77,14 @@ public class TeacherListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TeacherData teacherData = arrayListTeacher.get(position);
-                Intent intent = new Intent(TeacherListActivity.this,
-                        PersonDetailActivity.class);
-                intent.putExtra(AuthUserData.COL_GENRE, AuthUserData.GENRE_TEACHER);
-                intent.putExtra(TeacherData.COL_ID, teacherData.id);
-                TeacherListActivity.this.startActivity(intent);
+                if (position < arrayListTeacher.size()) {
+                    TeacherData teacherData = arrayListTeacher.get(position);
+                    Intent intent = new Intent(TeacherListActivity.this,
+                            PersonDetailActivity.class);
+                    intent.putExtra(AuthUserData.COL_GENRE, AuthUserData.GENRE_TEACHER);
+                    intent.putExtra(TeacherData.COL_ID, teacherData.id);
+                    TeacherListActivity.this.startActivity(intent);
+                }
             }
         });
     }
