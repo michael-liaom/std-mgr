@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `stdmgr` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `stdmgr`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: localhost    Database: stdmgr
+-- Host: 192.168.0.102    Database: stdmgr
 -- ------------------------------------------------------
 -- Server version	5.5.60
 
@@ -46,7 +46,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES (1,'计算机原理','14401',1,4,'必修','计算机系','A-301','MON-45/TUE-12',201802,1),(2,'操作系统','14402',2,4,'必修','计算机系','A-320','MON-45/TUE-12',201802,1),(3,'高等数学','14403',3,4,'必修','计算机系','A-303','MON-45/TUE-12',201802,1),(4,'线性代数','14404',4,4,'必修','计算机系','A-304','MON-45/TUE-12',201802,1),(5,'算法与设计','14405',2,6,'必修','计算机系','A-305','MON-45/TUE-12',201802,1);
+INSERT INTO `course` VALUES (1,'计算机原理','14401',1,4,'必修','计算机系','A-301','MON-45/TUE-12',201802,1),(2,'操作系统','14402',4,4,'必修','计算机系','A-320','MON-45/TUE-12',201802,1),(3,'高等数学','14403',3,4,'必修','计算机系','A-303','MON-45/TUE-12',201802,1),(4,'Java核心编程技术','14404',4,4,'必修','计算机系','A-304','MON-45/TUE-12',201802,1),(5,'算法与设计','14405',4,6,'必修','计算机系','A-305','MON-45/TUE-12',201802,1);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-28 17:53:27
+-- Dump completed on 2018-08-04 19:13:21
