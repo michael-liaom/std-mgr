@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_FOR_REGISTRATION) {
             if (resultCode == RegistrationActivity.RESULT_CODE_REGISTRATION_SUCCESS) {
+                setResult(RESULT_CODE_LOGIN_SUCCESS);
                 finish();
             }
         }

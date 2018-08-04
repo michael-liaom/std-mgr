@@ -39,6 +39,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private RadioButton studentRadioButton;
     private Button registerButton;
     private ProgressBar progressBar;
+    private String name, password;
 
     @Override
     public void onBackPressed() {
@@ -215,10 +216,13 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             genre = AuthUserData.GENRE_TEACHER;
         }
         int unifiedCode = Integer.valueOf(codeEditText.getText().toString());
+
+        name        = nameEditText.getText().toString();
+        password    = passwdEditText.getText().toString();
+
         authUserDataUtils.requestRegistration(unifiedCode, regCodeEditText.getText().toString(),
-                genre, nameEditText.getText().toString(),
-                passwdEditText.getText().toString(), dbHandler,
-                AuthUserDataUtils.TAG_REGISTRATION);
+                genre, name, password, dbHandler, AuthUserDataUtils.TAG_REGISTRATION);
+
     }
 
     private void showRegistrationProgress(boolean isBussy) {
@@ -234,6 +238,12 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             registerButton.setEnabled(true);
             mainView.setEnabled(true);
         }
+    }
+
+    private void tryLogin() {
+        authUserDataUtils.requestLogin(name, password, dbHandler, AuthUserDataUtils.TAG_LOGIN);
+        showRegistrationProgress(true);
+        progressBar.setProgress(50);
     }
 
     final DBHandler dbHandler = new DBHandler(this);
@@ -284,14 +294,28 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                     @Override
                                     public void onClick(DialogInterface dialog, int which)
                                     {
-                                        activity.setResult(RESULT_CODE_REGISTRATION_SUCCESS);
-                                        activity.finish();
+                                        activity.tryLogin();
                                     }
                                 });
                                 builder.show();
                             }
                             else {
                                 Toast.makeText(activity, R.string.message_db_registration_failure,
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            activity.showRegistrationProgress(false);
+                            break;
+                        case AuthUserDataUtils.TAG_LOGIN:
+                            if (msg.what == JdbcMgrUtils.DB_REQUEST_SUCCESS) {
+                                activity.authUser.name = activity.name;
+                                activity.authUser.password = activity.password;
+                                activity.authUser.backupToLocal();
+
+                                activity.setResult(RESULT_CODE_REGISTRATION_SUCCESS);
+                                activity.finish();
+                            }
+                            else {
+                                Toast.makeText(activity, R.string.message_db_login_success,
                                         Toast.LENGTH_LONG).show();
                             }
                             activity.showRegistrationProgress(false);

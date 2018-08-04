@@ -74,10 +74,11 @@ public class AuthUserDataUtils extends DBHandlerService{
         }).start();
     }
 
-    private boolean checkInvitation(final int unifiedCode, final String regCode,
+    private int checkInvitation(final int unifiedCode, final String regCode,
                                     final String genre) {
         String sql;
         boolean isOk = true;
+        int unifiedID = -1;
 
         try {
             Statement statement = jdbcMgrUtils.createStatement();
@@ -93,7 +94,12 @@ public class AuthUserDataUtils extends DBHandlerService{
                         + ";";
                 ResultSet resultSet = statement.executeQuery(sql);
                 if (resultSet != null) {
-                    if(!resultSet.next()) {
+                    if(resultSet.next()) {
+                        StudentData studentData = new StudentData();
+                        studentData.extractFromResultSet(resultSet);
+                        unifiedID = studentData.id;
+                    }
+                    else {
                         isOk = false;
                     }
                 }
@@ -112,7 +118,12 @@ public class AuthUserDataUtils extends DBHandlerService{
                         + ";";
                 ResultSet resultSet = statement.executeQuery(sql);
                 if (resultSet != null) {
-                    if (!resultSet.next()) {
+                    if (resultSet.next()) {
+                        TeacherData teacherData = new TeacherData();
+                        teacherData.extractFromResultSet(resultSet);
+                        unifiedID = teacherData.id;
+                    }
+                    else {
                         isOk = false;
                     }
                 }
@@ -128,7 +139,7 @@ public class AuthUserDataUtils extends DBHandlerService{
             isOk = false;
         }
 
-        return isOk;
+        return unifiedID;
     }
 
     public void requestCheckInviationValid(final int unifiedCode, final String regCode, final String genre,
@@ -137,7 +148,14 @@ public class AuthUserDataUtils extends DBHandlerService{
             @Override
             public void run() {
 
-                boolean isOk = checkInvitation(unifiedCode, regCode, genre);
+                boolean isOk;
+                int unifiedId = checkInvitation(unifiedCode, regCode, genre);
+                if (unifiedId > 0){
+                    isOk = true;
+                }
+                else {
+                    isOk = false;
+                }
 
                 if (isOk) {
                     processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
@@ -171,7 +189,18 @@ public class AuthUserDataUtils extends DBHandlerService{
                         isOk = false;
                     }
 
-                    isOk = checkInvitation(unifiedCode, regCode, genre);
+                    int unifiedId = checkInvitation(unifiedCode, regCode, genre);
+                    if (unifiedId > 0) {
+                        if (genre.equals(AuthUserData.GENRE_STUDENT)) {
+                            studend_id = unifiedId;
+                        }
+                        else {
+                            teacher_id = unifiedId;
+                        }
+                    }
+                    else {
+                        isOk = false;
+                    }
 
                     if (isOk) {
                         sql = "INSERT " + TBL_USER_LOGIN
