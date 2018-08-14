@@ -18,15 +18,41 @@ import java.lang.ref.WeakReference;
 /**
  * Created by weijie on 2018/7/17.
  */
-public class PersonDetailActivity extends AppCompatActivity {
+public class PersonDetailActivity extends AppCompatActivity implements View.OnClickListener {
+    final private static int REQUEST_FOR_COMMIT = 1;
+
     String genre;
     TeacherData teacherData;
     StudentData studentData;
 
     LinearLayout studentLayout, teacherLayout;
+    Button editButton;
+
     private ProgressBar progressBar;
     private AuthUserData authUser;
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_FOR_COMMIT:
+                if (resultCode == PersonDetailEditActivity.RESULT_CODE_COMMINT) {
+                    requestData();
+                }
+        }
+
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.commit_button) {
+            Intent intent = new Intent(PersonDetailActivity.this,
+                    PersonDetailEditActivity.class);
+            intent.putExtra(StudentData.COL_ID, studentData.id);
+            startActivityForResult(intent, REQUEST_FOR_COMMIT);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +109,6 @@ public class PersonDetailActivity extends AppCompatActivity {
                 }
             }
         }
-
     }
 
     private void showBusyProgress(boolean isBussy) {
@@ -118,7 +143,8 @@ public class PersonDetailActivity extends AppCompatActivity {
             studentLayout.setVisibility(View.VISIBLE);
 
             if (studentData.id == authUser.studend_id) {
-                Button editButton   = (Button) findViewById(R.id.commit_button);
+                editButton   = (Button) findViewById(R.id.commit_button);
+                editButton.setOnClickListener(this);
                 editButton.setVisibility(View.VISIBLE);
             }
         }

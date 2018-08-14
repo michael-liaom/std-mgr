@@ -6,12 +6,13 @@ import java.sql.SQLException;
 /**
  * Created by weijie on 2018/5/23.
  */
-public class StudentData {
+public class StudentData extends DBHandlerService {
     final public static String TBL_NAME = "student_registration";
     final static String COL_ID          = "id";
     final static String COL_NAME        = "name";
     final static String COL_CODE        = "code";
     final static String COL_EMAIL       = "email";
+    final static String COL_CONTACT     = "contact";
     final static String COL_ROOM        = "room";
     final static String COL_CLASS_ID    = "class_id";
     final static String COL_REG_CODE    = "reg_code";
@@ -20,6 +21,7 @@ public class StudentData {
     String name;
     int code;
     String email;
+    String contact;
     String room;
     int class_id;
     //Joint
@@ -48,6 +50,8 @@ public class StudentData {
                 + ","
                 + toDomain(COL_EMAIL)
                 + ","
+                + toDomain(COL_CONTACT)
+                + ","
                 + toDomain(COL_ROOM)
                 + ","
                 + toDomain(COL_CLASS_ID);
@@ -65,12 +69,19 @@ public class StudentData {
         return toDomain(COL_CLASS_ID) + "=" + ClassData.toDomain(COL_ID);
     }
 
+    public String setColumsData() {
+        return COL_EMAIL   + "=" + toValue(email)
+                + ","
+                + COL_CONTACT      + "=" + toValue(contact);
+    }
+
     public void extractFromResultSet(ResultSet resultSet) throws SQLException {
         id      = resultSet.getInt(COL_ID);
         name    = resultSet.getString(COL_NAME);
         code    = resultSet.getInt(COL_CODE);
         email   = resultSet.getString(COL_EMAIL);
+        email   = resultSet.getString(COL_CONTACT);
         room    = resultSet.getString(COL_ROOM);
-        class_id = resultSet.getInt(COL_CLASS_ID);
+        class_id= resultSet.getInt(COL_CLASS_ID);
     }
 }

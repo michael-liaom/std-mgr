@@ -21,6 +21,7 @@ public class StudentDataUtils extends DBHandlerService {
     final static String TAG_FETCH_REGIST    = TAG_ID + "TAG_FETCH_REGIST";
     final static String TAG_FETCH_COURSE    = TAG_ID + "TAG_FETCH_COURSE";
     final static String TAG_FETCH_LIST      = TAG_ID + "TAG_FETCH_LIST";
+    final static String TAG_COMMIT_DATA     = TAG_ID + "TAG_COMMIT_DATA";
 
     private static WeakReference<StudentDataUtils> instance = null;
 
@@ -272,6 +273,47 @@ public class StudentDataUtils extends DBHandlerService {
             public void run() {
                 String sql;
                 boolean isOk = fetchStudentListOfClass(classId, arrayList);
+
+                if (isOk) {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
+                }
+                else {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_FAILURE, tag);
+                }
+            }
+        }).start();
+    }
+
+    public void requestCommitData(final StudentData studentData,
+                                  final Handler handler, final String tag) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean isOk = true;
+
+                try {
+                    String sql;
+                    Statement statement = jdbcMgrUtils.createStatement();
+                    ResultSet resultSet;
+
+                    sql = "UPDATE "
+                            + StudentData.TBL_NAME
+                            + " SET "
+                            + studentData.setColumsData()
+                            + " WHERE "
+                            + StudentData.COL_ID + "=" + toValue(studentData.id)
+                            + ";";
+                    int affect = statement.executeUpdate(sql);
+                    if (affect != 1) {
+                        isOk = false;
+                    }
+
+                    statement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    isOk = false;
+                }
 
                 if (isOk) {
                     processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);

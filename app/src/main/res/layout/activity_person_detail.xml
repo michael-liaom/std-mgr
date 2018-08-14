@@ -176,7 +176,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="邮箱:" />
+                android:text="电子邮箱:" />
 
             <TextView
                 android:id="@+id/student_email_text_view"
@@ -204,7 +204,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="电话:" />
+                android:text="联系电话:" />
 
             <TextView
                 android:id="@+id/student_mobile_text_view"
@@ -223,7 +223,7 @@
             android:background="@android:color/darker_gray" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/commit_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="个人信息修改"

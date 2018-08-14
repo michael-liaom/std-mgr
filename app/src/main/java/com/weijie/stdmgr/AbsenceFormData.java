@@ -129,6 +129,26 @@ public class AbsenceFormData extends DBHandlerService {
                 + "=" + TeacherData.toDomainCourse(COL_ID);
     }
 
+    public String setColumsData() {
+        return COL_STUDENT_ID   + "=" + toValue(studentId)
+                + ","
+                + COL_TYPE      + "=" + toValue(type)
+                + ","
+                + COL_CAUSE     + "=" + toValue(cause)
+                + ","
+                + COL_BEGIN     + "=" + toValue(begin)
+                + ","
+                + COL_END       + "=" + toValue(ending)
+                + ","
+                + COL_COURSE_ID + "=" + toValue(courseId)
+                + ","
+                + COL_COURSE_COUNT + "=" + toValue(courseCount)
+                + ","
+                + COL_CLASS_APPROVAL + "=" + toValue(classApproval)
+                + ","
+                + COL_COURSE_APPROVAL + "=" + toValue(courseApproval);
+    }
+
     String getClassApprovalStatus() {
         if (classApproval == AbsenceFormData.APPROVAL) {
             return "批准";
@@ -173,23 +193,4 @@ public class AbsenceFormData extends DBHandlerService {
         courseTecherId = resultSet.getInt(TeacherData.getAsCourseCol(COL_ID));
     }
 
-    public String setColumsData() {
-        return COL_STUDENT_ID   + "=" + toValue(studentId)
-                + ","
-                + COL_TYPE      + "=" + toValue(type)
-                + ","
-                + COL_CAUSE     + "=" + toValue(cause)
-                + ","
-                + COL_BEGIN     + "=" + toValue(begin)
-                + ","
-                + COL_END       + "=" + toValue(ending)
-                + ","
-                + COL_COURSE_ID + "=" + toValue(courseId)
-                + ","
-                + COL_COURSE_COUNT + "=" + toValue(courseCount)
-                + ","
-                + COL_CLASS_APPROVAL + "=" + toValue(classApproval)
-                + ","
-                + COL_COURSE_APPROVAL + "=" + toValue(courseApproval);
-    }
 }
