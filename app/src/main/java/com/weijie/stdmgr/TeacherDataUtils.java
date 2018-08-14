@@ -131,8 +131,6 @@ public class TeacherDataUtils extends DBHandlerService {
                             + TeacherData.toDomain(COL_ID)
                             + ";";
 
-                    sql += ";";
-
                     ResultSet resultSet = statement.executeQuery(sql);
                     if (resultSet != null) {
                         while (resultSet.next()) {

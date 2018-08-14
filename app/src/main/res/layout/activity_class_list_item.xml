@@ -3,13 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
 
     <TextView
         android:id="@+id/item_no_text_view"
-        android:layout_width="40dp"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="0"
         android:text="编号"
         android:textSize="12sp" />
 
@@ -18,22 +20,22 @@
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_weight="1"
+        android:layout_weight="0"
         android:text="班级编号"
         android:textSize="12sp" />
 
     <TextView
         android:id="@+id/item_name_text_view"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_weight="1"
+        android:layout_weight="0"
         android:text="班级名称"
         android:textSize="12sp" />
 
     <TextView
         android:id="@+id/item_section_text_tiew"
-        android:layout_width="180dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_weight="1"

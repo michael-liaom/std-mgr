@@ -75,6 +75,12 @@
         <activity
             android:name=".ClassStudentListActivity"
             android:label="班级学生列表" />
+        <activity android:name=".RalListActivity" />
+        <activity android:name=".RalDetailActivity" />
+        <activity android:name=".RalApplyCreateActivity" />
+        <activity android:name=".RalMenuActivity" />
+        <activity android:name=".RalApplyListActivity" />
+        <activity android:name=".RalApplyCheckActivity"></activity>
     </application>
 
 </manifest>

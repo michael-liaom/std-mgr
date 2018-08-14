@@ -72,21 +72,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         teacherLayout = (LinearLayout) findViewById(R.id.teacher_layout);
         Button teacherCourseButton  = (Button) findViewById(R.id.mycourse_teacher_button);
-        Button teacherClassButton   = (Button) findViewById(R.id.myclass_teacher_button);
+        Button teacherClassButton   = (Button) findViewById(R.id.reward_lend_teacher_button);
         Button teacherAbsenceButton = (Button) findViewById(R.id.absence_teacher_button);
-        Button teacherMyDataButton  = (Button) findViewById(R.id.mydata_teacher_button);
+        Button teacherStudentDataButton  = (Button) findViewById(R.id.studentdata_teacher_button);
         teacherCourseButton.setOnClickListener(this);
         teacherClassButton.setOnClickListener(this);
         teacherAbsenceButton.setOnClickListener(this);
-        teacherMyDataButton.setOnClickListener(this);
+        teacherStudentDataButton.setOnClickListener(this);
 
         studentLayout = (LinearLayout) findViewById(R.id.student_layout);
         Button studentCourseButton  = (Button) findViewById(R.id.mycourse_student_button);
-        Button studentTeacherButton = (Button) findViewById(R.id.myteacher_student_button);
+        Button studentRalButton = (Button) findViewById(R.id.reward_lend_student_button);
         Button studentAbsenceButton = (Button) findViewById(R.id.myabsence_student_button);
         Button studentMyDataButton  = (Button) findViewById(R.id.mydata_student_button);
         studentCourseButton.setOnClickListener(this);
-        studentTeacherButton.setOnClickListener(this);
+        studentRalButton.setOnClickListener(this);
         studentAbsenceButton.setOnClickListener(this);
         studentMyDataButton.setOnClickListener(this);
 
@@ -103,11 +103,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.myclass_teacher_button:
+            case R.id.studentdata_teacher_button:
                 startActivity(new Intent(this, ClassListActivity.class));
                 break;
+                /*
             case R.id.myteacher_student_button:
                 startActivity(new Intent(this, TeacherListActivity.class));
+                break;
+                */
+            case R.id.reward_lend_teacher_button:
+            case R.id.reward_lend_student_button:
+                startActivity(new Intent(this, RalMenuActivity.class));
                 break;
             case R.id.mycourse_student_button:
             case R.id.mycourse_teacher_button:
@@ -117,8 +123,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.absence_teacher_button:
                 startActivity(new Intent(this, AbsenceFormListActivity.class));
                 break;
-            case R.id.mydata_student_button:
-            case R.id.mydata_teacher_button:{
+            case R.id.mydata_student_button:{
                 Intent intent = new Intent(this, PersonDetailActivity.class);
                 intent.putExtra(AuthUserData.COL_GENRE, authUser.genre);
                 if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
@@ -154,8 +159,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void responseLogout() {
-        authUser.reset();
-        startLoginActivity();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setMessage(R.string.title_logout_confirmation)
+                .setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        authUser.reset();
+                        startLoginActivity();
+                    }
+                })
+                .setNegativeButton(R.string.button_cancel, null);
+        builder.show();
     }
 
     private void responseLoginSuccess() {

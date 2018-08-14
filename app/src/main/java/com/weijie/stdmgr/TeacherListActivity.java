@@ -28,7 +28,7 @@ public class TeacherListActivity extends AppCompatActivity {
     SimpleAdapter simpleAdapter;
     private String[] mapKey = {
             "no",
-            "code",
+            "name",
             "name",
             "section"
     };
@@ -41,7 +41,6 @@ public class TeacherListActivity extends AppCompatActivity {
 
     private ArrayList <TeacherData> arrayListTeacher;
     private AuthUserData authUser;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

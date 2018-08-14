@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `stdmgr` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `stdmgr`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: 192.168.0.102    Database: stdmgr
+-- Host: LocalHost    Database: stdmgr
 -- ------------------------------------------------------
 -- Server version	5.5.60
 
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-04 19:13:22
+-- Dump completed on 2018-08-14 19:58:50

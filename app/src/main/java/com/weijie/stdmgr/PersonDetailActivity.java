@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ public class PersonDetailActivity extends AppCompatActivity {
 
     LinearLayout studentLayout, teacherLayout;
     private ProgressBar progressBar;
-
+    private AuthUserData authUser;
 
 
     @Override
@@ -43,6 +44,7 @@ public class PersonDetailActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        authUser = MyApplication.getInstance().authUser;
     }
 
     private void initControls() {
@@ -114,6 +116,11 @@ public class PersonDetailActivity extends AppCompatActivity {
             roomTextView.setText(studentData.room);
             emailTextView.setText(studentData.email);
             studentLayout.setVisibility(View.VISIBLE);
+
+            if (studentData.id == authUser.studend_id) {
+                Button editButton   = (Button) findViewById(R.id.commit_button);
+                editButton.setVisibility(View.VISIBLE);
+            }
         }
         else {
             TextView nameTextView = (TextView) findViewById(R.id.teacher_name_text_view);

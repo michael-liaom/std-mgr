@@ -23,7 +23,7 @@ import java.util.Map;
  * Created by weijie on 2018/6/10.
  */
 public class AbsenceFormListActivity extends AppCompatActivity {
-    final private static int REQUEST_FOR_ABSENCE_APPLY      = 1;
+    final private static int REQUEST_FOR_ABSENCE_APPLY    = 1;
     final private static int REQUEST_FOR_ABSENCE_CHECK    = 2;
 
     private ListView listView;

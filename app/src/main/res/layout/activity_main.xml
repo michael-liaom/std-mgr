@@ -23,7 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/imageView"
@@ -67,11 +68,11 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/myclass_teacher_button"
+            android:id="@+id/reward_lend_teacher_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="我的班级"
+            android:text="奖助学金及贷款"
             android:textSize="18sp" />
 
         <Button
@@ -84,11 +85,11 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/mydata_teacher_button"
+            android:id="@+id/studentdata_teacher_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="我的的个人资料"
+            android:text="学生个人资料"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -117,11 +118,11 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/myteacher_student_button"
+            android:id="@+id/reward_lend_student_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="我的老师"
+            android:text="奖助学金及贷款"
             android:textSize="18sp" />
 
         <Button
@@ -130,7 +131,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="0"
-            android:text="我的请假单"
+            android:text="请假单"
             android:textSize="18sp" />
 
         <Button
@@ -138,7 +139,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="我的个人资料"
+            android:text="个人资料"
             android:textSize="18sp" />
     </LinearLayout>
 
