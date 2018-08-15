@@ -18,32 +18,31 @@ USE `stdmgr`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user_login`
+-- Table structure for table `exchange_subject`
 --
 
-DROP TABLE IF EXISTS `user_login`;
+DROP TABLE IF EXISTS `exchange_subject`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_login` (
+CREATE TABLE `exchange_subject` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
-  `password` varchar(45) NOT NULL,
-  `genre` varchar(10) NOT NULL,
+  `class_id` int(11) NOT NULL,
   `student_id` int(11) NOT NULL,
-  `teacher_id` int(11) NOT NULL,
-  `status` int(1) NOT NULL,
+  `direction` varchar(4) NOT NULL,
+  `subject` varchar(45) NOT NULL,
+  `create` datetime NOT NULL,
+  `update` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='用户登陆信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='学生、辅导员信息交流主题';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_login`
+-- Dumping data for table `exchange_subject`
 --
 
-LOCK TABLES `user_login` WRITE;
-/*!40000 ALTER TABLE `user_login` DISABLE KEYS */;
-INSERT INTO `user_login` VALUES (4,'student','123456','student',1,-1,1),(5,'teacher','123456','teacher',-1,2,1);
-/*!40000 ALTER TABLE `user_login` ENABLE KEYS */;
+LOCK TABLES `exchange_subject` WRITE;
+/*!40000 ALTER TABLE `exchange_subject` DISABLE KEYS */;
+/*!40000 ALTER TABLE `exchange_subject` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-15 17:53:20
+-- Dump completed on 2018-08-15 17:53:16

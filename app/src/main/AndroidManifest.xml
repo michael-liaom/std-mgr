@@ -81,7 +81,8 @@
         <activity android:name=".RalMenuActivity" />
         <activity android:name=".RalApplyListActivity" />
         <activity android:name=".RalApplyCheckActivity" />
-        <activity android:name=".PersonDetailEditActivity"></activity>
+        <activity android:name=".PersonDetailEditActivity" />
+        <activity android:name=".ExchangeSubjectListActivity"></activity>
     </application>
 
 </manifest>

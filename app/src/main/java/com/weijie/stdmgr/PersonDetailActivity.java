@@ -132,6 +132,7 @@ public class PersonDetailActivity extends AppCompatActivity implements View.OnCl
             TextView classTextView= (TextView) findViewById(R.id.student_class_text_view);
             TextView roomTextView = (TextView) findViewById(R.id.student_room_text_view);
             TextView emailTextView= (TextView) findViewById(R.id.student_email_text_view);
+            TextView mobileTextView = (TextView) findViewById(R.id.student_mobile_text_view);
 
             nameTextView.setText(studentData.name);
             codeTextView.setText(Integer.toString(studentData.code));
@@ -140,6 +141,8 @@ public class PersonDetailActivity extends AppCompatActivity implements View.OnCl
             classTextView.setText(studentData.classData.name);
             roomTextView.setText(studentData.room);
             emailTextView.setText(studentData.email);
+            mobileTextView.setText(studentData.mobile);
+
             studentLayout.setVisibility(View.VISIBLE);
 
             if (studentData.id == authUser.studend_id) {

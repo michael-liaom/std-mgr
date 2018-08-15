@@ -12,7 +12,7 @@ public class StudentData extends DBHandlerService {
     final static String COL_NAME        = "name";
     final static String COL_CODE        = "code";
     final static String COL_EMAIL       = "email";
-    final static String COL_CONTACT     = "contact";
+    final static String COL_MOBILE      = "mobile";
     final static String COL_ROOM        = "room";
     final static String COL_CLASS_ID    = "class_id";
     final static String COL_REG_CODE    = "reg_code";
@@ -21,7 +21,7 @@ public class StudentData extends DBHandlerService {
     String name;
     int code;
     String email;
-    String contact;
+    String mobile;
     String room;
     int class_id;
     //Joint
@@ -50,7 +50,7 @@ public class StudentData extends DBHandlerService {
                 + ","
                 + toDomain(COL_EMAIL)
                 + ","
-                + toDomain(COL_CONTACT)
+                + toDomain(COL_MOBILE)
                 + ","
                 + toDomain(COL_ROOM)
                 + ","
@@ -72,7 +72,7 @@ public class StudentData extends DBHandlerService {
     public String setColumsData() {
         return COL_EMAIL   + "=" + toValue(email)
                 + ","
-                + COL_CONTACT      + "=" + toValue(contact);
+                + COL_MOBILE      + "=" + toValue(mobile);
     }
 
     public void extractFromResultSet(ResultSet resultSet) throws SQLException {
@@ -80,7 +80,7 @@ public class StudentData extends DBHandlerService {
         name    = resultSet.getString(COL_NAME);
         code    = resultSet.getInt(COL_CODE);
         email   = resultSet.getString(COL_EMAIL);
-        email   = resultSet.getString(COL_CONTACT);
+        mobile   = resultSet.getString(COL_MOBILE);
         room    = resultSet.getString(COL_ROOM);
         class_id= resultSet.getInt(COL_CLASS_ID);
     }

@@ -25,7 +25,7 @@ public class PersonDetailEditActivity extends AppCompatActivity implements View.
 
     private AuthUserData authUser;
 
-    private EditText emailEditText, contactEditText;
+    private EditText emailEditText, mobileEditText;
     private ProgressBar progressBar;
     private Button editButton;
 
@@ -41,7 +41,7 @@ public class PersonDetailEditActivity extends AppCompatActivity implements View.
     public void onClick(View view) {
         if (view.getId() == R.id.commit_button) {
             studentData.email   = emailEditText.getText().toString();
-            studentData.contact = contactEditText.getText().toString();
+            studentData.mobile  = mobileEditText.getText().toString();
             StudentDataUtils.getInstance()
                     .requestCommitData(studentData, dbHandler,
                             StudentDataUtils.TAG_COMMIT_DATA);
@@ -59,6 +59,8 @@ public class PersonDetailEditActivity extends AppCompatActivity implements View.
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        setTitle("个人信息修改");
+
         initData();
         initControls();
         requestData();
@@ -70,7 +72,7 @@ public class PersonDetailEditActivity extends AppCompatActivity implements View.
 
     private void initControls() {
         emailEditText   = (EditText) findViewById(R.id.email_edit_text);
-        contactEditText  = (EditText) findViewById(R.id.contact_edit_text);
+        mobileEditText  = (EditText) findViewById(R.id.contact_edit_text);
         progressBar     = (ProgressBar) findViewById(R.id.progress_bar);
         editButton   = (Button) findViewById(R.id.commit_button);
         editButton.setOnClickListener(this);
@@ -103,7 +105,7 @@ public class PersonDetailEditActivity extends AppCompatActivity implements View.
 
     private void refreshData() {
         emailEditText.setText(studentData.email);
-        contactEditText.setText(studentData.contact);
+        mobileEditText.setText(studentData.mobile);
     }
 
     final DBHandler dbHandler = new DBHandler(this);

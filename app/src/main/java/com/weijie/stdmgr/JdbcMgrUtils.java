@@ -21,6 +21,8 @@ class DBHandlerService {
     final public static String COL_STATUS       = "status";
     final public static String STATUS_VALID     = "'1'";
     final public static String COL_ID           = "id";
+    final public static String EXCHANGE_DIRECTION_FROM  = "from";
+    final public static String EXCHANGE_DIRECTION_TO    = "to";
 
     protected void processHandler(Handler handler, int what, String tag) {
         if (handler != null) {
