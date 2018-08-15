@@ -71,21 +71,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
         initialLayout = (LinearLayout) findViewById(R.id.initial_layout);
 
         teacherLayout = (LinearLayout) findViewById(R.id.teacher_layout);
-        Button teacherCourseButton  = (Button) findViewById(R.id.mycourse_teacher_button);
+        Button teacherExchangeButton  = (Button) findViewById(R.id.exchange_teacher_button);
         Button teacherClassButton   = (Button) findViewById(R.id.reward_lend_teacher_button);
         Button teacherAbsenceButton = (Button) findViewById(R.id.absence_teacher_button);
         Button teacherStudentDataButton  = (Button) findViewById(R.id.studentdata_teacher_button);
-        teacherCourseButton.setOnClickListener(this);
+        teacherExchangeButton.setOnClickListener(this);
         teacherClassButton.setOnClickListener(this);
         teacherAbsenceButton.setOnClickListener(this);
         teacherStudentDataButton.setOnClickListener(this);
 
         studentLayout = (LinearLayout) findViewById(R.id.student_layout);
-        Button studentCourseButton  = (Button) findViewById(R.id.mycourse_student_button);
+        Button studentExchangeButton  = (Button) findViewById(R.id.exchange_student_button);
         Button studentRalButton = (Button) findViewById(R.id.reward_lend_student_button);
         Button studentAbsenceButton = (Button) findViewById(R.id.myabsence_student_button);
         Button studentMyDataButton  = (Button) findViewById(R.id.mydata_student_button);
-        studentCourseButton.setOnClickListener(this);
+        studentExchangeButton.setOnClickListener(this);
         studentRalButton.setOnClickListener(this);
         studentAbsenceButton.setOnClickListener(this);
         studentMyDataButton.setOnClickListener(this);
@@ -115,9 +115,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.reward_lend_student_button:
                 startActivity(new Intent(this, RalMenuActivity.class));
                 break;
-            case R.id.mycourse_student_button:
-            case R.id.mycourse_teacher_button:
-                startActivity(new Intent(this, CourseListActivity.class));
+            case R.id.exchange_student_button:
+            case R.id.exchange_teacher_button:
+                startActivity(new Intent(this, ExchangeSubjectListActivity.class));
                 break;
             case R.id.myabsence_student_button:
             case R.id.absence_teacher_button:

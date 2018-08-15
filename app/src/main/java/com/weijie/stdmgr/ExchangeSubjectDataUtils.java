@@ -13,8 +13,8 @@ import java.util.Date;
  * Created by weijie on 2018/8/16.
  */
 public class ExchangeSubjectDataUtils extends DBHandlerService {
-    final public static String TAG_FETCH_CLASS_DATA = "TAG_FETCH_CLASS_DATA";
-    final public static String TAG_FETCH_CLASS_LIST = "TAG_FETCH_CLASS_LIST";
+    final public static String TAG_FETCH_DATA = "TAG_FETCH_DATA";
+    final public static String TAG_FETCH_LIST = "TAG_FETCH_LIST";
 
     private static WeakReference<ExchangeSubjectDataUtils> instance = null;
 
@@ -97,7 +97,7 @@ public class ExchangeSubjectDataUtils extends DBHandlerService {
         }).start();
     }
 
-    public void requestFetchSubjectListOfClass(final int classId,
+    public void requestFetchSubjectListOfTeacher(final int teacherId,
                                                final ArrayList<ExchangeSubjectData> arrayList,
                                                final Handler handler, final String tag) {
         new Thread(new Runnable() {
@@ -117,9 +117,20 @@ public class ExchangeSubjectDataUtils extends DBHandlerService {
                             + ","
                             + ExchangeSubjectData.getJointTables()
                             + " WHERE "
-                            + ExchangeSubjectData.toDomain(ExchangeSubjectData.COL_CLASS_ID) + "=" + toValue(classId)
+                            + ExchangeSubjectData.getJointCondition()
                             + " AND "
-                            + ClassData.getJointCondition()
+                            + ExchangeSubjectData.toDomain(ExchangeSubjectData.COL_CLASS_ID)
+                            + " IN ("
+                            + "SELECT "
+                            + ClassData.COL_ID
+                            + " FROM "
+                            + ClassData.TBL_NAME
+                            + " WHERE "
+                            + ClassData.COL_TEACHER_ID + "=" + toValue(teacherId)
+                            + ")"
+                            + " ORDER BY "
+                            + ExchangeSubjectData.toDomain(ExchangeSubjectData.COL_UPDATE)
+                            + " DESC"
                             + ";";
 
                     ResultSet resultSet = statement.executeQuery(sql);
@@ -173,7 +184,10 @@ public class ExchangeSubjectDataUtils extends DBHandlerService {
                             + " WHERE "
                             + ExchangeSubjectData.toDomain(ExchangeSubjectData.COL_STUDENT_ID) + "=" + toValue(studentId)
                             + " AND "
-                            + ClassData.getJointCondition()
+                            + ExchangeSubjectData.getJointCondition()
+                            + " ORDER BY "
+                            + ExchangeSubjectData.toDomain(ExchangeSubjectData.COL_UPDATE)
+                            + " DESC"
                             + ";";
 
                     ResultSet resultSet = statement.executeQuery(sql);

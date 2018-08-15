@@ -59,12 +59,12 @@
             android:textColor="@android:color/darker_gray" />
 
         <Button
-            android:id="@+id/mycourse_teacher_button"
+            android:id="@+id/exchange_teacher_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="0"
-            android:text="我的课程"
+            android:text="与学生的信息交流"
             android:textSize="18sp" />
 
         <Button
@@ -109,12 +109,12 @@
             android:textColor="@android:color/darker_gray" />
 
         <Button
-            android:id="@+id/mycourse_student_button"
+            android:id="@+id/exchange_student_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="0"
-            android:text="我的课程"
+            android:text="与辅导员信息交流"
             android:textSize="18sp" />
 
         <Button
