@@ -59,12 +59,12 @@
             android:textColor="@android:color/darker_gray" />
 
         <Button
-            android:id="@+id/exchange_teacher_button"
+            android:id="@+id/absence_teacher_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="0"
-            android:text="与学生的信息交流"
+            android:text="学生请假情况"
             android:textSize="18sp" />
 
         <Button
@@ -76,12 +76,12 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/absence_teacher_button"
+            android:id="@+id/exchange_teacher_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="0"
-            android:text="学生请假情况"
+            android:text="与学生的信息交流"
             android:textSize="18sp" />
 
         <Button
@@ -109,12 +109,12 @@
             android:textColor="@android:color/darker_gray" />
 
         <Button
-            android:id="@+id/exchange_student_button"
+            android:id="@+id/myabsence_student_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="0"
-            android:text="与辅导员信息交流"
+            android:text="我的请假单"
             android:textSize="18sp" />
 
         <Button
@@ -126,12 +126,12 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/myabsence_student_button"
+            android:id="@+id/exchange_student_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="0"
-            android:text="请假单"
+            android:text="与辅导员信息交流"
             android:textSize="18sp" />
 
         <Button
@@ -139,7 +139,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="个人资料"
+            android:text="我的个人资料"
             android:textSize="18sp" />
     </LinearLayout>
 

@@ -8,12 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-/**
- * Created by weijie on 2018/8/17.
- */
 public class ExchangeDetailDataUtils extends DBHandlerService {
-    final public static String TAG_FETCH_CLASS_DATA = "TAG_FETCH_CLASS_DATA";
-    final public static String TAG_FETCH_CLASS_LIST = "TAG_FETCH_CLASS_LIST";
+    final public static String TAG_FETCH_DATA = "TAG_FETCH_DATA";
+    final public static String TAG_FETCH_LIST = "TAG_FETCH_LIST";
+    final public static String TAG_COMMIT_DATA= "TAG_COMMIT_DATA";
 
     private static WeakReference<ExchangeDetailDataUtils> instance = null;
 
@@ -116,7 +114,7 @@ public class ExchangeDetailDataUtils extends DBHandlerService {
                             //+ ","
                             //+ ExchangeDetailData.getJointTables()
                             + " WHERE "
-                            + ExchangeDetailData.toDomain(ExchangeSubjectData.COL_CLASS_ID) + "=" + toValue(subjectId)
+                            + ExchangeDetailData.toDomain(ExchangeDetailData.COL_SUBJECT_ID) + "=" + toValue(subjectId)
                             //+ " AND "
                             //+ ExchangeDetailData.getJointCondition()
                             + ";";

@@ -31,10 +31,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-
-/**
- * Created by weijie on 2018/5/8.
- */
 public class AbsenceFormApplyActivity extends AppCompatActivity implements View.OnClickListener {
     final static int REQUEST_CODE_GETTING_CC    = 0;
     final static int RESULT_CODE_APPLY_CANCEL   = 0;

@@ -74,10 +74,10 @@ public class ExchangeSubjectListActivity extends AppCompatActivity implements Vi
 
         authUser = MyApplication.getInstance().authUser;
         if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
-            setTitle("与辅导员的信息交流");
+            setTitle("与辅导员的信息交流主题列表");
         }
         else {
-            setTitle("与学生的信息交流");
+            setTitle("与学生的信息交流主题列表");
         }
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -113,13 +113,12 @@ public class ExchangeSubjectListActivity extends AppCompatActivity implements Vi
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position < arrayListSubjectData.size()) {
-                    /*
                     ExchangeSubjectData subjectData = arrayListSubjectData.get(position);
                     Intent intent = new Intent(ExchangeSubjectListActivity.this,
                             ExchangeDetailListActivity.class);
+                    intent.putExtra(ExchangeSubjectData.COL_ID, subjectData.id);
                     ExchangeSubjectListActivity.this.startActivityForResult(intent,
                             REQUEST_FOR_CREATE);
-                            */
                 }
             }
         });

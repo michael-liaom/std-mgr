@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/from_timestamp_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="55dp"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:id="@+id/from_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:paddingEnd="40dp">
+
+        <TextView
+            android:id="@+id/from_text_view"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_weight="0"
+            android:gravity="center|end"
+            android:text="对方"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="0"
+            android:background="@mipmap/chat_incoming"
+            android:gravity="start"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/from_msg_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/to_timestamp_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="55dp"
+        android:textAlignment="textEnd" />
+
+    <LinearLayout
+        android:id="@+id/to_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top|right"
+        android:orientation="horizontal"
+        android:paddingStart="40dp"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_weight="0" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_weight="0"
+            android:background="@mipmap/chat_outgoing"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/to_msg_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/to_text_view"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_weight="0"
+            android:gravity="center|start"
+            android:text="我"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>

@@ -21,9 +21,6 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
-/**
- * Created by weijie on 2018/6/7.
- */
 public class AbsenceFormCheckActivity extends AppCompatActivity implements View.OnClickListener{
     final static int RESULT_CODE_COMMIT_NONE    = 0;
     final static int RESULT_CODE_COMMIT_SUCCESS = 1;

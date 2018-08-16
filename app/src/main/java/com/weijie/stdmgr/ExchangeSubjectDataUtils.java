@@ -9,9 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by weijie on 2018/8/16.
- */
 public class ExchangeSubjectDataUtils extends DBHandlerService {
     final public static String TAG_FETCH_DATA = "TAG_FETCH_DATA";
     final public static String TAG_FETCH_LIST = "TAG_FETCH_LIST";
@@ -290,7 +287,7 @@ public class ExchangeSubjectDataUtils extends DBHandlerService {
             sql = "UPDATE "
                     + ExchangeSubjectData.TBL_NAME
                     + " SET "
-                    + ExchangeSubjectData.COL_UPDATE + "=" + toValue(timestamp)
+                    + ExchangeSubjectData.toDomain(ExchangeSubjectData.COL_UPDATE) + "=" + toValue(timestamp)
                     + " WHERE "
                     + COL_ID + "=" + toValue(subjectId)
                     + ";";

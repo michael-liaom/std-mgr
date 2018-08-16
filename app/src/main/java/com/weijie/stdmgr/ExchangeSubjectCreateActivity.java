@@ -99,7 +99,7 @@ public class ExchangeSubjectCreateActivity extends AppCompatActivity implements 
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        setTitle("创建交流");
+        setTitle("创建新的交流");
 
         initData();
         initControls();

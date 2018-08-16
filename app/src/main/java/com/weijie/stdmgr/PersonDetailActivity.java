@@ -134,7 +134,7 @@ public class PersonDetailActivity extends AppCompatActivity implements View.OnCl
             TextView emailTextView= (TextView) findViewById(R.id.student_email_text_view);
             TextView mobileTextView = (TextView) findViewById(R.id.student_mobile_text_view);
 
-            nameTextView.setText(studentData.name);
+            nameTextView.setText(studentData.name + " ("+ studentData.getGenderName() + ")");
             codeTextView.setText(Integer.toString(studentData.code));
             sectionTextView.setText(studentData.classData.section);
             majorTextView.setText(studentData.classData.major);

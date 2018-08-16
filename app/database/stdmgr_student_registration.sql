@@ -34,6 +34,7 @@ CREATE TABLE `student_registration` (
   `room` varchar(10) DEFAULT NULL,
   `reg_code` varchar(6) DEFAULT NULL,
   `status` int(1) NOT NULL,
+  `gender` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='学生学籍';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -44,7 +45,7 @@ CREATE TABLE `student_registration` (
 
 LOCK TABLES `student_registration` WRITE;
 /*!40000 ALTER TABLE `student_registration` DISABLE KEYS */;
-INSERT INTO `student_registration` VALUES (1,'廖炜杰',1,1440706172,'138000000','jj@qq.com',NULL,'-1',1);
+INSERT INTO `student_registration` VALUES (1,'廖炜杰',1,1440706172,'138000000','jj@qq.com',NULL,'-1',1,1);
 /*!40000 ALTER TABLE `student_registration` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-15 17:53:11
+-- Dump completed on 2018-08-16 18:46:00

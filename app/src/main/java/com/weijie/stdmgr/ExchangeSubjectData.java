@@ -4,9 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-/**
- * Created by weijie on 2018/8/16.
- */
 public class ExchangeSubjectData extends DBHandlerService {
     final public static String TBL_NAME = "exchange_subject";
     final static String COL_ID          = "id";
@@ -25,6 +22,8 @@ public class ExchangeSubjectData extends DBHandlerService {
     Date create, update;
     //Joint
     String studentName;
+    int studentGender;
+    String studentCode;
     //Seperated
     //StudentData studentData;
     //ClassData classData;
@@ -59,7 +58,12 @@ public class ExchangeSubjectData extends DBHandlerService {
     }
 
     static String getJointDomainColums() {
-        return StudentData.toDomainAs(StudentData.COL_NAME);
+        return StudentData.toDomainAs(StudentData.COL_NAME)
+                + ","
+                + StudentData.toDomainAs(StudentData.COL_GENDER)
+                + ","
+                + StudentData.toDomainAs(StudentData.COL_CODE)
+                ;
     }
 
     static String getJointTables() {
@@ -91,11 +95,13 @@ public class ExchangeSubjectData extends DBHandlerService {
         direction   = resultSet.getString(COL_DIRECTION);
         subject     = resultSet.getString(COL_SUBJECT);
         classId     = resultSet.getInt(COL_CLASS_ID);
-        create      = resultSet.getDate(COL_CREATE);
-        update      = resultSet.getDate(COL_UPDATE);
+        create      = resultSet.getTimestamp(COL_CREATE);
+        update      = resultSet.getTimestamp(COL_UPDATE);
     }
 
     public void extractJointFromResultSet(ResultSet resultSet) throws SQLException {
-        studentName = resultSet.getString(StudentData.getAsCol(StudentData.COL_NAME));
+        studentName     = resultSet.getString(StudentData.getAsCol(StudentData.COL_NAME));
+        studentGender   = resultSet.getInt(StudentData.getAsCol(StudentData.COL_GENDER));
+        studentCode     = resultSet.getString(StudentData.getAsCol(StudentData.COL_CODE));
     }
 }

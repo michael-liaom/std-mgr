@@ -10,6 +10,7 @@ public class StudentData extends DBHandlerService {
     final public static String TBL_NAME = "student_registration";
     final static String COL_ID          = "id";
     final static String COL_NAME        = "name";
+    final static String COL_GENDER      = "gender";
     final static String COL_CODE        = "code";
     final static String COL_EMAIL       = "email";
     final static String COL_MOBILE      = "mobile";
@@ -19,6 +20,7 @@ public class StudentData extends DBHandlerService {
 
     int id;
     String name;
+    int gender;
     int code;
     String email;
     String mobile;
@@ -45,6 +47,8 @@ public class StudentData extends DBHandlerService {
         return toDomain(COL_ID)
                 + ","
                 + toDomain(COL_NAME)
+                + ","
+                + toDomain(COL_GENDER)
                 + ","
                 + toDomain(COL_CODE)
                 + ","
@@ -78,10 +82,29 @@ public class StudentData extends DBHandlerService {
     public void extractFromResultSet(ResultSet resultSet) throws SQLException {
         id      = resultSet.getInt(COL_ID);
         name    = resultSet.getString(COL_NAME);
+        gender  = resultSet.getInt(COL_GENDER);
         code    = resultSet.getInt(COL_CODE);
         email   = resultSet.getString(COL_EMAIL);
         mobile   = resultSet.getString(COL_MOBILE);
         room    = resultSet.getString(COL_ROOM);
         class_id= resultSet.getInt(COL_CLASS_ID);
+    }
+
+    public String getGenderName() {
+        if (gender == 1) {
+            return "男";
+        }
+        else {
+            return "女";
+        }
+    }
+
+    public static String getGenderName(int gender) {
+        if (gender == 1) {
+            return "男";
+        }
+        else {
+            return "女";
+        }
     }
 }

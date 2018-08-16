@@ -7,9 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-/**
- * Created by weijie on 2018/7/17.
- */
 public class HostSettingActivity extends AppCompatActivity {
     final static int RETURN_CODE_CANCEL = 0;
     final static int RETURN_CODE_OK     = 1;

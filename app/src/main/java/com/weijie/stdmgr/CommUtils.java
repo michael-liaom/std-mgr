@@ -4,9 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by weijie on 2018/5/19.
- */
 public class CommUtils {
     public static String toLocalDateString(Date date){
         SimpleDateFormat dbSdf = new SimpleDateFormat("yyyy-MM-dd",

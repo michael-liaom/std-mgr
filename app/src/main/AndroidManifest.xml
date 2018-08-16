@@ -83,7 +83,8 @@
         <activity android:name=".RalApplyCheckActivity" />
         <activity android:name=".PersonDetailEditActivity" />
         <activity android:name=".ExchangeSubjectListActivity" />
-        <activity android:name=".ExchangeSubjectCreateActivity"></activity>
+        <activity android:name=".ExchangeSubjectCreateActivity" />
+        <activity android:name=".ExchangeDetailListActivity" />
     </application>
 
 </manifest>

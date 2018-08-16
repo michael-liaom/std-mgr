@@ -4,9 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- * Created by weijie on 2018/5/9.
- */
 public class ClassData {
     final static String TBL_NAME    = "class";
     final static String COL_ID      = "id";

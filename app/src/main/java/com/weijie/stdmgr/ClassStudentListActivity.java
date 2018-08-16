@@ -19,9 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by weijie on 2018/7/17.
- */
 public class ClassStudentListActivity extends AppCompatActivity {
     private int taskCount;
     private ProgressBar progressBar;

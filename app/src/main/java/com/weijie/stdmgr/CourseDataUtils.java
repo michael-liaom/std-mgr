@@ -8,9 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-/**
- * Created by weijie on 2018/5/17.
- */
 public class CourseDataUtils extends DBHandlerService {
     final static String TBL_STUDENT_COURSE = "student_course";
     final static String COL_STUDENT_ID  = "student_id";

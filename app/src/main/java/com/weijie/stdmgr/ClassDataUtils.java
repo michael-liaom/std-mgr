@@ -8,9 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-/**
- * Created by weijie on 2018/5/9.
- */
 public class ClassDataUtils extends DBHandlerService {
     final public static String TAG_FETCH_CLASS_DATA = "TAG_FETCH_CLASS_DATA";
     final public static String TAG_FETCH_CLASS_LIST = "TAG_FETCH_CLASS_LIST";

@@ -18,9 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by weijie on 2018/5/3.
- */
 public class ClassListActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 

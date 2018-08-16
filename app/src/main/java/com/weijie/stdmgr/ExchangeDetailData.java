@@ -4,9 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-/**
- * Created by weijie on 2018/8/17.
- */
 public class ExchangeDetailData extends DBHandlerService {
     final public static String TBL_NAME = "exchange_detail";
     final static String COL_ID          = "id";
@@ -81,7 +78,7 @@ public class ExchangeDetailData extends DBHandlerService {
         subjectId   = resultSet.getInt(COL_SUBJECT_ID);
         direction   = resultSet.getString(COL_DIRECTION);
         content     = resultSet.getString(COL_CONTENT);
-        create      = resultSet.getDate(COL_CREATE);
+        create      = resultSet.getTimestamp(COL_CREATE);
     }
 
     /*
