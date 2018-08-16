@@ -18,10 +18,10 @@ public class ExchangeSubjectData extends DBHandlerService {
     final static String COL_UPDATE      = "update";
 
     int id;
-    int student_id;
+    int studentId;
     String direction;
     String subject;
-    int class_id;
+    int classId;
     Date create, update;
     //Joint
     String studentName;
@@ -71,26 +71,26 @@ public class ExchangeSubjectData extends DBHandlerService {
     }
 
     public String setColumsData() {
-        return COL_STUDENT_ID   + "=" + toValue(student_id)
+        return toDomain(COL_STUDENT_ID)   + "=" + toValue(studentId)
                 + ","
-                + COL_DIRECTION   + "=" + toValue(direction)
+                + toDomain(COL_DIRECTION) + "=" + toValue(direction)
                 + ","
-                + COL_SUBJECT   + "=" + toValue(subject)
+                + toDomain(COL_SUBJECT)   + "=" + toValue(subject)
                 + ","
-                + COL_CLASS_ID      + "=" + toValue(class_id)
+                + toDomain(COL_CLASS_ID)  + "=" + toValue(classId)
                 + ","
-                + COL_CREATE   + "=" + toValue(create)
+                + toDomain(COL_CREATE)    + "=" + toValue(create)
                 + ","
-                + COL_UPDATE      + "=" + toValue(update)
+                + toDomain(COL_UPDATE)    + "=" + toValue(update)
                 ;
     }
 
     public void extractFromResultSet(ResultSet resultSet) throws SQLException {
         id          = resultSet.getInt(COL_ID);
-        student_id  = resultSet.getInt(COL_STUDENT_ID);
+        studentId   = resultSet.getInt(COL_STUDENT_ID);
         direction   = resultSet.getString(COL_DIRECTION);
         subject     = resultSet.getString(COL_SUBJECT);
-        class_id    = resultSet.getInt(COL_CLASS_ID);
+        classId     = resultSet.getInt(COL_CLASS_ID);
         create      = resultSet.getDate(COL_CREATE);
         update      = resultSet.getDate(COL_UPDATE);
     }

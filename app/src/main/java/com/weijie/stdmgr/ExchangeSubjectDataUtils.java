@@ -15,6 +15,7 @@ import java.util.Date;
 public class ExchangeSubjectDataUtils extends DBHandlerService {
     final public static String TAG_FETCH_DATA = "TAG_FETCH_DATA";
     final public static String TAG_FETCH_LIST = "TAG_FETCH_LIST";
+    final public static String TAG_COMMIT_DATA= "TAG_COMMIT_DATA";
 
     private static WeakReference<ExchangeSubjectDataUtils> instance = null;
 
@@ -97,7 +98,7 @@ public class ExchangeSubjectDataUtils extends DBHandlerService {
         }).start();
     }
 
-    public void requestFetchSubjectListOfTeacher(final int teacherId,
+    public void requestFetchSubjectListOfClass(final int classId,
                                                final ArrayList<ExchangeSubjectData> arrayList,
                                                final Handler handler, final String tag) {
         new Thread(new Runnable() {
@@ -117,17 +118,9 @@ public class ExchangeSubjectDataUtils extends DBHandlerService {
                             + ","
                             + ExchangeSubjectData.getJointTables()
                             + " WHERE "
-                            + ExchangeSubjectData.getJointCondition()
+                            + ExchangeSubjectData.toDomain(ExchangeSubjectData.COL_CLASS_ID) + "=" + toValue(classId)
                             + " AND "
-                            + ExchangeSubjectData.toDomain(ExchangeSubjectData.COL_CLASS_ID)
-                            + " IN ("
-                            + "SELECT "
-                            + ClassData.COL_ID
-                            + " FROM "
-                            + ClassData.TBL_NAME
-                            + " WHERE "
-                            + ClassData.COL_TEACHER_ID + "=" + toValue(teacherId)
-                            + ")"
+                            + ExchangeSubjectData.getJointCondition()
                             + " ORDER BY "
                             + ExchangeSubjectData.toDomain(ExchangeSubjectData.COL_UPDATE)
                             + " DESC"
@@ -220,7 +213,8 @@ public class ExchangeSubjectDataUtils extends DBHandlerService {
     }
 
     public void requestCommit(final ExchangeSubjectData subjectData,
-                                   final Handler handler, final String tag) {
+                              final ExchangeDetailData detailData,
+                              final Handler handler, final String tag) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -231,24 +225,44 @@ public class ExchangeSubjectDataUtils extends DBHandlerService {
                     Statement statement = jdbcMgrUtils.createStatement();
                     ResultSet resultSet;
 
-                    sql = "INSERT "
-                            + ExchangeSubjectData.TBL_NAME
-                            + " SET "
-                            + subjectData.setColumsData()
-                            + ";";
-                    int affect = statement.executeUpdate(sql);
-                    if (affect == 1) {
-                        resultSet = statement.getGeneratedKeys();
-                        if (resultSet.next()) {
-                            subjectData.id = resultSet.getInt(1);
+                    sql = "START TRANSACTION;";
+                    resultSet = statement.executeQuery(sql);
+                    if (resultSet == null) {
+                        isOk = false;
+                    }
+
+                    if (isOk) {
+                        sql = "INSERT "
+                                + ExchangeSubjectData.TBL_NAME
+                                + " SET "
+                                + subjectData.setColumsData()
+                                + ";";
+                        int affect = statement.executeUpdate(sql);
+                        if (affect == 1) {
+                            resultSet = statement.getGeneratedKeys();
+                            if (resultSet.next()) {
+                                subjectData.id = resultSet.getInt(1);
+                            } else {
+                                isOk = false;
+                            }
                         } else {
                             isOk = false;
                         }
                     }
-                    else {
-                        isOk = false;
+
+                    if (isOk) {
+                        detailData.subjectId = subjectData.id;
+                        isOk = ExchangeDetailDataUtils.getInstance().createData(detailData);
                     }
 
+                    if (isOk) {
+                        sql = "COMMIT;";
+                        statement.executeQuery(sql);
+                    }
+                    else {
+                        sql = "ROLLBACK;";
+                        statement.executeQuery(sql);
+                    }
                     statement.close();
                 }
                 catch (SQLException e) {

@@ -42,7 +42,7 @@ public class ClassListActivity extends AppCompatActivity {
     private ArrayList <ClassData> arrayListClass;
     private AuthUserData authUser;
 
-
+    private String requestPrama;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,9 @@ public class ClassListActivity extends AppCompatActivity {
         authUser = MyApplication.getInstance().authUser;
         arrayListClass = new ArrayList<>();
         listMap = new ArrayList<>();
+
+        Intent intent = getIntent();
+        requestPrama = intent.getStringExtra(MainActivity.REQUEST_PARAM);
     }
 
     private void initControls() {
@@ -79,8 +82,15 @@ public class ClassListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position < arrayListClass.size()) {
                     ClassData classData = arrayListClass.get(position);
-                    Intent intent = new Intent(ClassListActivity.this,
-                            ClassStudentListActivity.class);
+                    Intent intent;
+                    if (requestPrama.equals(MainActivity.REQUEST_PRAM_EXCHANGE)) {
+                        intent = new Intent(ClassListActivity.this,
+                                ExchangeSubjectListActivity.class);
+                    }
+                    else {
+                        intent = new Intent(ClassListActivity.this,
+                                ClassStudentListActivity.class);
+                    }
                     intent.putExtra(ClassData.COL_ID, classData.id);
                     ClassListActivity.this.startActivity(intent);
                 }

@@ -66,13 +66,13 @@ public class ExchangeDetailData extends DBHandlerService {
     */
 
     public String setColumsData() {
-        return COL_SUBJECT_ID   + "=" + toValue(subjectId)
+        return toDomain(COL_SUBJECT_ID)   + "=" + toValue(subjectId)
                 + ","
-                + COL_DIRECTION   + "=" + toValue(direction)
+                + toDomain(COL_DIRECTION)   + "=" + toValue(direction)
                 + ","
-                + COL_CONTENT   + "=" + toValue(content)
+                + toDomain(COL_CONTENT)   + "=" + toValue(content)
                 + ","
-                + COL_CREATE   + "=" + toValue(create)
+                + toDomain(COL_CREATE)   + "=" + toValue(create)
                 ;
     }
 

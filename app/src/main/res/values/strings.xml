@@ -18,6 +18,8 @@
     <string name="message_input_teacher_code_invalid">教师编号无效!</string>
     <string name="message_input_invation_invalid">邀请码无效!</string>
     <string name="message_registartion_half_baked">注册信息输入不完整</string>
+    <string name="message_subject_blank_error">主题未填写</string>
+    <string name="message_content_blank_error">内容描述未填写</string>
     <string name="button_confirm">确认</string>
     <string name="button_cancel">取消</string>
     <string name="button_approval">批准</string>

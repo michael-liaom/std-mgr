@@ -150,6 +150,40 @@ public class ExchangeDetailDataUtils extends DBHandlerService {
         }).start();
     }
 
+    public boolean createData(ExchangeDetailData detailData) {
+        boolean isOk = true;
+
+        try {
+            String sql;
+            Statement statement = jdbcMgrUtils.createStatement();
+            ResultSet resultSet;
+
+                sql = "INSERT "
+                        + ExchangeDetailData.TBL_NAME
+                        + " SET "
+                        + detailData.setColumsData()
+                        + ";";
+                int affect = statement.executeUpdate(sql);
+                if (affect == 1) {
+                    resultSet = statement.getGeneratedKeys();
+                    if (resultSet.next()) {
+                        detailData.id = resultSet.getInt(1);
+                    } else {
+                        isOk = false;
+                    }
+                } else {
+                    isOk = false;
+                }
+            statement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            isOk = false;
+        }
+
+        return  isOk;
+    }
+
     public void requestCommit(final ExchangeDetailData detailData,
                               final Handler handler, final String tag) {
         new Thread(new Runnable() {
@@ -169,22 +203,7 @@ public class ExchangeDetailDataUtils extends DBHandlerService {
                     }
 
                     if (isOk) {
-                        sql = "INSERT "
-                                + ExchangeSubjectData.TBL_NAME
-                                + " SET "
-                                + detailData.setColumsData()
-                                + ";";
-                        int affect = statement.executeUpdate(sql);
-                        if (affect == 1) {
-                            resultSet = statement.getGeneratedKeys();
-                            if (resultSet.next()) {
-                                detailData.id = resultSet.getInt(1);
-                            } else {
-                                isOk = false;
-                            }
-                        } else {
-                            isOk = false;
-                        }
+                        isOk = createData(detailData);
                     }
 
                     if (isOk) {

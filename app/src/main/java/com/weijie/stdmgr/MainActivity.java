@@ -22,6 +22,9 @@ import java.lang.ref.WeakReference;
 public class MainActivity extends Activity implements View.OnClickListener {
     final static int REQUEST_FOR_LOGIN      = 1;
     final static int REQUEST_FOR_HOSTARESS  = 2;
+    final static String REQUEST_PARAM          = "REQUEST_PARAM";
+    final static String REQUEST_PRAM_EXCHANGE  = "exchange";
+
     final DBHandler dbHandler = new DBHandler(this);
 
     private JdbcMgrUtils jdbcMgrUtils;
@@ -115,8 +118,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.reward_lend_student_button:
                 startActivity(new Intent(this, RalMenuActivity.class));
                 break;
+            case R.id.exchange_teacher_button: {
+                Intent intent = new Intent(this, ClassListActivity.class);
+                intent.putExtra(REQUEST_PARAM, REQUEST_PRAM_EXCHANGE);
+                startActivity(intent);
+                break;
+            }
             case R.id.exchange_student_button:
-            case R.id.exchange_teacher_button:
                 startActivity(new Intent(this, ExchangeSubjectListActivity.class));
                 break;
             case R.id.myabsence_student_button:

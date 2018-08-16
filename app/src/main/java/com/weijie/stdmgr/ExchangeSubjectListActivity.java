@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
@@ -18,11 +19,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ExchangeSubjectListActivity extends AppCompatActivity {
+public class ExchangeSubjectListActivity extends AppCompatActivity implements View.OnClickListener {
     final private static int REQUEST_FOR_CREATE  = 2;
 
     private ListView listView;
     private ProgressBar progressBar;
+    private Button createButton;
+    private int classId;
 
     private ArrayList<Map<String, Object>> listMap;
     SimpleAdapter simpleAdapter;
@@ -47,12 +50,21 @@ public class ExchangeSubjectListActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_FOR_CREATE:
-                //if (resultCode == ExchangeSubjectCreateActivity.RESULT_CODE_COMMIT_SUCCESS) {
+                if (resultCode == ExchangeSubjectCreateActivity.RESULT_CODE_COMMINT) {
                     requestData();
-                //}
+                }
                 break;
         }
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.create_button) {
+            Intent intent = new Intent(this, ExchangeSubjectCreateActivity.class);
+            intent.putExtra(ClassData.COL_ID, classId);
+            startActivityForResult(intent, REQUEST_FOR_CREATE);
+        }
     }
 
     @Override
@@ -78,6 +90,13 @@ public class ExchangeSubjectListActivity extends AppCompatActivity {
         requestData();
     }
     private void initData() {
+        if (authUser.genre.equals(AuthUserData.GENRE_STUDENT)) {
+            classId = authUser.studentData.class_id;
+        }
+        else {
+            Intent intent  = getIntent();
+            classId = intent.getIntExtra(ClassData.COL_ID, 0);
+        }
         arrayListSubjectData = new ArrayList<>();
         listMap = new ArrayList<>();
     }
@@ -85,6 +104,7 @@ public class ExchangeSubjectListActivity extends AppCompatActivity {
     private void initControls() {
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         listView    = (ListView) findViewById(R.id.list_view_dynamic);
+        createButton= (Button) findViewById(R.id.create_button);
 
         simpleAdapter = new SimpleAdapter(this, listMap,
                 R.layout.activity_exchange_subject_list_item, mapKey, mapResurceId);
@@ -103,6 +123,8 @@ public class ExchangeSubjectListActivity extends AppCompatActivity {
                 }
             }
         });
+
+        createButton.setOnClickListener(this);
     }
 
     private void requestData() {
@@ -111,13 +133,16 @@ public class ExchangeSubjectListActivity extends AppCompatActivity {
             ExchangeSubjectDataUtils.getInstance()
                     .requestFetchSubjectListOfStudent(authUser.studend_id, arrayListSubjectData,
                             dbHandler, ExchangeSubjectDataUtils.TAG_FETCH_LIST);
+            showBusyProgress(true);
         }
         else {
-            ExchangeSubjectDataUtils.getInstance()
-                    .requestFetchSubjectListOfTeacher(authUser.teacher_id, arrayListSubjectData,
-                            dbHandler, ExchangeSubjectDataUtils.TAG_FETCH_LIST);
+            if (classId > 0) {
+                ExchangeSubjectDataUtils.getInstance()
+                        .requestFetchSubjectListOfClass(classId, arrayListSubjectData,
+                                dbHandler, ExchangeSubjectDataUtils.TAG_FETCH_LIST);
+                showBusyProgress(true);
+            }
         }
-        showBusyProgress(true);
     }
 
     private void showBusyProgress(boolean isBussy) {

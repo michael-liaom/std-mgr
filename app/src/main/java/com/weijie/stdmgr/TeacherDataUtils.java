@@ -159,4 +159,64 @@ public class TeacherDataUtils extends DBHandlerService {
         }).start();
     }
 
+    public void requestFetchClassTeacherOfStudent(final int studentId,
+                                                 final TeacherData teacherData,
+                                                 final Handler handler, final String tag) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String sql;
+                boolean isOk = true;
+
+                try {
+                    Statement statement = jdbcMgrUtils.createStatement();
+                    sql = "SELECT "
+                            + TeacherData.getDomainColums()
+                            + " FROM "
+                            + TeacherData.TBL_NAME
+                            + ","
+                            + ClassData.TBL_NAME
+                            + ","
+                            + StudentData.TBL_NAME
+                            + " WHERE "
+                            + StudentData.toDomain(COL_ID) + "=" + toValue(studentId)
+                            + " AND "
+                            + ClassData.toDomain(COL_ID)
+                            + " = "
+                            + StudentData.toDomain(StudentData.COL_CLASS_ID)
+                            + " AND "
+                            + TeacherData.toDomain(COL_ID)
+                            + "="
+                            + ClassData.toDomain(ClassData.COL_TEACHER_ID)
+                            + ";";
+
+                    ResultSet resultSet = statement.executeQuery(sql);
+                    if (resultSet != null) {
+                        if (resultSet.next()) {
+                            teacherData.extractFromResultSet(resultSet);
+                        }
+                        else {
+                            isOk = false;
+                        }
+                    }
+                    else {
+                        isOk = false;
+                    }
+                    statement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    isOk = false;
+                }
+
+                if (isOk) {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_SUCCESS, tag);
+                }
+                else {
+                    processHandler(handler, JdbcMgrUtils.DB_REQUEST_FAILURE, tag);
+                }
+            }
+        }).start();
+    }
+
 }
