@@ -23,7 +23,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     final static int REQUEST_FOR_LOGIN      = 1;
     final static int REQUEST_FOR_HOSTARESS  = 2;
     final static String REQUEST_PARAM          = "REQUEST_PARAM";
-    final static String REQUEST_PRAM_EXCHANGE  = "exchange";
+    final static String REQUEST_PRAM_EXCHANGE   = "student_exchange";
+    final static String REQUEST_STUDENT_DATA    = "student_data";
 
     final DBHandler dbHandler = new DBHandler(this);
 
@@ -106,9 +107,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.studentdata_teacher_button:
-                startActivity(new Intent(this, ClassListActivity.class));
+            case R.id.studentdata_teacher_button: {
+                Intent intent = new Intent(this, ClassListActivity.class);
+                intent.putExtra(REQUEST_PARAM, REQUEST_STUDENT_DATA);
+                startActivity(intent);
                 break;
+            }
                 /*
             case R.id.myteacher_student_button:
                 startActivity(new Intent(this, TeacherListActivity.class));

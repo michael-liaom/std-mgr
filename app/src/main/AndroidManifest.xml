@@ -74,7 +74,7 @@
             android:label="班级详情" />
         <activity
             android:name=".ClassStudentListActivity"
-            android:label="班级学生列表" />
+            android:label="学生列表" />
         <activity android:name=".RalListActivity" />
         <activity android:name=".RalDetailActivity" />
         <activity android:name=".RalApplyCreateActivity" />

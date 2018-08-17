@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="0"
-            android:text="与学生的信息交流"
+            android:text="学生心理"
             android:textSize="18sp" />
 
         <Button
@@ -89,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="学生个人资料"
+            android:text="学生学籍资料"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -139,7 +139,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="我的个人资料"
+            android:text="我的学籍资料"
             android:textSize="18sp" />
     </LinearLayout>
 
