@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `stdmgr` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `stdmgr`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: LocalHost    Database: stdmgr
+-- Host: localhost    Database: stdmgr
 -- ------------------------------------------------------
 -- Server version	5.5.60
 
@@ -33,7 +33,7 @@ CREATE TABLE `exchange_subject` (
   `create` datetime NOT NULL,
   `update` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='学生、辅导员信息交流主题';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='学生、辅导员信息交流主题';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,6 @@ CREATE TABLE `exchange_subject` (
 
 LOCK TABLES `exchange_subject` WRITE;
 /*!40000 ALTER TABLE `exchange_subject` DISABLE KEYS */;
-INSERT INTO `exchange_subject` VALUES (4,1,1,'from','主题','2018-08-16 12:43:31','2018-08-16 12:43:31'),(5,1,1,'to','测试','2018-08-16 12:57:13','2018-08-16 18:16:14');
 /*!40000 ALTER TABLE `exchange_subject` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-16 18:46:05
+-- Dump completed on 2018-08-31  2:44:52

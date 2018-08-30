@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `stdmgr` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `stdmgr`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: LocalHost    Database: stdmgr
+-- Host: localhost    Database: stdmgr
 -- ------------------------------------------------------
 -- Server version	5.5.60
 
@@ -28,7 +28,7 @@ CREATE TABLE `ral_apply` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ral_id` int(11) NOT NULL,
   `student_id` int(11) NOT NULL,
-  `cause` varchar(255) NOT NULL,
+  `cause` mediumtext NOT NULL,
   `teacher_id` int(11) NOT NULL,
   `approval` int(1) DEFAULT NULL,
   `approval_comment` varchar(45) DEFAULT NULL,
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-16 18:46:04
+-- Dump completed on 2018-08-31  2:44:51
