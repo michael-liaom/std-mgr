@@ -105,7 +105,8 @@ public class RalDetailActivity extends AppCompatActivity {
         gradeTextView.setText(ralData.grade);
         termTextView.setText(ralData.term);
         numberTextView.setText(Integer.toString(ralData.number));
-        requireTextView.setText(ralData.requirement);
+        String text = ralData.requirement.replace("\\n", "\n");
+        requireTextView.setText(text);
 
         if (authUser.studend_id > 0) {
             Button button = (Button) findViewById(R.id.action_button);

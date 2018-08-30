@@ -72,7 +72,6 @@
                     android:id="@+id/name_text_view"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:layout_weight="1" />
 
                 <TextView
@@ -84,10 +83,9 @@
 
                 <TextView
                     android:id="@+id/amount_text_view"
-                    android:layout_width="160dp"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="0" />
             </LinearLayout>
 
             <LinearLayout
@@ -106,7 +104,6 @@
                     android:id="@+id/grade_text_view"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:layout_weight="1" />
 
                 <TextView
@@ -120,35 +117,27 @@
                     android:id="@+id/term_text_view"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="0"
                     android:text="名额:" />
 
                 <TextView
                     android:id="@+id/number_text_view"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="0" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/require_text_view"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
@@ -162,11 +151,11 @@
                 <TextView
                     android:id="@+id/requirement_text_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="96dp"
                     android:layout_weight="0"
-                    android:gravity="top|start" />
+                    android:gravity="top|start"
+                    android:scrollbarStyle="insideOverlay"
+                    android:scrollbars="vertical" />
             </LinearLayout>
 
             <View
@@ -192,8 +181,6 @@
                     android:id="@+id/cause_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
                     android:layout_weight="0" />
 
             </LinearLayout>
