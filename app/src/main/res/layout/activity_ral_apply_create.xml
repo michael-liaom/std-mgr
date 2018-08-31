@@ -148,8 +148,8 @@
             <LinearLayout
                 android:id="@+id/require_text_view"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:gravity="center_vertical"
+                android:layout_height="96dp"
+                android:gravity="top|start"
                 android:orientation="vertical">
 
                 <TextView
@@ -162,9 +162,7 @@
                 <TextView
                     android:id="@+id/requirement_text_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="0"
                     android:gravity="top|start" />
             </LinearLayout>

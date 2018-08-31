@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -120,7 +121,9 @@ public class RalApplyCreateActivity extends AppCompatActivity implements View.On
             gradeTextView.setText(ralData.grade);
             termTextView.setText(ralData.term);
             numberTextView.setText(Integer.toString(ralData.number));
-            requireTextView.setText(ralData.requirement);
+            String text = ralData.requirement.replace("\\n", "\n");
+            requireTextView.setText(text);
+            requireTextView.setMovementMethod(ScrollingMovementMethod.getInstance());
         }
     }
 
