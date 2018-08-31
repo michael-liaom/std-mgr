@@ -123,8 +123,10 @@ public class RalApplyCheckActivity extends AppCompatActivity implements View.OnC
         TextView gradeTextView  = (TextView) findViewById(R.id.grade_text_view);
         TextView termTextView   = (TextView) findViewById(R.id.term_text_view);
         TextView numberTextView = (TextView) findViewById(R.id.number_text_view);
+        /*
         TextView requireTextView
                 = (TextView) findViewById(R.id.requirement_text_view);
+                */
         TextView causeTextView  = (TextView) findViewById(R.id.cause_text_view);
         TextView commentTextView
                 = (TextView) findViewById(R.id.comment_text_view);
@@ -139,10 +141,15 @@ public class RalApplyCheckActivity extends AppCompatActivity implements View.OnC
         gradeTextView.setText(ralApplyData.ralData.grade);
         termTextView.setText(ralApplyData.ralData.term);
         numberTextView.setText(Integer.toString(ralApplyData.ralData.number));
+        /*
         String text = ralApplyData.ralData.requirement.replace("\\n", "\n");
         requireTextView.setText(text);
         requireTextView.setMovementMethod(ScrollingMovementMethod.getInstance());
-        causeTextView.setText(ralApplyData.cause);
+        */
+
+        String text = ralApplyData.cause.replace("\\n", "\n");
+        causeTextView.setText(text);
+
         commentTextView.setText(ralApplyData.approvalComment);
 
         approvalTextView.setText(ralApplyData.getApprovalStatus());

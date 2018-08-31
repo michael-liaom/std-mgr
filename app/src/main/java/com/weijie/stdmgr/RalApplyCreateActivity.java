@@ -12,7 +12,9 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +32,8 @@ public class RalApplyCreateActivity extends AppCompatActivity implements View.On
     TextView gradeTextView;
     TextView termTextView;
     TextView numberTextView;
-    TextView requireTextView;
+    LinearLayout requirementLayout;
+    Spinner requireSpinner;
     private EditText causeEditText;
     private Button commiteButton;
 
@@ -90,7 +93,7 @@ public class RalApplyCreateActivity extends AppCompatActivity implements View.On
         gradeTextView   = (TextView) findViewById(R.id.grade_text_view);
         termTextView    = (TextView) findViewById(R.id.term_text_view);
         numberTextView  = (TextView) findViewById(R.id.number_text_view);
-        requireTextView = (TextView) findViewById(R.id.requirement_text_view);
+        requireSpinner = (Spinner) findViewById(R.id.requement_spinner);
         causeEditText   = (EditText) findViewById(R.id.cause_edit_text);
         progressBar     = (ProgressBar) findViewById(R.id.progress_bar);
         commiteButton   = (Button) findViewById(R.id.commit_button);
@@ -100,6 +103,8 @@ public class RalApplyCreateActivity extends AppCompatActivity implements View.On
         //menuTextView.setFocusable(true);
         //menuTextView.setFocusableInTouchMode(true);
         //menuTextView.requestFocus();
+        requirementLayout = (LinearLayout) findViewById(R.id.require_layout);
+        requirementLayout.setVisibility(View.GONE);
     }
 
     private void requestData() {
@@ -121,9 +126,14 @@ public class RalApplyCreateActivity extends AppCompatActivity implements View.On
             gradeTextView.setText(ralData.grade);
             termTextView.setText(ralData.term);
             numberTextView.setText(Integer.toString(ralData.number));
+            /*
             String text = ralData.requirement.replace("\\n", "\n");
             requireTextView.setText(text);
             requireTextView.setMovementMethod(ScrollingMovementMethod.getInstance());
+            */
+            if (ralData.name.equals("华软奖学金")) {
+                requirementLayout.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -167,7 +177,13 @@ public class RalApplyCreateActivity extends AppCompatActivity implements View.On
         ralApplyData.ralId      = ralId;
         ralApplyData.studentId  = authUser.studend_id;
         ralApplyData.teacherId  = classData.teacherId;
-        ralApplyData.cause      = causeEditText.getText().toString();
+        if (ralData.name.equals("华软奖学金")) {
+            ralApplyData.cause = (String) requireSpinner.getSelectedItem()
+                    + "\\n" + causeEditText.getText().toString();
+        }
+        else {
+            ralApplyData.cause = causeEditText.getText().toString();
+        }
 
         RalApplyDataUtils.getInstance().requestCommitApply(ralApplyData,
                 dbHandler, RalApplyDataUtils.TAG_COMMIT_APPLY);

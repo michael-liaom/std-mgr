@@ -4,4 +4,10 @@
         <item>病假</item>
         <item>事假</item>
     </string-array>
+    <string-array name="hr_reward_condition" >
+        <item>全年必修课基本分90分以上,名列专业第一名;</item>
+        <item>全年各科成绩均在90分以上;</item>
+        <item>应届毕业生大学期间全部课程基本分90分以上,单科成绩80分以上;</item>
+        <item>满足华软奖学金必备申请条件(4);</item>
+    </string-array>
 </resources>
