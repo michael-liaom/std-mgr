@@ -102,6 +102,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         studentLayout.setVisibility(View.GONE);
         logoutButton.setVisibility(View.GONE);
 
+        //remove student data
+        teacherStudentDataButton.setVisibility(View.GONE);
+        studentMyDataButton.setVisibility(View.GONE);
     }
 
     @Override
