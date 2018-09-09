@@ -25,7 +25,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name="com.weijie.stdmgr.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -85,6 +85,7 @@
         <activity android:name=".ExchangeSubjectListActivity" />
         <activity android:name=".ExchangeSubjectCreateActivity" />
         <activity android:name=".ExchangeDetailListActivity" />
+        <activity android:name=".AttachmentViewActivity"></activity>
     </application>
 
 </manifest>
